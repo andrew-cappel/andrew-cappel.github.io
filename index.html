@@ -65,7 +65,8 @@ header{text-align:center;margin-bottom:34px;position:relative}
 .totals span{font:700 9px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .totals b{font:400 24px/1 var(--pixel);color:var(--gold);font-variant-numeric:tabular-nums}
 @media (max-width:640px){.totals{position:absolute}main{padding-top:96px}}
-.archive-btn{position:fixed;top:12px;left:12px;z-index:3;background:var(--panel);border:1.5px solid var(--line);border-radius:3px;color:var(--ink);font:700 10px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:8px 11px;cursor:pointer}
+.tlh{position:fixed;top:12px;left:12px;z-index:3;display:flex;gap:6px}
+.archive-btn{background:var(--panel);border:1.5px solid var(--line);border-radius:3px;color:var(--ink);font:700 10px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:8px 11px;cursor:pointer}
 .archive-btn:hover{background:rgba(95,211,255,.18)}
 #arch{margin:auto;border:2px solid var(--line);border-radius:4px;padding:22px 18px 18px;max-width:560px;width:calc(100% - 32px);background:#0a1628;color:var(--ink);box-shadow:0 0 40px rgba(95,211,255,.25)}
 #arch::backdrop{background:rgba(3,8,16,.72)}
@@ -88,7 +89,7 @@ footer{text-align:center;margin-top:34px;font-size:10px;letter-spacing:.28em;tex
 <body>
 <canvas id="bg" width="320" height="180" aria-hidden="true"></canvas>
 <div class="scan"></div>
-<button class="archive-btn" id="archBtn">☰ Archive</button>
+<div class="tlh"><button class="archive-btn" id="archBtn">☰ Archive</button><button class="archive-btn" id="musicBtn">♪ On</button></div>
 <dialog id="arch"><div id="archBody"></div></dialog>
 <aside class="totals" aria-live="polite">
   <div><span>Daily Total Points:</span><b id="dayTotal">0</b></div>
@@ -200,14 +201,24 @@ const SEL=(()=>{let c,mg;const on=()=>{try{return localStorage.getItem("titanic:
 // Games open inside this page (full screen, same address) so the click that picked a game also lets its ambience start immediately.
 function openGame(href){if(document.querySelector(".gameframe"))return;const f=document.createElement("iframe");f.src=href+(href.includes("?")?"&":"?")+"v="+Date.now();   // always the latest version, never a stale cached copy
   f.allow="autoplay; clipboard-write";f.className="gameframe";f.title="Game";
-  document.body.appendChild(f);document.body.classList.add("ingame");history.pushState({game:href},"",href);f.addEventListener("load",()=>{try{document.title=f.contentDocument.title}catch(e){}f.focus()})}
-function closeGame(){const f=document.querySelector(".gameframe");if(f)f.remove();document.body.classList.remove("ingame");document.title="TheGauntlet · daily games";updateTotals()}
+  MUSIC.stop(800);document.body.appendChild(f);document.body.classList.add("ingame");history.pushState({game:href},"",href);f.addEventListener("load",()=>{try{document.title=f.contentDocument.title}catch(e){}f.focus()})}
+function closeGame(){const f=document.querySelector(".gameframe");if(f)f.remove();document.body.classList.remove("ingame");document.title="TheGauntlet · daily games";updateTotals();MUSIC.start()}
 addEventListener("popstate",()=>{if(!(history.state&&history.state.game))closeGame()});
 addEventListener("message",e=>{if(e.origin===location.origin&&e.data==="gauntlet:home"){if(history.state&&history.state.game)history.back();else closeGame()}});
 document.querySelectorAll("a.card").forEach(a=>a.addEventListener("click",e=>{if(e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();if(!SEL.on()){openGame(a.href);return}
   SEL[a.getAttribute("href").includes("titanic")?"titanic":a.getAttribute("href").includes("abcs")?"abc":"book"]();setTimeout(()=>openGame(a.href),350);setTimeout(SEL.fadeOut,1300)}));
 document.addEventListener("click",e=>{if(e.target.closest("button")&&SEL.on())SEL.ui()});
 document.querySelectorAll(".card.lock").forEach(c=>c.addEventListener("click",()=>{if(SEL.on())SEL.locked()}));
+
+// ---- Theme music: "gauntlet theme" (the site owner's own track), looping quietly on the home page ----
+const MUSIC=(()=>{const a=new Audio("theme.m4a");a.loop=true;a.preload="auto";a.volume=0;let raf=0;
+  const ramp=(to,ms)=>{cancelAnimationFrame(raf);const from=a.volume,t0=performance.now(),st=t=>{const k=Math.min(1,(t-t0)/ms);a.volume=from+(to-from)*k;if(k<1)raf=requestAnimationFrame(st);else if(to===0)a.pause()};raf=requestAnimationFrame(st)};
+  return{start(){if(!SEL.on()||document.querySelector(".gameframe")||document.hidden)return;a.play().then(()=>ramp(.45,2000)).catch(()=>{})},stop(ms=700){ramp(0,ms)}}})();
+const musicLabel=()=>{document.getElementById("musicBtn").textContent=SEL.on()?"♪ On":"♪ Off"};musicLabel();
+document.getElementById("musicBtn").onclick=()=>{const on=!SEL.on();try{localStorage.setItem("titanic:sound",on?"on":"off")}catch(e){}musicLabel();on?MUSIC.start():MUSIC.stop(500)};
+MUSIC.start();   // browsers usually wait for your first click or key before allowing sound
+["pointerdown","keydown","touchstart"].forEach(e=>addEventListener(e,()=>MUSIC.start(),{passive:true}));
+document.addEventListener("visibilitychange",()=>document.hidden?MUSIC.stop(400):MUSIC.start());
 
 // ---- Archive: replay any past day of any game ----
 function openArchive(){const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`,REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-10";
