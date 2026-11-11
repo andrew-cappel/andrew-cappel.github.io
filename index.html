@@ -17,12 +17,15 @@ html,body{background:var(--abyss);color:var(--ink);font:14px/1.5 var(--mono);-we
 .scan{position:fixed;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
 main{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:56px 16px 64px}
 header{text-align:center;margin-bottom:34px;position:relative}
-.gaunt{position:absolute;top:8px;width:104px;height:auto;image-rendering:pixelated;filter:drop-shadow(4px 4px 0 rgba(5,11,22,.7));animation:float 3.2s steps(6) infinite}
-.gaunt.gl{left:-30px;transform:rotate(-8deg)}
-.gaunt.gr{right:-30px;transform:scaleX(-1) rotate(-8deg);animation-delay:-1.6s}
-@keyframes float{50%{translate:0 -8px}}
-@media (max-width:900px){.gaunt{width:64px;top:-6px}.gaunt.gl{left:0}.gaunt.gr{right:0}}
-@media (max-width:520px){.gaunt{width:44px;top:-40px}}
+/* the gauntlets hold the title up: fingers over the bottom of the letters, title + hands bob together */
+.lift{display:inline-block;position:relative;animation:lift 2.6s steps(6) infinite}
+@keyframes lift{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.gaunt{position:absolute;z-index:1;bottom:calc(var(--gw) * -0.62);width:var(--gw);image-rendering:pixelated;filter:drop-shadow(3px 3px 0 rgba(5,11,22,.75))}
+.lift{--gw:clamp(48px,10vw,96px)}
+.gaunt.gl{left:2%;transform:scaleY(-1) rotate(4deg);animation:strain 1.3s steps(2) infinite}
+.gaunt.gr{right:2%;transform:scale(-1,-1) rotate(4deg);animation:strain 1.3s steps(2) infinite -.65s}
+@keyframes strain{50%{translate:0 -2px}}
+.tag{margin-top:calc(var(--gw,96px) * .95)!important}
 .logo{font:400 clamp(72px,17vw,148px)/.78 var(--pixel);letter-spacing:.04em;color:#fff;text-shadow:4px 0 var(--pink),-4px 0 var(--line);animation:glitch 6s steps(1) infinite}
 .logo .the{display:block;font-size:.38em;letter-spacing:.5em;color:var(--gold);text-shadow:3px 0 var(--red),-3px 0 var(--line);margin-bottom:.12em;animation:aim 2.4s steps(4) infinite}
 .logo .x{display:inline-block;position:relative;color:var(--gold);text-shadow:4px 0 var(--red),-4px 0 var(--line);animation:aim 2.4s steps(4) infinite}
@@ -70,8 +73,7 @@ footer{text-align:center;margin-top:34px;font-size:10px;letter-spacing:.28em;tex
 </aside>
 <main>
   <header>
-    <canvas class="gaunt gl" width="26" height="36" aria-hidden="true"></canvas><canvas class="gaunt gr" width="26" height="36" aria-hidden="true"></canvas>
-    <h1 class="logo"><span class="the">THE</span>GAUNTLET</h1>
+    <div class="lift"><h1 class="logo"><span class="the">THE</span>GAUNTLET</h1><canvas class="gaunt gl" width="26" height="36" aria-hidden="true"></canvas><canvas class="gaunt gr" width="26" height="36" aria-hidden="true"></canvas></div>
     <p class="tag">daily games · run the gauntlet<i>_</i></p>
   </header>
   <nav class="tabs" role="tablist">
