@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>By The Book · TheGauntlet</title>
+<meta name="description" content="Guess today's classic book from its quotes. Five hints, five tries.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--abyss:#0d0812;--panel:rgba(22,14,24,.88);--line:#e8b45a;--line-dim:rgba(232,180,90,.3);--ink:#f6ead2;--muted:#b8a487;--gold:#ffd36b;--parch:#f1e3c2;
+  --red:#ff5a4e;--ok:#6cf0b4;--cyan:#5fd3ff;--pink:#ff7aa8;--pixel:"VT323",ui-monospace,monospace;--mono:"Space Mono",ui-monospace,monospace}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--abyss);color:var(--ink);font:14px/1.5 var(--mono);-webkit-font-smoothing:antialiased;min-height:100%}
+button{font:inherit;color:inherit}
+#bg{position:fixed;inset:0;width:100%;height:100%;image-rendering:pixelated;z-index:0}
+.scan{position:fixed;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.2) 0 1px,transparent 1px 3px)}
+.tl{position:absolute;top:12px;left:12px;z-index:4;display:flex;gap:6px}
+.chip-btn{background:var(--panel);border:1.5px solid var(--line);border-radius:3px;color:var(--ink);font:700 10px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:7px 10px;cursor:pointer;text-decoration:none}
+.chip-btn:hover{background:rgba(232,180,90,.18)}
+.num-badge{position:absolute;top:12px;right:12px;z-index:4;background:var(--panel);border:1.5px solid var(--gold);border-radius:3px;padding:5px 10px;text-align:right}
+.label{font:700 10px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.num-badge b{display:block;font:400 24px/1 var(--pixel);color:var(--gold)}
+main{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:clamp(70px,10vh,110px) 16px 60px}
+/* logo: pixel open book with the title written across the spread */
+.logo{position:relative;width:min(420px,92%);margin:0 auto 18px;animation:hover 3s steps(6) infinite}
+@keyframes hover{50%{translate:0 -5px}}
+.logo canvas{display:block;width:100%;image-rendering:pixelated;filter:drop-shadow(5px 6px 0 rgba(0,0,0,.55))}
+.logo h1{position:absolute;inset:16% 6% 30%;display:flex;align-items:center;justify-content:center;gap:.5em;font:400 clamp(34px,9vw,62px)/1 var(--pixel);letter-spacing:.06em;color:#2b1a10;text-shadow:2px 0 rgba(255,122,168,.55),-2px 0 rgba(95,211,255,.55)}
+.logo h1 span{transform:rotate(-3deg)}.logo h1 span+span{transform:rotate(3deg)}
+.sub{width:fit-content;margin:0 auto 18px;padding:3px 10px;background:rgba(13,8,18,.8);border-radius:2px;text-align:center;color:var(--muted);font-size:12px;letter-spacing:.08em}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:4px;padding:18px;box-shadow:0 0 28px rgba(232,180,90,.12);backdrop-filter:blur(5px)}
+.track{display:flex;gap:6px;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px dashed var(--line-dim)}
+.pips{display:flex;gap:6px}
+.pips i{width:28px;height:28px;display:grid;place-items:center;font:400 20px/1 var(--pixel);font-style:normal;border:1.5px solid var(--line-dim);border-radius:2px;color:var(--muted)}
+.pips i.used{border-color:var(--red);color:var(--red)}.pips i.cur{border-color:var(--ink);color:var(--ink)}.pips i.win{background:var(--ok);border-color:var(--ok);color:#0d0812}
+.pts b{font:400 34px/1 var(--pixel);color:var(--gold)}
+.quote{position:relative;margin:18px 0 6px;padding:18px 20px 16px 44px;background:rgba(241,227,194,.06);border-left:3px solid var(--line);min-height:96px}
+.quote::before{content:"“";position:absolute;left:8px;top:-6px;font:400 70px/1 var(--pixel);color:var(--line)}
+.quote p{font:italic 400 17px/1.55 var(--mono);color:var(--parch);text-wrap:pretty}
+.quote p.flip{animation:flip .45s steps(5)}
+@keyframes flip{0%{clip-path:inset(0 100% 0 0)}100%{clip-path:inset(0)}}
+.rx{display:inline-block;background:var(--parch);color:transparent;border-radius:1px;line-height:1.1;user-select:none}
+.which{font:700 10px var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-align:right}
+.clues{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:14px 0}
+.clue{border:1.5px dashed var(--line-dim);border-radius:3px;padding:7px 10px;min-height:52px}
+.clue b{display:block;font:400 22px/1.1 var(--pixel);color:var(--muted)}
+.clue.on{border-style:solid;border-color:var(--line);background:rgba(232,180,90,.07)}.clue.on b{color:var(--ink)}
+.clue.on.new{animation:pop .5s}
+@keyframes pop{0%{transform:scale(.94);opacity:.4}}
+form{display:flex;gap:8px}
+input{flex:1;min-width:0;font:400 16px var(--mono);color:var(--ink);background:rgba(0,0,0,.35);border:1.5px solid var(--line-dim);border-radius:3px;padding:12px 14px;caret-color:var(--line)}
+input:focus{border-color:var(--line);outline:0}
+input.bad{animation:shake .35s;border-color:var(--red)}
+@keyframes shake{25%,75%{transform:translateX(-5px)}50%{transform:translateX(5px)}}
+.btn{background:rgba(232,180,90,.1);border:2px solid var(--line);border-radius:3px;font:700 13px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:12px 16px;cursor:pointer}
+.btn:hover{background:rgba(232,180,90,.22)}
+.btn.big{display:block;width:100%;padding:16px;font-size:15px}
+.btn.quiet{border-color:var(--line-dim);font-size:11px;padding:9px 12px}
+.row2{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px}
+.msg{font-size:12px;color:var(--muted);min-height:18px}.msg.bad{color:var(--red)}
+.next{background:none;border:1.5px solid var(--gold);color:var(--gold);font:700 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:8px 12px;border-radius:2px;cursor:pointer}
+.next:hover{background:var(--gold);color:#0d0812}
+.guesses{list-style:none;padding:0;margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.guesses li{font-size:12px;color:var(--red);text-decoration:line-through;border:1px solid rgba(255,90,78,.35);padding:2px 8px;border-radius:2px}
+.past{margin-top:14px}.past summary{cursor:pointer;color:var(--muted);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.past p{font:italic 12px/1.5 var(--mono);color:var(--muted);margin-top:8px;border-left:2px solid var(--line-dim);padding-left:10px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+dialog{margin:auto;border:2px solid var(--line);border-radius:4px;padding:24px 22px 20px;max-width:420px;width:calc(100% - 32px);background:#170f19;color:var(--ink);text-align:center;box-shadow:0 0 40px rgba(232,180,90,.25)}
+dialog::backdrop{background:rgba(5,3,8,.72)}
+dialog h2{font:400 42px/1 var(--pixel);margin:4px 0 8px}
+dialog .book{font:400 30px/1.1 var(--pixel);color:var(--gold);margin:10px 0 2px}
+dialog p{color:var(--muted);font-size:12px}
+dialog .big{font:400 48px/1 var(--pixel);color:var(--gold);margin:12px 0 4px}
+dialog .row{display:grid;gap:8px;margin-top:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+@media (max-width:520px){.clues{grid-template-columns:1fr 1fr}.quote p{font-size:15px}}
+</style>
+</head>
+<body>
+<canvas id="bg" width="320" height="180" aria-hidden="true"></canvas>
+<div class="scan"></div>
+<div class="tl"><a class="chip-btn" href="/">◂ Home</a><button class="chip-btn" id="snd">♪ On</button></div>
+<div class="num-badge"><span class="label">Book</span><b id="bookNo">#1</b></div>
+<main>
+  <div class="logo"><canvas id="logo" width="96" height="52" aria-hidden="true"></canvas><h1><span>BY THE</span><span>BOOK</span></h1></div>
+  <p class="sub">one classic a day · five quotes · five tries</p>
+  <section class="panel">
+    <div class="track"><div><div class="label" id="hintLbl">Hint 1 of 5</div><div class="pips" id="pips"></div></div><div class="pts"><div class="label">Worth</div><b id="worth">500</b></div></div>
+    <div class="quote"><p id="quote">Opening the book…</p></div>
+    <div class="which" id="which"></div>
+    <div class="clues" id="clues"></div>
+    <form id="form" autocomplete="off"><label class="sr" for="guess">Book title</label><input id="guess" placeholder="guess the book title" spellcheck="false"><button class="btn" type="submit">Guess</button></form>
+    <div class="row2"><p class="msg" id="msg" aria-live="polite"></p><button class="next" id="nextBtn" type="button">Next hint ▸</button></div>
+    <ul class="guesses" id="guesses"></ul>
+    <details class="past" id="past" hidden><summary>Earlier quotes</summary><div id="pastList"></div></details>
+  </section>
+</main>
+<dialog id="modal"><div id="modalBody"></div></dialog>
+<script>
+const $=id=>document.getElementById(id);
+const PTS=[500,400,300,200,100],CLUES=[null,["Pages","pages"],["Published","year"],["Author","author"],["Key character","key"]];
+const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`;
+const REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-11";   // days change at 2 am, like the other games
+const qd=new URLSearchParams(location.search).get("day"),TODAY=qd&&/^\d{4}-\d\d-\d\d$/.test(qd)&&qd<REAL&&qd>=LAUNCH?qd:REAL;
+if(/[?&]reset/.test(location.search)){try{Object.keys(localStorage).filter(k=>k.startsWith("btb:")).forEach(k=>localStorage.removeItem(k))}catch(e){}history.replaceState(null,"",location.pathname)}
+const DAYN=Math.round((new Date(TODAY+"T12:00")-new Date(LAUNCH+"T12:00"))/864e5);
+$("bookNo").textContent="#"+(DAYN+1);
+function rng(str){let h=1779033703^str.length;for(const c of str){h=Math.imul(h^c.charCodeAt(0),3432918353);h=h<<13|h>>>19}return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return((h^=h>>>16)>>>0)/4294967296}}
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/&/g," and ").replace(/['’.]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+const lev=(a,b)=>{let p=[...Array(b.length+1).keys()];for(let i=1;i<=a.length;i++){const c=[i];for(let j=1;j<=b.length;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[b.length]};
+const STOP=new Set(["the","a","an","of","and","in","mr","dr","adventures","adventure","strange","case","s","book"]),NICK={huck:"huckleberry",jekyll:"jekyll",oz:"oz"};
+const sig=s=>norm(s).split(" ").filter(w=>w.length>1&&!STOP.has(w)).map(w=>NICK[w]||w);
+// Right if the whole title matches (allowing small typos) or every meaningful word you typed is in the title and covers at least half of it.
+function isRight(g,title){const a=norm(g).replace(/^(the|a|an) /,""),b=norm(title).replace(/^(the|a|an) /,"");if(!a)return false;
+  if(a===b||lev(a,b)<=Math.max(1,Math.floor(b.length/8)))return true;
+  const gw=sig(g),tw=sig(title);if(!gw.length)return false;
+  const hit=gw.filter(w=>tw.some(x=>x===w||(x.length>4&&lev(x,w)<=1)||(x.length>5&&x.startsWith(w)&&w.length>=4)));
+  return hit.length===gw.length&&hit.length>=Math.ceil(tw.length/2)}
+
+// ---- sounds (same chiptune kit as Titanic) ----
+const SFX=(()=>{let ctx,on=true;try{on=localStorage.getItem("titanic:sound")!=="off"}catch(e){}
+  const ac=()=>ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();
+  const tone=(f,d,type="square",v=.07,slide=0,delay=0)=>{if(!on)return;const c=ac(),t=c.currentTime+delay,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f+slide),t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d+.02)};
+  const page=()=>{if(!on)return;const c=ac(),b=c.createBuffer(1,c.sampleRate*.18,c.sampleRate),x=b.getChannelData(0);for(let i=0;i<x.length;i++)x[i]=(Math.random()*2-1)*Math.sin(Math.PI*i/x.length)*.6;const n=c.createBufferSource(),f=c.createBiquadFilter();f.type="bandpass";f.frequency.value=2400;n.buffer=b;n.connect(f).connect(c.destination);n.start()};
+  const seq=(ns,type="square",len=.14,gap=.09)=>ns.forEach((f,i)=>tone(f,len,type,.07,0,i*gap));
+  return{get on(){return on},toggle(){on=!on;try{localStorage.setItem("titanic:sound",on?"on":"off")}catch(e){}if(on)tone(880,.08);return on},
+    page,bad:()=>tone(170,.22,"sawtooth",.05,-70),click:()=>tone(1900,.012,"square",.012),
+    win:()=>seq([523,659,784,1047,784,1047,1319],"square",.18,.12),lose:()=>seq([392,330,262,196],"triangle",.24,.16)}})();
+const sndLabel=()=>{$("snd").textContent=SFX.on?"♪ On":"♪ Off"};sndLabel();$("snd").onclick=()=>{SFX.toggle();sndLabel()};
+$("guess").addEventListener("keydown",e=>{if(e.key.length===1)SFX.click()});
+
+// ---- game ----
+let BOOK,S;
+const KEY="btb:"+TODAY,save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+function load(){let v=null;try{v=JSON.parse(localStorage.getItem(KEY))}catch(e){}return v||{hint:1,guesses:[],status:"playing"}}
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"})[c]);
+// blank out title words always, and the key character until hint 5 reveals it
+function redact(q,hint){const words=[...sig(BOOK.title),...(hint<5?norm(BOOK.key).split(" ").filter(w=>w.length>2&&!STOP.has(w)):[])].filter(w=>w.length>2);
+  let h=esc(q);words.forEach(w=>{h=h.replace(new RegExp(`\\b${w}[a-z']*\\b`,"gi"),m=>`<span class="rx" aria-label="hidden word">${"█".repeat(m.length)}</span>`)});return h}
+function clueVal(i){const k=CLUES[i][1];return k==="pages"?`about ${BOOK.pages}`:BOOK[k]}
+function render(fresh){
+  const n=S.status==="playing"?S.hint:Math.min(S.hint,5),done=S.status!=="playing";
+  $("hintLbl").textContent=done?(S.status==="won"?`Solved on hint ${S.hint}`:"Out of hints"):`Hint ${n} of 5`;
+  $("pips").innerHTML=[1,2,3,4,5].map(i=>`<i class="${S.status==="won"&&i===S.hint?"win":i<n||(S.status==="lost")?"used":i===n?"cur":""}">${i}</i>`).join("");
+  $("worth").textContent=S.status==="won"?PTS[S.hint-1]:S.status==="lost"?0:PTS[n-1];
+  const q=$("quote");q.innerHTML=redact(BOOK.quotes[n-1],n);if(fresh){q.classList.remove("flip");void q.offsetWidth;q.classList.add("flip")}
+  $("which").textContent=`Quote ${n} of 5`;
+  $("clues").innerHTML=[1,2,3,4].map(i=>{const on=n>i||done;return `<div class="clue ${on?"on":""} ${fresh&&n===i+1?"new":""}"><span class="label">${CLUES[i][0]}</span><b>${on?esc(String(clueVal(i))):"? ? ?"}</b></div>`}).join("");
+  $("guesses").innerHTML=S.guesses.map(g=>`<li>${esc(g)}</li>`).join("");
+  const past=BOOK.quotes.slice(0,n-1);$("past").hidden=!past.length;$("pastList").innerHTML=past.map((p,i)=>`<p>${i+1}. ${redact(p,n)}</p>`).join("");
+  $("guess").disabled=$("nextBtn").disabled=done;$("nextBtn").hidden=done||n>=5;
+  if(done)$("msg").textContent=S.status==="won"?"Solved! Come back tomorrow for a new book.":"Better luck tomorrow.";
+}
+function advance(){if(S.hint>=5){finish(false);return}S.hint++;save();SFX.page();render(true)}
+function finish(won){S.status=won?"won":"lost";save();(won?SFX.win:SFX.lose)();record(won?PTS[S.hint-1]:0);render();
+  modal(`<p class="label">By The Book #${DAYN+1}</p><h2>${won?"Bound to win!":"Closed the book"}</h2><div class="book">${esc(BOOK.title)}</div><p>${esc(BOOK.author)} · ${BOOK.year}</p><div class="big">${won?PTS[S.hint-1]:0}</div><p>points${won?` · solved on hint ${S.hint}`:""}</p><div class="row"><button class="btn big" data-a="share">Share</button><button class="btn quiet" data-a="close">Close</button></div>`)}
+// add today's points to TheGauntlet's daily totals
+function record(p){const k="gauntlet:day:"+TODAY;try{const o=JSON.parse(localStorage.getItem(k))||{};o.bythebook=p;localStorage.setItem(k,JSON.stringify(o))}catch(e){}}
+$("form").onsubmit=e=>{e.preventDefault();if(S.status!=="playing")return;const inp=$("guess"),v=inp.value.trim();if(!v)return;
+  if(isRight(v,BOOK.title)){inp.value="";finish(true);return}
+  S.guesses.push(v);inp.value="";SFX.bad();inp.classList.remove("bad");void inp.offsetWidth;inp.classList.add("bad");
+  $("msg").textContent=`Not “${v}”.`;$("msg").className="msg bad";save();setTimeout(advance,350)};
+$("nextBtn").onclick=()=>{if(S.status==="playing"){$("msg").textContent="";advance()}};
+function modal(html){const d=$("modal");$("modalBody").innerHTML=html;d.onclick=e=>{const a=e.target.dataset&&e.target.dataset.a;if(a==="share")share();else if(a)d.close()};d.showModal()}
+function share(){const row=[1,2,3,4,5].map(i=>S.status==="won"&&i===S.hint?"🟩":i<S.hint||S.status==="lost"?"🟥":"⬛").join("");
+  const t=`By The Book #${DAYN+1}\n📖 ${row}\n${S.status==="won"?PTS[S.hint-1]:0} pts`;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{$("msg").textContent="Copied to clipboard"},()=>prompt("Copy your result:",t))}
+
+fetch("books.json",{cache:"no-cache"}).then(r=>r.json()).then(books=>{
+  const r=rng("bythebook"),order=books.map((_,i)=>i);for(let i=order.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[order[i],order[j]]=[order[j],order[i]]}
+  BOOK=books[order[((DAYN%books.length)+books.length)%books.length]];S=load();render(true);
+  if(S.status!=="playing")$("msg").textContent=S.status==="won"?`Solved: ${BOOK.title}. New book tomorrow.`:`It was ${BOOK.title}. New book tomorrow.`;
+}).catch(()=>{$("quote").textContent="Couldn't open today's book. Check your connection and refresh."});
+
+// ---- pixel art: candle-lit library background + open book logo ----
+(()=>{const cv=$("bg"),g=cv.getContext("2d"),W=320,H=180,r=rng("library"),px=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(x|0,y|0,w,h)};
+  const shelves=document.createElement("canvas");shelves.width=W;shelves.height=H;const s=shelves.getContext("2d"),SP=["#7a2e2e","#2e4a6b","#3f6b3a","#8a6a2a","#5b3a6e","#a0522d","#2f5d5d","#6e2f4f"];
+  for(let row=0;row<4;row++){const y0=70+row*28;s.fillStyle="#1d120d";s.fillRect(0,y0+24,W,4);let x=0;
+    while(x<W){const w=3+(r()*4|0),h=14+(r()*9|0);s.fillStyle=SP[r()*SP.length|0];s.fillRect(x,y0+24-h,w,h);s.fillStyle="rgba(255,255,255,.12)";s.fillRect(x,y0+24-h,1,h);if(r()<.4){s.fillStyle="rgba(255,211,107,.5)";s.fillRect(x,y0+24-h+3,w,1)}x+=w+(r()<.15?6:0)}}
+  const motes=[...Array(40)].map(()=>({x:r()*W,y:r()*H,v:.05+r()*.12}));
+  const fr=t=>{const tt=t/1000;["#120a16","#1a0f1c","#231420","#2c1823","#341c24"].forEach((c,i)=>px(0,i*14,W,14,c));px(0,70,W,110,"#1a110f");
+    g.globalAlpha=.85;g.drawImage(shelves,0,0);g.globalAlpha=1;
+    [[60,64],[250,64]].forEach(([x,y],i)=>{const f=.55+Math.sin(tt*9+i*2)*.08+Math.sin(tt*23+i)*.05;g.globalAlpha=f*.22;px(x-16,y-14,32,30,"#ffb347");g.globalAlpha=f*.35;px(x-8,y-7,16,16,"#ffcc66");g.globalAlpha=1;
+      px(x-1,y,3,8,"#efe2c8");px(x,y-3+Math.round(Math.sin(tt*12+i)),1,3,"#ffd36b");px(x,y-2,1,1,"#fff")});
+    motes.forEach(m=>{m.y-=m.v;m.x+=Math.sin(tt+m.y*.05)*.05;if(m.y<0){m.y=H;m.x=r()*W}g.globalAlpha=.5;px(m.x,m.y,1,1,"#ffd99a");g.globalAlpha=1});
+    requestAnimationFrame(fr)};requestAnimationFrame(fr)})();
+(()=>{const cv=$("logo"),g=cv.getContext("2d"),W=96,H=52,px=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(x|0,y|0,w,h)};
+  const page=(x0,x1,dir,flipK)=>{for(let x=x0;x<=x1;x++){const d=Math.abs(x-48)/46,top=8+Math.round(Math.sin(d*Math.PI*.9)*-4+d*3),bot=44-Math.round((1-d)*2);
+      px(x,top,1,bot-top,d<.12?"#d8c497":"#f1e3c2");px(x,top,1,1,"#fffaf0");if(x%2===0&&d>.15&&d<.92)for(let y=top+6;y<bot-4;y+=4)if(((x*7+y)%9)>2)px(x,y,1,1,"#bda983")}};
+  const fr=t=>{g.clearRect(0,0,W,H);px(2,40,92,8,"#5b1f1f");px(2,46,92,2,"#3a1212");px(4,40,88,1,"#8a3a2e");   // cover
+    page(5,47);page(49,91);px(47,8,2,38,"#9c845a");px(48,6,1,40,"#6e5a3a");                                      // pages + spine
+    const k=(t/1000%7)/1.1;if(k<1){const x=Math.round(91-k*43),w=Math.max(1,Math.round(Math.abs(Math.cos(k*Math.PI))*20));px(x-(k>.5?0:w),6,w,36,"#fffaf0");px(x-(k>.5?0:w),6,1,36,"#d8c497")}  // a page turning
+    requestAnimationFrame(fr)};requestAnimationFrame(fr)})();
+</script>
+</body>
+</html>

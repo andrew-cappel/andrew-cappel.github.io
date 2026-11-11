@@ -96,7 +96,15 @@ footer{text-align:center;margin-top:34px;font-size:10px;letter-spacing:.28em;tex
         <div class="meta"><span class="chip">Daily · 4 modes</span><span class="play">▶ PLAY</span></div>
       </div>
     </a>
-    <div class="card lock" aria-label="Coming soon"><canvas class="thumb" data-game="static" width="160" height="90"></canvas><div class="body"><h3>???</h3><p>Next game in the works.</p><div class="meta"><span class="chip">Coming soon</span></div></div></div>
+    <a class="card" href="/bythebook/">
+      <span class="new">New</span>
+      <canvas class="thumb" data-game="book" width="160" height="90"></canvas>
+      <div class="body">
+        <h3>BY THE BOOK</h3>
+        <p>Name today's classic from its quotes. Five hints, five tries.</p>
+        <div class="meta"><span class="chip">Daily · 1 book</span><span class="play">▶ PLAY</span></div>
+      </div>
+    </a>
     <div class="card lock" aria-label="Coming soon"><canvas class="thumb" data-game="static" width="160" height="90"></canvas><div class="body"><h3>???</h3><p>Next game in the works.</p><div class="meta"><span class="chip">Coming soon</span></div></div></div>
   </section>
   <footer>TheGauntlet · new games added over time</footer>
@@ -164,6 +172,14 @@ document.querySelectorAll(".thumb").forEach(cv=>{const c=cv.getContext("2d"),w=1
       c.fillStyle="#eaf8ff";c.beginPath();c.moveTo(112,60);c.lineTo(124,by);c.lineTo(132,by+8);c.lineTo(138,by-6);c.lineTo(150,60);c.fill();
       f(sx+4,sy+6,40,2,"#ece6d6");f(sx+6,sy+8,36,2,"#ffd27a");[12,20,28,36].forEach(x=>{f(sx+x,sy-2,3,8,"#cf9a48");f(sx+x,sy-2,3,2,"#141210")});
       f(sx,sy+10,50,4,"#121418");f(sx+2,sy+14,46,1,"#8e2a22");
+    }else if(cv.dataset.game==="book"){
+      ["#120a16","#1a0f1c","#231420","#2c1823"].forEach((col,i)=>f(0,i*12,w,12,col));f(0,48,w,42,"#1a110f");
+      for(let x=0;x<w;x+=5)f(x,52+(x*7%9),4,24-(x*7%9),["#7a2e2e","#2e4a6b","#3f6b3a","#8a6a2a","#5b3a6e"][x%5]);f(0,76,w,3,"#1d120d");
+      const b=Math.round(Math.sin(t*2)),k=(t%4)/1.2;
+      f(30,58+b,100,6,"#5b1f1f");f(34,22+b,46,38,"#f1e3c2");f(80,22+b,46,38,"#f1e3c2");f(78,20+b,4,40,"#9c845a");
+      for(let y=28;y<54;y+=5){f(38,y+b,36,1,"#bda983");f(84,y+b,36,1,"#bda983")}
+      if(k<1){const x=Math.round(126-k*46),ww=Math.max(2,Math.round(Math.abs(Math.cos(k*Math.PI))*44));f(k>.5?x:x-ww,20+b,ww,38,"#fffaf0")}
+      c.fillStyle="#2b1a10";c.font="16px VT323";c.fillText("BY THE",40,44+b);c.fillText("BOOK",92,44+b);
     }else{for(let y=0;y<h;y+=3)for(let x=0;x<w;x+=3){const v=Math.random()*40+10|0;f(x,y,3,3,`rgb(${v},${v+8},${v+24})`)}f(60,38,40,14,"#0a1628");c.fillStyle="#86a0bd";c.font="12px VT323";c.fillText("LOCKED",64,49)}
     requestAnimationFrame(tick)};requestAnimationFrame(tick)});
 </script>
