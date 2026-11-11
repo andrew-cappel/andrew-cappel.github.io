@@ -162,17 +162,18 @@ requestAnimationFrame(frame);
   count(document.getElementById("dayTotal"),day);count(document.getElementById("bestTotal"),best);})();
 
 // ---- Game-select sounds (uses the same sound on/off setting as the games) ----
-const SEL=(()=>{let c;const on=()=>{try{return localStorage.getItem("titanic:sound")!=="off"}catch(e){return true}},ac=()=>c=c||new(window.AudioContext||window.webkitAudioContext)();
+const SEL=(()=>{let c,mg;const on=()=>{try{return localStorage.getItem("titanic:sound")!=="off"}catch(e){return true}},ac=()=>{if(!c){c=new(window.AudioContext||window.webkitAudioContext)();mg=c.createGain();mg.connect(c.destination)}return c};
   const raw={};["/titanic/gulls.wav","/bythebook/page-turn.wav"].forEach(u=>fetch(u).then(r=>r.arrayBuffer()).then(b=>raw[u]=b).catch(()=>{}));
-  const tone=(f,d,delay=0,type="square",v=.05)=>{const x=ac(),t=x.currentTime+delay,o=x.createOscillator(),g=x.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(x.destination);o.start(t);o.stop(t+d+.02)};
-  const clip=(u,v)=>{if(!raw[u])return;const x=ac();x.decodeAudioData(raw[u].slice(0)).then(b=>{const s=x.createBufferSource(),g=x.createGain();s.buffer=b;g.gain.value=v;s.connect(g).connect(x.destination);s.start()})};
+  const tone=(f,d,delay=0,type="square",v=.05)=>{const x=ac(),t=x.currentTime+delay,o=x.createOscillator(),g=x.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(mg);o.start(t);o.stop(t+d+.02)};
+  const clip=(u,v)=>{if(!raw[u])return;const x=ac();x.decodeAudioData(raw[u].slice(0)).then(b=>{const s=x.createBufferSource(),g=x.createGain();s.buffer=b;g.gain.value=v;s.connect(g).connect(mg);s.start()})};
   const breeze=()=>{const x=ac(),t=x.currentTime,b=x.createBuffer(1,x.sampleRate*1.6,x.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
     const n=x.createBufferSource(),f=x.createBiquadFilter(),g=x.createGain();f.type="lowpass";f.frequency.setValueAtTime(300,t);f.frequency.linearRampToValueAtTime(900,t+.7);f.frequency.linearRampToValueAtTime(350,t+1.6);
-    g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.09,t+.6);g.gain.linearRampToValueAtTime(.0001,t+1.6);n.buffer=b;n.connect(f).connect(g).connect(x.destination);n.start()};
-  return{on,titanic(){[523,784,1047].forEach((f,i)=>tone(f,.14,i*.07));clip("/titanic/gulls.wav",.4);breeze()},
+    g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.09,t+.6);g.gain.linearRampToValueAtTime(.0001,t+1.6);n.buffer=b;n.connect(f).connect(g).connect(mg);n.start()};
+  const fadeOut=()=>{if(!c)return;const t=c.currentTime;mg.gain.setValueAtTime(mg.gain.value,t);mg.gain.linearRampToValueAtTime(0,t+.55)};
+  return{on,fadeOut,titanic(){[523,784,1047].forEach((f,i)=>tone(f,.14,i*.07));clip("/titanic/gulls.wav",.4);breeze()},
     book(){[659,880,1175].forEach((f,i)=>tone(f,.14,i*.07,"triangle",.07));clip("/bythebook/page-turn.wav",.7)},locked(){tone(140,.18,0,"sawtooth",.04)}}})();
 document.querySelectorAll("a.card").forEach(a=>a.addEventListener("click",e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||!SEL.on())return;e.preventDefault();
-  SEL[a.getAttribute("href").includes("titanic")?"titanic":"book"]();setTimeout(()=>{location.href=a.href},850)}));
+  SEL[a.getAttribute("href").includes("titanic")?"titanic":"book"]();setTimeout(SEL.fadeOut,800);setTimeout(()=>{location.href=a.href},1400)}));  // sounds fade out before the game opens
 document.querySelectorAll(".card.lock").forEach(c=>c.addEventListener("click",()=>{if(SEL.on())SEL.locked()}));
 
 // ---- Card thumbnails ----
