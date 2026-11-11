@@ -65,6 +65,19 @@ header{text-align:center;margin-bottom:34px;position:relative}
 .totals span{font:700 9px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .totals b{font:400 24px/1 var(--pixel);color:var(--gold);font-variant-numeric:tabular-nums}
 @media (max-width:640px){.totals{position:absolute}main{padding-top:96px}}
+.archive-btn{position:fixed;top:12px;left:12px;z-index:3;background:var(--panel);border:1.5px solid var(--line);border-radius:3px;color:var(--ink);font:700 10px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:8px 11px;cursor:pointer}
+.archive-btn:hover{background:rgba(95,211,255,.18)}
+#arch{margin:auto;border:2px solid var(--line);border-radius:4px;padding:22px 18px 18px;max-width:560px;width:calc(100% - 32px);background:#0a1628;color:var(--ink);box-shadow:0 0 40px rgba(95,211,255,.25)}
+#arch::backdrop{background:rgba(3,8,16,.72)}
+#arch h2{font:400 42px/1 var(--pixel);text-align:center;margin-bottom:12px}
+.days{list-style:none;padding:0;display:grid;gap:8px;max-height:60vh;overflow:auto}
+.days li{border:1.5px solid var(--line-dim);border-radius:3px;padding:8px 10px}
+.days .d{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;font-size:12px;color:var(--muted)}.days .d b{font:400 22px/1 var(--pixel);color:var(--gold)}
+.days .g{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.days button{background:rgba(95,211,255,.06);border:1.5px solid var(--line-dim);border-radius:2px;color:var(--ink);font:700 9px var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:6px 4px;cursor:pointer;text-align:center}
+.days button:hover{border-color:var(--line);background:rgba(95,211,255,.16)}
+.days button span{display:block;font:400 18px/1 var(--pixel);letter-spacing:.06em;color:var(--muted);margin-top:3px}
+.close-arch{display:block;margin:14px auto 0;background:none;border:1.5px solid var(--line-dim);color:var(--ink);font:700 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:9px 14px;border-radius:3px;cursor:pointer}
 .gameframe{position:fixed;inset:0;width:100%;height:100%;border:0;z-index:50;background:#050b16}
 body.ingame{overflow:hidden}
 footer{text-align:center;margin-top:34px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:#56708d}
@@ -75,6 +88,8 @@ footer{text-align:center;margin-top:34px;font-size:10px;letter-spacing:.28em;tex
 <body>
 <canvas id="bg" width="320" height="180" aria-hidden="true"></canvas>
 <div class="scan"></div>
+<button class="archive-btn" id="archBtn">☰ Archive</button>
+<dialog id="arch"><div id="archBody"></div></dialog>
 <aside class="totals" aria-live="polite">
   <div><span>Daily Total Points:</span><b id="dayTotal">0</b></div>
   <div><span>High Score Total Points:</span><b id="bestTotal">0</b></div>
@@ -107,9 +122,16 @@ footer{text-align:center;margin-top:34px;font-size:10px;letter-spacing:.28em;tex
         <div class="meta"><span class="chip">Daily · 1 book</span><span class="play">▶ PLAY</span></div>
       </div>
     </a>
-    <div class="card lock" aria-label="Coming soon"><canvas class="thumb" data-game="static" width="160" height="90"></canvas><div class="body"><h3>???</h3><p>Next game in the works.</p><div class="meta"><span class="chip">Coming soon</span></div></div></div>
+    <a class="card" href="/abcs/">
+      <span class="new">New</span>
+      <canvas class="thumb" data-game="abc" width="160" height="90"></canvas>
+      <div class="body">
+        <h3>ABCs</h3>
+        <p>A to Z against the clock. A new category every letter, 30 seconds each.</p>
+        <div class="meta"><span class="chip">Daily · 26 letters</span><span class="play">▶ PLAY</span></div>
+      </div>
+    </a>
   </section>
-  <footer>TheGauntlet · new games added over time</footer>
 </main>
 <script>
 // ---- Background: low-res dusk with parallax pixel hills, drifting clouds and twinkling stars ----
@@ -174,7 +196,7 @@ const SEL=(()=>{let c,mg;const on=()=>{try{return localStorage.getItem("titanic:
     g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.09,t+.6);g.gain.linearRampToValueAtTime(.0001,t+1.6);n.buffer=b;n.connect(f).connect(g).connect(mg);n.start()};
   const fadeOut=()=>{if(!c)return;const t=c.currentTime;mg.gain.setValueAtTime(mg.gain.value,t);mg.gain.linearRampToValueAtTime(0,t+.55)};
   return{on,fadeOut,ui(){tone(1100,.04,0,"square",.03);tone(1480,.05,.035,"square",.025)},titanic(){[523,784,1047].forEach((f,i)=>tone(f,.14,i*.07));clip("/titanic/gulls.wav",.4);breeze()},
-    book(){[659,880,1175].forEach((f,i)=>tone(f,.14,i*.07,"triangle",.07));clip("/bythebook/page-turn.wav",.7)},locked(){tone(140,.18,0,"sawtooth",.04)}}})();
+    book(){[659,880,1175].forEach((f,i)=>tone(f,.14,i*.07,"triangle",.07));clip("/bythebook/page-turn.wav",.7)},abc(){[523,659,784,1047].forEach((f,i)=>tone(f,.1,i*.06,"square",.05))},locked(){tone(140,.18,0,"sawtooth",.04)}}})();
 // Games open inside this page (full screen, same address) so the click that picked a game also lets its ambience start immediately.
 function openGame(href){if(document.querySelector(".gameframe"))return;const f=document.createElement("iframe");f.src=href+(href.includes("?")?"&":"?")+"v="+Date.now();   // always the latest version, never a stale cached copy
   f.allow="autoplay; clipboard-write";f.className="gameframe";f.title="Game";
@@ -183,9 +205,22 @@ function closeGame(){const f=document.querySelector(".gameframe");if(f)f.remove(
 addEventListener("popstate",()=>{if(!(history.state&&history.state.game))closeGame()});
 addEventListener("message",e=>{if(e.origin===location.origin&&e.data==="gauntlet:home"){if(history.state&&history.state.game)history.back();else closeGame()}});
 document.querySelectorAll("a.card").forEach(a=>a.addEventListener("click",e=>{if(e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();if(!SEL.on()){openGame(a.href);return}
-  SEL[a.getAttribute("href").includes("titanic")?"titanic":"book"]();setTimeout(()=>openGame(a.href),350);setTimeout(SEL.fadeOut,1300)}));
+  SEL[a.getAttribute("href").includes("titanic")?"titanic":a.getAttribute("href").includes("abcs")?"abc":"book"]();setTimeout(()=>openGame(a.href),350);setTimeout(SEL.fadeOut,1300)}));
 document.addEventListener("click",e=>{if(e.target.closest("button")&&SEL.on())SEL.ui()});
 document.querySelectorAll(".card.lock").forEach(c=>c.addEventListener("click",()=>{if(SEL.on())SEL.locked()}));
+
+// ---- Archive: replay any past day of any game ----
+function openArchive(){const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`,REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-10";
+  const get=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},rows=[];
+  for(let x=new Date(REAL+"T12:00");iso(x)>=LAUNCH;x.setDate(x.getDate()-1)){const d=iso(x),n=Math.round((x-new Date("2026-01-01T12:00"))/864e5)+1,q=d===REAL?"":"?day="+d;
+    const tt=["easy","medium","hard","impossible"].map(m=>{const v=get(`titanic2:${d}:${m}`);return m[0].toUpperCase()+(v&&v.status==="won"?"✓":v&&v.status==="lost"?"✕":"·")}).join(" ");
+    const bk=get("btb:"+d),bt=bk&&bk.status==="won"?"✓ hint "+bk.hint:bk&&bk.status==="lost"?"✕":"·";
+    const ab=get("abcs:"+d),at=ab&&ab.status==="done"?(ab.res||[]).reduce((a,r)=>a+(r.pts||0),0)+" pts":"·";
+    rows.push(`<li><div class="d"><b>#${n}</b>${x.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}${d===REAL?" · today":""}</div><div class="g">
+      ${d>="2026-11-10"?`<button data-go="/titanic/${q}">Titanic<span>${tt}</span></button>`:""}${d>="2026-11-11"?`<button data-go="/bythebook/${q}">By The Book<span>${bt}</span></button><button data-go="/abcs/${q}">ABCs<span>${at}</span></button>`:""}</div></li>`)}
+  const dl=document.getElementById("arch");document.getElementById("archBody").innerHTML=`<h2>Archive</h2><ul class="days">${rows.join("")}</ul><button class="close-arch" data-close>Close</button>`;
+  dl.onclick=e=>{const b=e.target.closest("[data-go],[data-close]");if(!b)return;dl.close();if(b.dataset.go)openGame(b.dataset.go)};dl.showModal()}
+document.getElementById("archBtn").onclick=openArchive;
 
 // ---- Card thumbnails ----
 document.querySelectorAll(".thumb").forEach(cv=>{const c=cv.getContext("2d"),w=160,h=90,f=(x,y,a,b,col)=>{c.fillStyle=col;c.fillRect(x|0,y|0,a,b)};
@@ -198,6 +233,11 @@ document.querySelectorAll(".thumb").forEach(cv=>{const c=cv.getContext("2d"),w=1
       c.fillStyle="#eaf8ff";c.beginPath();c.moveTo(112,60);c.lineTo(124,by);c.lineTo(132,by+8);c.lineTo(138,by-6);c.lineTo(150,60);c.fill();
       f(sx+4,sy+6,40,2,"#ece6d6");f(sx+6,sy+8,36,2,"#ffd27a");[12,20,28,36].forEach(x=>{f(sx+x,sy-2,3,8,"#cf9a48");f(sx+x,sy-2,3,2,"#141210")});
       f(sx,sy+10,50,4,"#121418");f(sx+2,sy+14,46,1,"#8e2a22");
+    }else if(cv.dataset.game==="abc"){
+      ["#0b0a1f","#100e2b","#161236","#1c1640"].forEach((col,i)=>f(0,i*23,w,23,col));
+      [["A","#ff5a4e",22],["B","#ffd36b",58],["C","#5fd3ff",94],["s","#6cf0b4",126]].forEach(([l,col,x],i)=>{const y=30+Math.round(Math.sin(t*3+i*1.4)*3);
+        f(x,y,30,30,col);f(x,y,30,3,"rgba(255,255,255,.35)");f(x+27,y,3,30,"rgba(0,0,0,.25)");f(x,y+27,30,3,"rgba(0,0,0,.25)");c.fillStyle="#0b0a1f";c.font="28px VT323";c.fillText(l,x+(l==="s"?10:8),y+24)});
+      const p=(t%1);f(0,82,w*(1-p),4,p>.8?"#ff5a4e":"#7fd1ff");
     }else if(cv.dataset.game==="book"){
       ["#120a16","#1a0f1c","#231420","#2c1823"].forEach((col,i)=>f(0,i*12,w,12,col));f(0,48,w,42,"#1a110f");
       for(let x=0;x<w;x+=5)f(x,52+(x*7%9),4,24-(x*7%9),["#7a2e2e","#2e4a6b","#3f6b3a","#8a6a2a","#5b3a6e"][x%5]);f(0,76,w,3,"#1d120d");

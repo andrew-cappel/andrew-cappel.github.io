@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ABCs · TheGauntlet</title>
+<meta name="description" content="A to Z against the clock: one category per letter, 30 seconds each.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--abyss:#0b0a1f;--panel:rgba(16,14,40,.88);--line:#7fd1ff;--line-dim:rgba(127,209,255,.28);--ink:#eef2ff;--muted:#9aa3c7;--gold:#ffd36b;--ok:#6cf0b4;--red:#ff5a4e;--pink:#ff7aa8;
+  --b1:#ff5a4e;--b2:#ffd36b;--b3:#5fd3ff;--b4:#6cf0b4;--pixel:"VT323",ui-monospace,monospace;--mono:"Space Mono",ui-monospace,monospace}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--abyss);color:var(--ink);font:14px/1.5 var(--mono);-webkit-font-smoothing:antialiased;min-height:100%}
+button{font:inherit;color:inherit}
+#bg{position:fixed;inset:0;width:100%;height:100%;image-rendering:pixelated;z-index:0}
+.scan{position:fixed;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.2) 0 1px,transparent 1px 3px)}
+.tl{position:absolute;top:12px;left:12px;z-index:4;display:flex;gap:6px}
+.chip-btn{background:var(--panel);border:1.5px solid var(--line);border-radius:3px;color:var(--ink);font:700 10px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:7px 10px;cursor:pointer;text-decoration:none}
+.chip-btn:hover{background:rgba(127,209,255,.18)}
+.score-badge{position:absolute;top:12px;right:12px;z-index:4;background:var(--panel);border:1.5px solid var(--gold);border-radius:3px;padding:5px 10px;text-align:right}
+.label{font:700 10px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.score-badge b{display:block;font:400 26px/1 var(--pixel);color:var(--gold)}
+main{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:clamp(70px,10vh,110px) 16px 60px}
+/* logo: four toy blocks */
+.logo{display:flex;justify-content:center;gap:clamp(6px,1.5vw,12px);margin-bottom:14px}
+.blk{--c:var(--b1);width:clamp(64px,16vw,96px);aspect-ratio:1;display:grid;place-items:center;background:var(--c);border:4px solid #0b0a1f;box-shadow:inset -6px -6px 0 rgba(0,0,0,.25),inset 6px 6px 0 rgba(255,255,255,.3),5px 6px 0 rgba(0,0,0,.5);
+  font:400 clamp(52px,13vw,84px)/1 var(--pixel);color:#0b0a1f;animation:bob 2.4s steps(4) infinite}
+.blk:nth-child(2){--c:var(--b2);animation-delay:-.6s;rotate:4deg}.blk:nth-child(3){--c:var(--b3);animation-delay:-1.2s;rotate:-3deg}.blk:nth-child(4){--c:var(--b4);animation-delay:-1.8s;rotate:5deg}
+.blk:first-child{rotate:-4deg}
+@keyframes bob{50%{translate:0 -8px}}
+.sub{width:fit-content;margin:0 auto 18px;padding:3px 10px;background:rgba(11,10,31,.8);color:var(--muted);font-size:12px;letter-spacing:.08em;text-align:center}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:4px;padding:18px;box-shadow:0 0 28px rgba(127,209,255,.12);backdrop-filter:blur(5px)}
+.track{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin-bottom:14px}
+.track i{font:400 18px/1.4 var(--pixel);font-style:normal;text-align:center;border:1px solid var(--line-dim);border-radius:2px;color:var(--muted)}
+.track i.cur{border-color:var(--gold);color:var(--gold);background:rgba(255,211,107,.12)}.track i.ok{background:var(--ok);border-color:var(--ok);color:#0b0a1f}.track i.miss{background:rgba(255,90,78,.25);border-color:var(--red);color:var(--red)}
+.stage{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.big{width:96px;height:96px;display:grid;place-items:center;background:var(--gold);color:#0b0a1f;border:4px solid #0b0a1f;box-shadow:inset -7px -7px 0 rgba(0,0,0,.25),inset 7px 7px 0 rgba(255,255,255,.3),5px 6px 0 rgba(0,0,0,.5);font:400 88px/1 var(--pixel)}
+.big.pop{animation:pop .35s steps(4)}
+@keyframes pop{0%{transform:scale(.6) rotate(-12deg)}}
+.prompt{font:400 clamp(26px,6vw,34px)/1.05 var(--pixel);text-wrap:balance}
+.prompt em{font-style:normal;color:var(--gold)}
+.clock{display:flex;align-items:center;gap:10px;margin:16px 0 12px}
+.bar{flex:1;height:14px;border:1.5px solid var(--line-dim);border-radius:2px;overflow:hidden;background:rgba(0,0,0,.3)}
+.bar span{display:block;height:100%;width:100%;background:var(--line);transform-origin:left}
+.bar.low span{background:var(--red)}
+.secs{font:400 30px/1 var(--pixel);min-width:44px;text-align:right}.secs.low{color:var(--red);animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.5}}
+.mult{font:400 24px/1 var(--pixel);color:var(--gold);min-width:60px;text-align:right}
+form{display:flex;gap:8px}
+input{flex:1;min-width:0;font:400 17px var(--mono);color:var(--ink);background:rgba(0,0,0,.35);border:1.5px solid var(--line-dim);border-radius:3px;padding:12px 14px;caret-color:var(--line)}
+input:focus{border-color:var(--line);outline:0}
+input.bad{animation:shake .35s;border-color:var(--red)}
+@keyframes shake{25%,75%{transform:translateX(-5px)}50%{transform:translateX(5px)}}
+.btn{background:rgba(127,209,255,.1);border:2px solid var(--line);border-radius:3px;font:700 13px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:12px 16px;cursor:pointer}
+.btn:hover{background:rgba(127,209,255,.22)}
+.btn.big2{display:block;width:100%;padding:16px;font-size:15px;letter-spacing:.3em}
+.btn.quiet{border-color:var(--line-dim);font-size:11px;padding:9px 12px}
+.row2{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px}
+.msg{font-size:12px;color:var(--muted);min-height:18px}.msg.bad{color:var(--red)}.msg.good{color:var(--ok)}
+.pass{background:none;border:1.5px solid var(--gold);color:var(--gold);font:700 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:8px 12px;border-radius:2px;cursor:pointer}
+.pass:hover{background:var(--gold);color:#0b0a1f}
+.intro{text-align:center}.intro p{color:var(--muted);font-size:12px;margin:10px auto 16px;max-width:44ch}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:16px}
+.rules div{border:1px solid var(--line-dim);border-radius:3px;padding:8px 4px}.rules b{display:block;font:400 28px/1 var(--pixel);color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+dialog{margin:auto;border:2px solid var(--line);border-radius:4px;padding:24px 22px 20px;max-width:420px;width:calc(100% - 32px);background:#110f2a;color:var(--ink);text-align:center;box-shadow:0 0 40px rgba(127,209,255,.25)}
+dialog::backdrop{background:rgba(5,4,14,.72)}
+dialog h2{font:400 42px/1 var(--pixel);margin:4px 0 8px}
+dialog p{color:var(--muted);font-size:12px}
+dialog .total{font:400 52px/1 var(--pixel);color:var(--gold);margin:12px 0 4px}
+dialog .row{display:grid;gap:8px;margin-top:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+@media (max-width:520px){.big{width:72px;height:72px;font-size:64px}.track{grid-template-columns:repeat(9,1fr)}}
+</style>
+</head>
+<body>
+<canvas id="bg" width="320" height="180" aria-hidden="true"></canvas>
+<div class="scan"></div>
+<div class="tl"><a class="chip-btn" href="/">◂ Home</a><button class="chip-btn" id="snd">♪ On</button></div>
+<div class="score-badge"><span class="label">Score</span><b id="score">0</b></div>
+<main>
+  <div class="logo" aria-label="ABCs"><span class="blk">A</span><span class="blk">B</span><span class="blk">C</span><span class="blk">s</span></div>
+  <p class="sub" id="sub">A to Z · 30 seconds a letter</p>
+  <section class="panel">
+    <div class="track" id="track"></div>
+    <div id="intro" class="intro"></div>
+    <div id="game" hidden>
+      <div class="stage"><div class="big" id="big">A</div><p class="prompt" id="prompt"></p></div>
+      <div class="clock"><div class="bar" id="bar"><span id="fill"></span></div><span class="secs" id="secs">30</span><span class="mult" id="mult">×2.00</span></div>
+      <form id="form" autocomplete="off"><label class="sr" for="ans">Your answer</label><input id="ans" placeholder="type an answer + enter" spellcheck="false" autocapitalize="off"><button class="btn" type="submit">Go</button></form>
+      <div class="row2"><p class="msg" id="msg" aria-live="polite"></p><button class="pass" id="passBtn" type="button">Pass ▸</button></div>
+    </div>
+  </section>
+</main>
+<dialog id="modal"><div id="modalBody"></div></dialog>
+<script>
+const $=id=>document.getElementById(id);
+const LETTERS="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),SECS=30,BASE=50;
+const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`;
+const REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-11";   // days change at 2 am, like the other games
+const qd=new URLSearchParams(location.search).get("day"),TODAY=qd&&/^\d{4}-\d\d-\d\d$/.test(qd)&&qd<REAL&&qd>=LAUNCH?qd:REAL;
+if(/[?&]reset/.test(location.search)){try{Object.keys(localStorage).filter(k=>k.startsWith("abcs:")).forEach(k=>localStorage.removeItem(k))}catch(e){}history.replaceState(null,"",location.pathname)}
+const DAYN=Math.round((new Date(TODAY+"T12:00")-new Date(LAUNCH+"T12:00"))/864e5);
+function rng(str){let h=1779033703^str.length;for(const c of str){h=Math.imul(h^c.charCodeAt(0),3432918353);h=h<<13|h>>>19}return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return((h^=h>>>16)>>>0)/4294967296}}
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/&/g," and ").replace(/['’.]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim().replace(/^(the|a|an) /,"");
+const lev=(a,b)=>{if(Math.abs(a.length-b.length)>2)return 9;let p=[...Array(b.length+1).keys()];for(let i=1;i<=a.length;i++){const c=[i];for(let j=1;j<=b.length;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[b.length]};
+const sig=t=>(t.match(/\d+/g)||[]).join(",");
+
+// ---- sounds (same chiptune kit as the other games) ----
+const SFX=(()=>{let ctx,on=true;try{on=localStorage.getItem("titanic:sound")!=="off"}catch(e){}
+  const ac=()=>ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();
+  const tone=(f,d,type="square",v=.06,slide=0,delay=0)=>{if(!on)return;const c=ac(),t=c.currentTime+delay,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f+slide),t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d+.02)};
+  const seq=(ns,type="square",len=.13,gap=.08)=>ns.forEach((f,i)=>tone(f,len,type,.06,0,i*gap));
+  return{ui:()=>{tone(1100,.04,"square",.03);tone(1480,.05,"square",.025,0,.035)},ctx:()=>ac(),get on(){return on},toggle(){on=!on;try{localStorage.setItem("titanic:sound",on?"on":"off")}catch(e){}if(on)tone(880,.08);return on},
+    ok:()=>{tone(660,.07);tone(990,.12,"square",.06,0,.06)},bad:()=>tone(170,.2,"sawtooth",.045,-70),tick:()=>tone(1250,.03,"square",.03),click:()=>tone(1900,.012,"square",.012),
+    next:()=>tone(330,.18,"triangle",.07,500),miss:()=>seq([392,330],"triangle",.16,.12),start:()=>seq([523,659,784]),
+    win:()=>seq([523,659,784,1047,784,1047,1319],"square",.18,.12)}})();
+const AMB={fade(){}};
+const sndLabel=()=>{$("snd").textContent=SFX.on?"♪ On":"♪ Off"};sndLabel();$("snd").onclick=()=>{SFX.toggle();sndLabel()};
+$("ans").addEventListener("keydown",e=>{if(e.key.length===1)SFX.click()});
+document.addEventListener("click",e=>{const el=e.target.closest("button,a");if(!el||el.id==="snd"||(el.form&&el.type==="submit")||el.disabled)return;SFX.ui();
+  if(el.tagName==="A"&&el.href&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey&&new URL(el.href).origin===location.origin){e.preventDefault();
+    const home=top!==self&&new URL(el.href).pathname==="/";setTimeout(()=>{if(home)parent.postMessage("gauntlet:home",location.origin);else location.href=el.href},250)}},true);
+
+// ---- today's plan: one category per letter, all different, spread across topics ----
+let PLAN=[],CATS={},S,run=null;
+const KEY="abcs:"+TODAY,save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+function makePlan(index){const r=rng("abcs"+TODAY),used=new Set(),fam={};
+  return LETTERS.map(L=>{const need=/[QXZY]/.test(L)?1:3;let c=index.filter(x=>(x.n[L]||0)>=need&&!used.has(x.key));if(!c.length)c=index.filter(x=>(x.n[L]||0)>=1);
+    c.sort((a,b)=>(fam[a.fam]||0)-(fam[b.fam]||0)||r()-.5);const pick=c[Math.floor(r()*Math.min(3,c.length))]||index[0];
+    used.add(pick.key);fam[pick.fam]=(fam[pick.fam]||0)+(pick.fam==="films"?2:1);return{L,key:pick.key,noun:pick.noun}})}
+async function cat(key){if(!CATS[key])CATS[key]=fetch(`cats/${key}.json`).then(r=>r.json()).then(c=>{
+    c.items=c.a.map(s=>{const[names,id]=s.split("#"),ks=names.split("|");return{label:ks[0],id,keys:[...new Set(ks.map(norm))]}});
+    const last={};c.items.forEach(it=>{const w=norm(it.label).split(" ");if(w.length>1){const k=w[w.length-1];if(k.length>2)(last[k]=last[k]||[]).push(it)}});   // surnames work if unique
+    Object.entries(last).forEach(([k,its])=>{if(its.length===1&&!its[0].keys.includes(k))its[0].keys.push(k)});return c});return CATS[key]}
+function load(){let v=null;try{v=JSON.parse(localStorage.getItem(KEY))}catch(e){}return v||{i:0,res:[],status:"idle"}}
+const total=()=>S.res.reduce((a,r)=>a+(r.pts||0),0);
+
+function renderTrack(){$("track").innerHTML=LETTERS.map((L,i)=>`<i class="${i<S.res.length?(S.res[i].pts?"ok":"miss"):i===S.i&&S.status==="playing"?"cur":""}" title="${PLAN[i]?PLAN[i].noun:""}">${L}</i>`).join("");$("score").textContent=total()}
+function render(){renderTrack();
+  if(S.status==="done"){$("game").hidden=true;$("intro").hidden=false;const ok=S.res.filter(r=>r.pts).length;
+    $("intro").innerHTML=`<p class="label">Today's run</p><div class="rules"><div><b>${total()}</b><span class="label">points</span></div><div><b>${ok}/26</b><span class="label">letters</span></div><div><b>#${DAYN+1}</b><span class="label">day</span></div></div><p>New letters and categories tomorrow.</p><button class="btn big2" id="shareBtn">Share result</button>`;$("shareBtn").onclick=share;return}
+  $("game").hidden=true;$("intro").hidden=false;
+  $("intro").innerHTML=S.i?`<p>Picking up at <b>${LETTERS[S.i]}</b>. ${total()} points so far.</p><button class="btn big2" id="go">▶ Continue at ${LETTERS[S.i]}</button>`:
+    `<div class="rules"><div><b>26</b><span class="label">letters</span></div><div><b>0:30</b><span class="label">each</span></div><div><b>×2</b><span class="label">speed bonus</span></div></div><p>Each letter has its own category. Answer fast: ${BASE} points per letter, up to double for speed.</p><button class="btn big2" id="go">▶ Start at A</button>`;
+  $("go").onclick=()=>{SFX.start();S.status="playing";save();startLetter()}}
+
+async function startLetter(){
+  if(S.i>=26){finish();return}
+  const p=PLAN[S.i],c=await cat(p.key);
+  S.active=S.i;save();   // reloading mid-letter counts it as missed
+  run={p,c,t0:performance.now(),raf:0,lastSec:0,i:S.i};
+  $("intro").hidden=true;$("game").hidden=false;renderTrack();
+  const big=$("big");big.textContent=p.L;big.classList.remove("pop");void big.offsetWidth;big.classList.add("pop");
+  $("prompt").innerHTML=`Name a <em>${p.noun}</em> starting with “${p.L}”`;
+  $("msg").textContent="";$("msg").className="msg";const a=$("ans");a.disabled=false;a.value="";a.focus();$("passBtn").disabled=false;
+  if(PLAN[S.i+1])cat(PLAN[S.i+1].key);   // prefetch the next category
+  tick()}
+function left(){return Math.max(0,SECS*1000-(performance.now()-run.t0))}
+function mult(){return 1+left()/(SECS*1000)}
+function tick(){if(!run)return;const l=left(),s=Math.ceil(l/1000);
+  $("fill").style.transform=`scaleX(${l/(SECS*1000)})`;$("secs").textContent=s;$("mult").textContent="×"+mult().toFixed(2);
+  const low=l<6000;$("bar").classList.toggle("low",low);$("secs").classList.toggle("low",low);if(low&&s!==run.lastSec){run.lastSec=s;SFX.tick()}
+  if(l<=0){endLetter(null);return}run.raf=requestAnimationFrame(tick)}
+function endLetter(item){const r=run;if(!r)return;cancelAnimationFrame(r.raf);run=null;$("ans").disabled=true;$("passBtn").disabled=true;
+  const pts=item?Math.round(BASE*(1+Math.max(0,SECS*1000-(performance.now()-r.t0))/(SECS*1000))):0;
+  S.res[r.i]={pts,ans:item?item.label:null};S.i=r.i+1;delete S.active;save();renderTrack();
+  if(item){SFX.ok();$("msg").textContent=`✓ ${item.label} · +${pts}`;$("msg").className="msg good"}
+  else{SFX.miss();const ex=r.c.items.filter(it=>norm(it.label)[0]===r.p.L.toLowerCase()).slice(0,3).map(it=>it.label).join(", ");$("msg").textContent=ex?`Time! Could have said: ${ex}`:"Time!";$("msg").className="msg bad"}
+  setTimeout(()=>{if(S.i>=26)finish();else{SFX.next();startLetter()}},item?900:2200)}
+
+function find(c,v,L){const n=norm(v);if(!n||n[0]!==L.toLowerCase())return{bad:`“${v}” doesn't start with ${L}.`};
+  let it=c.items.find(x=>x.keys.some(k=>k===n||k+"s"===n||k+"es"===n||k===n.replace(/s$/,"")));
+  if(!it&&n.length>=5)it=c.items.find(x=>x.keys.some(k=>k.length>=5&&sig(k)===sig(n)&&lev(n,k)<=(k.length>=10?2:1)));
+  return{it}}
+// Not on today's list: look it up on Wikidata and accept it if it really is one (same check as the other games).
+async function verify(v,c,L){const sp=q=>fetch("https://query.wikidata.org/sparql?format=json&query="+encodeURIComponent(q)).then(x=>x.json()).then(j=>j.results.bindings);
+  const s=await fetch("https://www.wikidata.org/w/api.php?"+new URLSearchParams({action:"wbsearchentities",search:v,language:"en",uselang:"en",type:"item",limit:"20",format:"json",origin:"*"})).then(x=>x.json());
+  const found=s.search||[],tc=v.replace(/\b\w/g,x=>x.toUpperCase()),labs=[...new Set([v,v.toLowerCase(),tc])].map(x=>JSON.stringify(x)+"@en").join(" ");
+  const byName=(await sp(`SELECT DISTINCT ?x WHERE { VALUES ?l { ${labs} } { ?x rdfs:label ?l } UNION { ?x skos:altLabel ?l } } LIMIT 60`)).map(b=>b.x.value.split("/").pop());
+  const ids=[...new Set([...found.map(x=>x.id),...byName])];if(!ids.length)return null;
+  const rows=(await sp(`SELECT ?x ?xl WHERE { VALUES ?x { ${ids.map(x=>"wd:"+x).join(" ")} } ${c.body} OPTIONAL { ?x rdfs:label ?xl FILTER(LANG(?xl)="en") } }`)).map(b=>({id:b.x.value.split("/").pop(),label:b.xl?b.xl.value:v}));
+  const hit=found.map(x=>rows.find(y=>y.id===x.id)).find(Boolean)||rows[0];return hit?{label:hit.label.replace(/^[a-z]/,m=>m.toUpperCase()),id:hit.id}:null}
+$("form").onsubmit=async e=>{e.preventDefault();if(!run)return;const r=run,inp=$("ans"),v=inp.value.trim();if(!v)return;
+  const bad=t=>{SFX.bad();$("msg").textContent=t;$("msg").className="msg bad";inp.classList.remove("bad");void inp.offsetWidth;inp.classList.add("bad");inp.select()};
+  const f=find(r.c,v,r.p.L);if(f.bad)return bad(f.bad);if(f.it)return endLetter(f.it);
+  $("msg").textContent=`Checking “${v}”…`;$("msg").className="msg";inp.value="";
+  let hit=null;try{hit=await verify(v,r.c,r.p.L)}catch(e){}
+  if(run!==r)return;if(hit)endLetter(hit);else{inp.value=v;bad(`“${v}” isn't a ${r.p.noun} we know.`)}};
+$("passBtn").onclick=()=>{if(run)endLetter(null)};
+
+function finish(){S.status="done";save();SFX.win();renderTrack();
+  try{const k="gauntlet:day:"+TODAY,o=JSON.parse(localStorage.getItem(k))||{};o.abcs=total();localStorage.setItem(k,JSON.stringify(o))}catch(e){}   // feeds TheGauntlet's daily totals
+  render();const ok=S.res.filter(r=>r.pts).length;
+  modal(`<p class="label">ABCs #${DAYN+1}</p><h2>${ok===26?"Flawless!":ok>=18?"Top of the class":"A to Z, done"}</h2><div class="total">${total()}</div><p>${ok}/26 letters</p><div class="row"><button class="btn big2" data-a="share">Share</button><button class="btn quiet" data-a="close">Close</button></div>`)}
+function modal(html){const d=$("modal");$("modalBody").innerHTML=html;d.onclick=e=>{const a=e.target.dataset&&e.target.dataset.a;if(a==="share")share();else if(a)d.close()};d.showModal()}
+function share(){const g=LETTERS.map((L,i)=>S.res[i]&&S.res[i].pts?(S.res[i].pts>=80?"🟩":"🟨"):"⬛").join("");
+  const t=`ABCs #${DAYN+1} · ${total()} pts\n${g.slice(0,13)}\n${g.slice(13)}`;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{$("msg").textContent="Copied"},()=>prompt("Copy your result:",t))}
+
+fetch("index.json",{cache:"no-cache"}).then(r=>r.json()).then(index=>{PLAN=makePlan(index);S=load();
+  if(S.status==="playing"&&S.active!=null){S.res[S.active]={pts:0,ans:null};S.i=S.active+1;delete S.active;save()}   // left mid-letter
+  if(S.status==="playing")S.status="idle";render()}).catch(()=>{$("intro").innerHTML="<p>Couldn't load today's letters. Check your connection and refresh.</p>"});
+
+// ---- background: toy letter blocks drifting down a night sky ----
+(()=>{const cv=$("bg"),g=cv.getContext("2d"),W=320,H=180,r=rng("blocks"),C=["#ff5a4e","#ffd36b","#5fd3ff","#6cf0b4","#ff7aa8","#b48cff"];
+  const font=(()=>{const F={};const G="ABCDEFGHIJKLMNOPQRSTUVWXYZ";const P=["010101111101101","110101110101110","011100100100011","110101101101110","111100110100111","111100110100100","011100101101011","101101111101101","111010010010111","001001001101010","101101110101101","100100100100111","101111111101101","110101101101101","010101101101010","110101110100100","010101101111011","110101110101101","011100010001110","111010010010010","101101101101011","101101101101010","101101111111101","101101010101101","101101010010010","111001010100111"];G.split("").forEach((c,i)=>F[c]=P[i]);return F})();
+  const blocks=[...Array(18)].map(()=>({x:r()*W,y:r()*H,v:.08+r()*.18,c:C[r()*C.length|0],l:"ABCDEFGHIJKLMNOPQRSTUVWXYZ"[r()*26|0],s:r()<.5?10:8}));
+  const stars=[...Array(60)].map(()=>[r()*W|0,r()*H|0,r()]);
+  const px=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(x|0,y|0,w,h)};
+  const fr=t=>{const tt=t/1000;["#0b0a1f","#100e2b","#161236","#1c1640","#221a48"].forEach((c,i)=>px(0,i*36,W,36,c));
+    stars.forEach(([x,y,k])=>{if(Math.sin(tt*2+k*40)>-.4)px(x,y,1,1,k>.8?"#fff":"#9aa3c7")});
+    blocks.forEach(b=>{b.y+=b.v;if(b.y>H+10){b.y=-12;b.x=r()*W;b.l="ABCDEFGHIJKLMNOPQRSTUVWXYZ"[r()*26|0]}const s=b.s;g.globalAlpha=.55;
+      px(b.x,b.y,s,s,b.c);px(b.x,b.y,s,1,"rgba(255,255,255,.4)");px(b.x+s-1,b.y,1,s,"rgba(0,0,0,.3)");px(b.x,b.y+s-1,s,1,"rgba(0,0,0,.3)");
+      const p=font[b.l],o=(s-3)/2|0,oy=(s-5)/2|0;for(let i=0;i<15;i++)if(p[i]==="1")px(b.x+o+i%3,b.y+oy+(i/3|0),1,1,"#0b0a1f");g.globalAlpha=1});
+    requestAnimationFrame(fr)};requestAnimationFrame(fr)})();
+</script>
+</body>
+</html>
