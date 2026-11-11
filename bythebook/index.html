@@ -125,11 +125,14 @@ function isRight1(g,title){const a=norm(g).replace(/^(the|a|an) /,""),b=norm(tit
 const SFX=(()=>{let ctx,on=true;try{on=localStorage.getItem("titanic:sound")!=="off"}catch(e){}
   const ac=()=>ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();
   const tone=(f,d,type="square",v=.07,slide=0,delay=0)=>{if(!on)return;const c=ac(),t=c.currentTime+delay,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f+slide),t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d+.02)};
-  // soft paper page-turn: a quick rising swish, then a gentle settle (filtered noise, no harsh tones)
-  const page=()=>{if(!on)return;const c=ac(),now=c.currentTime,len=.42,b=c.createBuffer(1,c.sampleRate*len,c.sampleRate),x=b.getChannelData(0);
-    for(let i=0;i<x.length;i++){const t=i/c.sampleRate,e=t<.16?Math.sin(Math.PI*t/.16):t>.2&&t<.4?Math.sin(Math.PI*(t-.2)/.2)*.35:0;x[i]=(Math.random()*2-1)*e*(.6+.4*Math.random())}
-    const n=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();f.type="bandpass";f.Q.value=.7;f.frequency.setValueAtTime(900,now);f.frequency.exponentialRampToValueAtTime(3200,now+.12);f.frequency.exponentialRampToValueAtTime(1200,now+len);
-    g.gain.value=.22;n.buffer=b;n.connect(f).connect(g).connect(c.destination);n.start()};
+  // page flip: paper flutter that slows down as the page falls, then a soft settle. Quiet on purpose.
+  const page=()=>{if(!on)return;const c=ac(),sr=c.sampleRate,len=.42,b=c.createBuffer(1,sr*len,sr),x=b.getChannelData(0);let ph=0;
+    for(let i=0;i<x.length;i++){const t=i/sr,env=t<.05?t/.05:Math.max(0,1-(t-.05)/.27),fl=38-t*60;ph+=2*Math.PI*Math.max(10,fl)/sr;
+      const flap=.45+.55*Math.abs(Math.sin(ph)),crinkle=Math.random()<.004?2.2:1,settle=t>.3?Math.sin(Math.PI*(t-.3)/.12)*.35:0;
+      x[i]=(Math.random()*2-1)*(env*flap*crinkle+settle)}
+    const n=c.createBufferSource(),hp=c.createBiquadFilter(),lp=c.createBiquadFilter(),g=c.createGain();
+    hp.type="highpass";hp.frequency.value=600;lp.type="lowpass";lp.frequency.value=4200;g.gain.value=.08;
+    n.buffer=b;n.connect(hp).connect(lp).connect(g).connect(c.destination);n.start()};
   const seq=(ns,type="square",len=.14,gap=.09)=>ns.forEach((f,i)=>tone(f,len,type,.07,0,i*gap));
   return{get on(){return on},toggle(){on=!on;try{localStorage.setItem("titanic:sound",on?"on":"off")}catch(e){}if(on)tone(880,.08);return on},
     page,bad:()=>tone(170,.22,"sawtooth",.05,-70),click:()=>tone(1900,.012,"square",.012),
