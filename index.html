@@ -20,10 +20,11 @@ header{text-align:center;margin-bottom:34px;position:relative}
 /* the gauntlets hold the title up: fingers over the bottom of the letters, title + hands bob together */
 .lift{display:inline-block;position:relative;animation:lift 2.6s steps(6) infinite}
 @keyframes lift{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-.gaunt{position:absolute;z-index:1;bottom:calc(var(--gw) * -0.62);width:var(--gw);image-rendering:pixelated;filter:drop-shadow(3px 3px 0 rgba(5,11,22,.75))}
-.lift{--gw:clamp(48px,10vw,96px)}
-.gaunt.gl{left:2%;transform:scaleY(-1) rotate(4deg);animation:strain 1.3s steps(2) infinite}
-.gaunt.gr{right:2%;transform:scale(-1,-1) rotate(4deg);animation:strain 1.3s steps(2) infinite -.65s}
+.gaunt{position:absolute;z-index:1;bottom:calc(var(--gw) * -.72);width:var(--gw);image-rendering:pixelated;filter:drop-shadow(3px 3px 0 rgba(5,11,22,.75))}
+.lift{--gw:clamp(40px,8vw,76px)}
+/* palms up under the bottom corners, fingers pointing inward, thumbs curling over the corners */
+.gaunt.gl{left:calc(var(--gw) * -.12);transform:rotate(-90deg);animation:strain 1.3s steps(2) infinite}
+.gaunt.gr{right:calc(var(--gw) * -.12);transform:scaleX(-1) rotate(-90deg);animation:strain 1.3s steps(2) infinite -.65s}
 @keyframes strain{50%{translate:0 -2px}}
 .tag{margin-top:calc(var(--gw,96px) * .95)!important}
 .logo{font:400 clamp(72px,17vw,148px)/.78 var(--pixel);letter-spacing:.04em;color:#fff;text-shadow:4px 0 var(--pink),-4px 0 var(--line);animation:glitch 6s steps(1) infinite}
