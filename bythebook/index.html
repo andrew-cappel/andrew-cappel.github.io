@@ -74,6 +74,7 @@ dialog .book{font:400 30px/1.1 var(--pixel);color:var(--gold);margin:10px 0 2px}
 dialog p{color:var(--muted);font-size:12px}
 dialog .big{font:400 48px/1 var(--pixel);color:var(--gold);margin:12px 0 4px}
 dialog .row{display:grid;gap:8px;margin-top:16px}
+.credit{margin-top:14px;text-align:center;font-size:9px;letter-spacing:.12em;color:#7a6650}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 @media (max-width:520px){.clues{grid-template-columns:1fr 1fr}.quote p{font-size:15px}}
@@ -97,6 +98,7 @@ dialog .row{display:grid;gap:8px;margin-top:16px}
     <ul class="guesses" id="guesses"></ul>
     <details class="past" id="past" hidden><summary>Earlier quotes</summary><div id="pastList"></div></details>
   </section>
+  <p class="credit">Page turn: “Turning a page” (public domain) · fire: Glaneur de sons (CC BY 3.0) · via Wikimedia Commons</p>
 </main>
 <dialog id="modal"><div id="modalBody"></div></dialog>
 <script>
@@ -131,10 +133,20 @@ const SFX=(()=>{let ctx,on=true;try{on=localStorage.getItem("titanic:sound")!=="
     const play=b=>{const n=c.createBufferSource(),g=c.createGain();g.gain.value=.55;n.buffer=b;n.connect(g).connect(c.destination);n.start()};
     if(pageBuf instanceof AudioBuffer)play(pageBuf);else c.decodeAudioData(pageBuf.slice(0)).then(b=>{pageBuf=b;play(b)})};
   const seq=(ns,type="square",len=.14,gap=.09)=>ns.forEach((f,i)=>tone(f,len,type,.07,0,i*gap));
-  return{get on(){return on},toggle(){on=!on;try{localStorage.setItem("titanic:sound",on?"on":"off")}catch(e){}if(on)tone(880,.08);return on},
+  return{ctx:()=>ac(),get on(){return on},toggle(){on=!on;try{localStorage.setItem("titanic:sound",on?"on":"off")}catch(e){}if(on)tone(880,.08);return on},
     page,bad:()=>tone(170,.22,"sawtooth",.05,-70),click:()=>tone(1900,.012,"square",.012),
     win:()=>seq([523,659,784,1047,784,1047,1319],"square",.18,.12),lose:()=>seq([392,330,262,196],"triangle",.24,.16)}})();
-const sndLabel=()=>{$("snd").textContent=SFX.on?"♪ On":"♪ Off"};sndLabel();$("snd").onclick=()=>{SFX.toggle();sndLabel()};
+const sndLabel=()=>{$("snd").textContent=SFX.on?"♪ On":"♪ Off"};sndLabel();$("snd").onclick=()=>{SFX.toggle();sndLabel();AMB.sync()};
+// ---- Ambience: a faint crackling fireplace (starts on your first click/key, follows ♪ On/Off) ----
+// Fire: "Campfire sound ambience" by Glaneur de sons (CC BY 3.0), via Wikimedia Commons.
+const AMB=(()=>{let c,master,started=false;
+  function start(){if(started||!SFX.on)return;started=true;c=SFX.ctx();master=c.createGain();master.gain.setValueAtTime(0,c.currentTime);master.gain.linearRampToValueAtTime(1,c.currentTime+3);master.connect(c.destination);
+    fetch("fire.wav").then(r=>r.arrayBuffer()).then(b=>c.decodeAudioData(b)).then(b=>{const s=c.createBufferSource(),g=c.createGain(),lp=c.createBiquadFilter();lp.type="lowpass";lp.frequency.value=5000;
+      s.buffer=b;s.loop=true;g.gain.value=.16;s.connect(lp).connect(g).connect(master);s.start()}).catch(()=>{})}
+  return{start,sync(){if(!master){if(SFX.on)start();return}master.gain.setTargetAtTime(SFX.on?1:0,c.currentTime,.3)}}})();
+["pointerdown","keydown"].forEach(e=>addEventListener(e,()=>AMB.start(),{once:true}));
+document.addEventListener("visibilitychange",()=>{if(!SFX.on)return;const x=SFX.ctx();document.hidden?x.suspend():x.resume()});
+
 $("guess").addEventListener("keydown",e=>{if(e.key.length===1)SFX.click()});
 
 // ---- game ----
