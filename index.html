@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Best Shot · daily games</title>
+<meta name="description" content="Best Shot: a collection of quick daily games. One shot a day.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--abyss:#050b16;--panel:rgba(10,22,40,.82);--line:#5fd3ff;--line-dim:rgba(95,211,255,.28);--ink:#eaf6ff;--muted:#86a0bd;--gold:#ffd36b;--pink:#ff7aa8;--red:#ff5a4e;
+  --pixel:"VT323",ui-monospace,monospace;--mono:"Space Mono",ui-monospace,monospace}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--abyss);color:var(--ink);font:14px/1.5 var(--mono);-webkit-font-smoothing:antialiased;min-height:100%}
+#bg{position:fixed;inset:0;width:100%;height:100%;image-rendering:pixelated;z-index:0}
+.scan{position:fixed;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
+main{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:56px 16px 64px}
+header{text-align:center;margin-bottom:34px}
+.logo{font:400 clamp(72px,17vw,148px)/.78 var(--pixel);letter-spacing:.04em;color:#fff;text-shadow:4px 0 var(--pink),-4px 0 var(--line);animation:glitch 6s steps(1) infinite}
+.logo .x{display:inline-block;position:relative;color:var(--gold);text-shadow:4px 0 var(--red),-4px 0 var(--line);animation:aim 2.4s steps(4) infinite}
+.logo .x::after{content:"+";position:absolute;left:0;right:0;top:.06em;text-align:center;font-size:.5em;line-height:1.6;color:var(--red);text-shadow:none}
+@keyframes aim{50%{transform:translateY(-4px)}}
+@keyframes glitch{0%,92%,100%{transform:none;clip-path:none}93%{transform:translateX(-3px);clip-path:inset(10% 0 55% 0)}95%{transform:translateX(4px);clip-path:inset(60% 0 8% 0)}97%{transform:translateX(-2px)}}
+.tag{font:700 11px var(--mono);letter-spacing:.46em;color:var(--line);text-transform:uppercase;margin-top:14px}
+.tag i{font-style:normal;color:var(--gold);animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:18px}
+.tab{font:400 30px/1 var(--pixel);letter-spacing:.1em;padding:10px 18px 6px;border:2px solid var(--line-dim);border-bottom:0;border-radius:3px 3px 0 0;background:var(--panel);color:var(--muted);cursor:pointer}
+.tab[aria-selected="true"]{border-color:var(--line);color:var(--abyss);background:var(--line);box-shadow:0 0 22px rgba(95,211,255,.35)}
+.tab:disabled{cursor:default;opacity:.5;font-size:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{position:relative;display:block;background:var(--panel);border:2px solid var(--line);border-radius:4px;color:inherit;text-decoration:none;overflow:hidden;transition:transform .12s steps(2),box-shadow .12s steps(2);backdrop-filter:blur(4px)}
+.card:hover,.card:focus-visible{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink),0 0 26px rgba(95,211,255,.3);outline:0}
+.card canvas{display:block;width:100%;aspect-ratio:16/9;image-rendering:pixelated;border-bottom:2px solid var(--line-dim)}
+.card .body{padding:12px 14px 14px}
+.card h3{font:400 34px/1 var(--pixel);letter-spacing:.06em}
+.card p{color:var(--muted);font-size:12px;margin:6px 0 12px}
+.meta{display:flex;justify-content:space-between;align-items:center}
+.chip{font:700 9px var(--mono);letter-spacing:.2em;text-transform:uppercase;border:1.5px solid var(--line-dim);padding:3px 7px;border-radius:2px;color:var(--muted)}
+.play{font:700 12px var(--mono);letter-spacing:.24em;color:var(--abyss);background:var(--gold);padding:6px 12px;border-radius:2px}
+.card:hover .play{animation:blink .5s steps(2) infinite}
+.card.lock{border-color:var(--line-dim);cursor:default}
+.card.lock:hover{transform:none;box-shadow:none}
+.card.lock h3{color:var(--muted)}
+.new{position:absolute;top:10px;left:10px;font:700 9px var(--mono);letter-spacing:.2em;background:var(--pink);color:var(--abyss);padding:3px 7px;border-radius:2px}
+footer{text-align:center;margin-top:34px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:#56708d}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<canvas id="bg" width="320" height="180" aria-hidden="true"></canvas>
+<div class="scan"></div>
+<main>
+  <header>
+    <h1 class="logo">BEST SH<span class="x">O</span>T</h1>
+    <p class="tag">daily games · one shot a day<i>_</i></p>
+  </header>
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true">PLAY!</button>
+    <button class="tab" role="tab" aria-selected="false" disabled>More soon</button>
+  </nav>
+  <section class="grid" role="tabpanel">
+    <a class="card" href="/titanic/">
+      <span class="new">New</span>
+      <canvas class="thumb" data-game="titanic" width="160" height="90"></canvas>
+      <div class="body">
+        <h3>TITANIC</h3>
+        <p>Name five before the ship hits the iceberg. Fresh prompts every day.</p>
+        <div class="meta"><span class="chip">Daily · 4 modes</span><span class="play">▶ PLAY</span></div>
+      </div>
+    </a>
+    <div class="card lock" aria-label="Coming soon"><canvas class="thumb" data-game="static" width="160" height="90"></canvas><div class="body"><h3>???</h3><p>Next game in the works.</p><div class="meta"><span class="chip">Coming soon</span></div></div></div>
+    <div class="card lock" aria-label="Coming soon"><canvas class="thumb" data-game="static" width="160" height="90"></canvas><div class="body"><h3>???</h3><p>Next game in the works.</p><div class="meta"><span class="chip">Coming soon</span></div></div></div>
+  </section>
+  <footer>Best Shot · new games added over time</footer>
+</main>
+<script>
+// ---- Background: low-res dusk with parallax pixel hills, drifting clouds and twinkling stars ----
+const bg=document.getElementById("bg"),g=bg.getContext("2d"),W=320,H=180;
+const SKY=["#0b1433","#111b42","#1a2452","#262f62","#363a72","#4c447f","#684e87","#8b5989","#b06686","#d27984"];
+const r=(s=>()=>(s=Math.imul(s^s>>>15,2246822507)>>>0,s/4294967296))(7);
+const stars=[...Array(80)].map(()=>[r()*W|0,r()*90|0,r()]);
+const clouds=[...Array(6)].map(()=>({x:r()*W,y:10+r()*60|0,w:20+r()*30|0,v:.05+r()*.12}));
+const hill=(seed,amp,base)=>{const p=[];for(let x=0;x<W*2;x++)p.push(base-Math.round(Math.abs(Math.sin(x*.031*seed)+Math.sin(x*.013*seed+1))*amp/2));return p};
+const H1=hill(1.3,18,150),H2=hill(.8,26,164),H3=hill(1.9,10,172);
+const px=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(x|0,y|0,w,h)};
+function frame(now){const t=now/1000;
+  SKY.forEach((c,i)=>px(0,i*15,W,15,c));for(let i=1;i<SKY.length;i++)for(let x=i%2;x<W;x+=2)px(x,i*15-1,1,1,SKY[i]);
+  stars.forEach(([x,y,k])=>Math.sin(t*2+k*40)>-.5&&px(x,y,1,1,k>.85?"#fff":"#c9d6f2"));
+  px(250,26,12,12,"#f6eed2");px(248,28,16,8,"#f6eed2");px(252,24,8,16,"#f6eed2");
+  clouds.forEach(c=>{c.x-=c.v;if(c.x<-c.w)c.x=W;px(c.x,c.y,c.w,3,"#e9c9d8");px(c.x+4,c.y-2,c.w-10,2,"#e9c9d8");px(c.x+2,c.y+3,c.w-4,1,"#b98fb4")});
+  [[H1,.08,"#3a2d63"],[H2,.18,"#22204a"],[H3,.35,"#120f2c"]].forEach(([h,sp,c])=>{const o=Math.floor(t*sp*30)%W;for(let x=0;x<W;x++){const y=h[x+o];px(x,y,1,H-y,c)}});
+  requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+
+// ---- Card thumbnails ----
+document.querySelectorAll(".thumb").forEach(cv=>{const c=cv.getContext("2d"),w=160,h=90,f=(x,y,a,b,col)=>{c.fillStyle=col;c.fillRect(x|0,y|0,a,b)};
+  const tick=now=>{const t=now/1000;
+    if(cv.dataset.game==="titanic"){
+      ["#0b1433","#1a2452","#363a72","#684e87","#b06686","#d27984"].forEach((col,i)=>f(0,i*10,w,10,col));
+      ["#1d3a63","#142a4c","#0c1a30"].forEach((col,i)=>f(0,60+i*10,w,10,col));
+      for(let i=0;i<4;i++)f(((t*12+i*40)%(w+20))-10,66+i*6,8,1,"#3b6a96");
+      const by=34+Math.round(Math.sin(t*1.2)),sx=10+((t*6)%60),sy=46+Math.round(Math.sin(t*2));
+      c.fillStyle="#eaf8ff";c.beginPath();c.moveTo(112,60);c.lineTo(124,by);c.lineTo(132,by+8);c.lineTo(138,by-6);c.lineTo(150,60);c.fill();
+      f(sx+4,sy+6,40,2,"#ece6d6");f(sx+6,sy+8,36,2,"#ffd27a");[12,20,28,36].forEach(x=>{f(sx+x,sy-2,3,8,"#cf9a48");f(sx+x,sy-2,3,2,"#141210")});
+      f(sx,sy+10,50,4,"#121418");f(sx+2,sy+14,46,1,"#8e2a22");
+    }else{for(let y=0;y<h;y+=3)for(let x=0;x<w;x+=3){const v=Math.random()*40+10|0;f(x,y,3,3,`rgb(${v},${v+8},${v+24})`)}f(60,38,40,14,"#0a1628");c.fillStyle="#86a0bd";c.font="12px VT323";c.fillText("LOCKED",64,49)}
+    requestAnimationFrame(tick)};requestAnimationFrame(tick)});
+</script>
+</body>
+</html>
