@@ -65,6 +65,8 @@ header{text-align:center;margin-bottom:34px;position:relative}
 .totals span{font:700 9px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .totals b{font:400 24px/1 var(--pixel);color:var(--gold);font-variant-numeric:tabular-nums}
 @media (max-width:640px){.totals{position:absolute}main{padding-top:96px}}
+.gameframe{position:fixed;inset:0;width:100%;height:100%;border:0;z-index:50;background:#050b16}
+body.ingame{overflow:hidden}
 footer{text-align:center;margin-top:34px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:#56708d}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
@@ -151,7 +153,7 @@ requestAnimationFrame(frame);
 // ---- Daily totals across every game ----
 // Each game records finished scores in localStorage "gauntlet:day:YYYY-MM-DD" as {"game:mode": points}.
 // Titanic's own saves are read directly too. Days change at 2 am, like the games.
-(()=>{const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`,today=iso(new Date(Date.now()-2*36e5));
+function updateTotals(){const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`,today=iso(new Date(Date.now()-2*36e5));
   const days={},add=(d,k,v)=>{if(typeof v==="number"&&isFinite(v))(days[d]=days[d]||{})[k]=v};
   try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);let m;
     if(m=k.match(/^gauntlet:day:(\d{4}-\d\d-\d\d)$/)){const o=JSON.parse(localStorage.getItem(k))||{};for(const g in o)add(m[1],g,o[g])}
@@ -159,7 +161,8 @@ requestAnimationFrame(frame);
   const tot=d=>Object.values(days[d]||{}).reduce((a,b)=>a+b,0);
   const day=tot(today),best=Math.max(0,...Object.keys(days).map(tot));
   const count=(el,n)=>{const t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/900);el.textContent=Math.round(n*k).toLocaleString();if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)};
-  count(document.getElementById("dayTotal"),day);count(document.getElementById("bestTotal"),best);})();
+  count(document.getElementById("dayTotal"),day);count(document.getElementById("bestTotal"),best);}
+updateTotals();
 
 // ---- Game-select sounds (uses the same sound on/off setting as the games) ----
 const SEL=(()=>{let c,mg;const on=()=>{try{return localStorage.getItem("titanic:sound")!=="off"}catch(e){return true}},ac=()=>{if(!c){c=new(window.AudioContext||window.webkitAudioContext)();mg=c.createGain();mg.connect(c.destination)}return c};
@@ -172,8 +175,14 @@ const SEL=(()=>{let c,mg;const on=()=>{try{return localStorage.getItem("titanic:
   const fadeOut=()=>{if(!c)return;const t=c.currentTime;mg.gain.setValueAtTime(mg.gain.value,t);mg.gain.linearRampToValueAtTime(0,t+.55)};
   return{on,fadeOut,ui(){tone(1100,.04,0,"square",.03);tone(1480,.05,.035,"square",.025)},titanic(){[523,784,1047].forEach((f,i)=>tone(f,.14,i*.07));clip("/titanic/gulls.wav",.4);breeze()},
     book(){[659,880,1175].forEach((f,i)=>tone(f,.14,i*.07,"triangle",.07));clip("/bythebook/page-turn.wav",.7)},locked(){tone(140,.18,0,"sawtooth",.04)}}})();
-document.querySelectorAll("a.card").forEach(a=>a.addEventListener("click",e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||!SEL.on())return;e.preventDefault();
-  SEL[a.getAttribute("href").includes("titanic")?"titanic":"book"]();setTimeout(SEL.fadeOut,800);setTimeout(()=>{location.href=a.href},1400)}));  // sounds fade out before the game opens
+// Games open inside this page (full screen, same address) so the click that picked a game also lets its ambience start immediately.
+function openGame(href){if(document.querySelector(".gameframe"))return;const f=document.createElement("iframe");f.src=href;f.allow="autoplay; clipboard-write";f.className="gameframe";f.title="Game";
+  document.body.appendChild(f);document.body.classList.add("ingame");history.pushState({game:href},"",href);f.addEventListener("load",()=>{try{document.title=f.contentDocument.title}catch(e){}f.focus()})}
+function closeGame(){const f=document.querySelector(".gameframe");if(f)f.remove();document.body.classList.remove("ingame");document.title="TheGauntlet · daily games";updateTotals()}
+addEventListener("popstate",()=>{if(!(history.state&&history.state.game))closeGame()});
+addEventListener("message",e=>{if(e.origin===location.origin&&e.data==="gauntlet:home"){if(history.state&&history.state.game)history.back();else closeGame()}});
+document.querySelectorAll("a.card").forEach(a=>a.addEventListener("click",e=>{if(e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();if(!SEL.on()){openGame(a.href);return}
+  SEL[a.getAttribute("href").includes("titanic")?"titanic":"book"]();setTimeout(()=>openGame(a.href),350);setTimeout(SEL.fadeOut,1300)}));
 document.addEventListener("click",e=>{if(e.target.closest("button")&&SEL.on())SEL.ui()});
 document.querySelectorAll(".card.lock").forEach(c=>c.addEventListener("click",()=>{if(SEL.on())SEL.locked()}));
 
