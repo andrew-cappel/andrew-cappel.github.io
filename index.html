@@ -170,10 +170,11 @@ const SEL=(()=>{let c,mg;const on=()=>{try{return localStorage.getItem("titanic:
     const n=x.createBufferSource(),f=x.createBiquadFilter(),g=x.createGain();f.type="lowpass";f.frequency.setValueAtTime(300,t);f.frequency.linearRampToValueAtTime(900,t+.7);f.frequency.linearRampToValueAtTime(350,t+1.6);
     g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.09,t+.6);g.gain.linearRampToValueAtTime(.0001,t+1.6);n.buffer=b;n.connect(f).connect(g).connect(mg);n.start()};
   const fadeOut=()=>{if(!c)return;const t=c.currentTime;mg.gain.setValueAtTime(mg.gain.value,t);mg.gain.linearRampToValueAtTime(0,t+.55)};
-  return{on,fadeOut,titanic(){[523,784,1047].forEach((f,i)=>tone(f,.14,i*.07));clip("/titanic/gulls.wav",.4);breeze()},
+  return{on,fadeOut,ui(){tone(1100,.04,0,"square",.03);tone(1480,.05,.035,"square",.025)},titanic(){[523,784,1047].forEach((f,i)=>tone(f,.14,i*.07));clip("/titanic/gulls.wav",.4);breeze()},
     book(){[659,880,1175].forEach((f,i)=>tone(f,.14,i*.07,"triangle",.07));clip("/bythebook/page-turn.wav",.7)},locked(){tone(140,.18,0,"sawtooth",.04)}}})();
 document.querySelectorAll("a.card").forEach(a=>a.addEventListener("click",e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||!SEL.on())return;e.preventDefault();
   SEL[a.getAttribute("href").includes("titanic")?"titanic":"book"]();setTimeout(SEL.fadeOut,800);setTimeout(()=>{location.href=a.href},1400)}));  // sounds fade out before the game opens
+document.addEventListener("click",e=>{if(e.target.closest("button")&&SEL.on())SEL.ui()});
 document.querySelectorAll(".card.lock").forEach(c=>c.addEventListener("click",()=>{if(SEL.on())SEL.locked()}));
 
 // ---- Card thumbnails ----
