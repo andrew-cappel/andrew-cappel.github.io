@@ -16,7 +16,13 @@ html,body{background:var(--abyss);color:var(--ink);font:14px/1.5 var(--mono);-we
 #bg{position:fixed;inset:0;width:100%;height:100%;image-rendering:pixelated;z-index:0}
 .scan{position:fixed;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
 main{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:56px 16px 64px}
-header{text-align:center;margin-bottom:34px}
+header{text-align:center;margin-bottom:34px;position:relative}
+.gaunt{position:absolute;top:8px;width:104px;height:auto;image-rendering:pixelated;filter:drop-shadow(4px 4px 0 rgba(5,11,22,.7));animation:float 3.2s steps(6) infinite}
+.gaunt.gl{left:-30px;transform:rotate(-8deg)}
+.gaunt.gr{right:-30px;transform:scaleX(-1) rotate(-8deg);animation-delay:-1.6s}
+@keyframes float{50%{translate:0 -8px}}
+@media (max-width:900px){.gaunt{width:64px;top:-6px}.gaunt.gl{left:0}.gaunt.gr{right:0}}
+@media (max-width:520px){.gaunt{width:44px;top:-40px}}
 .logo{font:400 clamp(72px,17vw,148px)/.78 var(--pixel);letter-spacing:.04em;color:#fff;text-shadow:4px 0 var(--pink),-4px 0 var(--line);animation:glitch 6s steps(1) infinite}
 .logo .the{display:block;font-size:.38em;letter-spacing:.5em;color:var(--gold);text-shadow:3px 0 var(--red),-3px 0 var(--line);margin-bottom:.12em;animation:aim 2.4s steps(4) infinite}
 .logo .x{display:inline-block;position:relative;color:var(--gold);text-shadow:4px 0 var(--red),-4px 0 var(--line);animation:aim 2.4s steps(4) infinite}
@@ -64,6 +70,7 @@ footer{text-align:center;margin-top:34px;font-size:10px;letter-spacing:.28em;tex
 </aside>
 <main>
   <header>
+    <canvas class="gaunt gl" width="26" height="36" aria-hidden="true"></canvas><canvas class="gaunt gr" width="26" height="36" aria-hidden="true"></canvas>
     <h1 class="logo"><span class="the">THE</span>GAUNTLET</h1>
     <p class="tag">daily games · run the gauntlet<i>_</i></p>
   </header>
@@ -104,6 +111,50 @@ function frame(now){const t=now/1000;
   [[H1,.08,"#3a2d63"],[H2,.18,"#22204a"],[H3,.35,"#120f2c"]].forEach(([h,sp,c])=>{const o=Math.floor(t*sp*30)%W;for(let x=0;x<W;x++){const y=h[x+o];px(x,y,1,H-y,c)}});
   requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
+
+// ---- 8-bit gauntlets (hand-drawn sprite, metallic glint sweeps across) ----
+(()=>{const SPR=[
+"...........KK",
+"..........KWLK",
+".........KWLMLK",
+"........KWLMLMDK",
+".......KWLMWLMLDK",
+"......KWLMDWLDMLDK",
+".....KWLMDLWLMDLMDK",
+"....KWLMDLMWLMLDLMDK",
+"...KWLMDLMLWLMLMDLMDK",
+"...KWLMDLMLWLMLMDLMDK",
+"...KLMLHLMLHLMLHLMHDK",
+"....KLMLMLMLMLMLMLMDK",
+"....KKKKKKKKKKKKKKKKK",
+".....KLWLLLLLLLLLLMDK",
+".....KDMMMMMMMMMMMMDK",
+".....KLWHLLHLLHLLHMDK",
+".....KDMMMMMMMMMMMMDK",
+"....KLWLLLLLLLLLLLMDKK",
+"...KLWLMLMLMLMLMLMLDKMK",
+"...KWLRLLRLLRLLRLLLDKLMK",
+"...KLMMMMMMMMMMMMMMDKLMDK",
+"...KKKKKKKKKKKKKKKKKKLMDK",
+"...KLWKLWKLWKLWKDDK.KLMDK",
+"...KLMKLMKLMKLMKDDK.KRMDK",
+"...KRDKRDKRDKRDKDDK..KLMK",
+"...KLWKLWKLWKLWKDDK..KLWK",
+"...KLMKLMKLMKLMKDK...KLMK",
+"...KRDKRDKRDKRDKDK....KK",
+"...KLWKLWKLWKLWKK",
+"...KLMKLMKLMKLMK",
+"...KRDKRDKRDKRDK",
+"...KLWKLWKLWKLMK",
+"...KLMKLMKLMKLMK",
+"....KK.KLMKLMKK",
+".......KKK.KK"];
+  const C={K:"#141a26",D:"#4b5568",M:"#8a96aa",L:"#c4cedc",W:"#f1f5fb",R:"#f1f5fb",H:"#0a0f1c"};
+  document.querySelectorAll(".gaunt").forEach((cv,n)=>{const g=cv.getContext("2d");
+    const draw=t=>{g.clearRect(0,0,26,36);const band=((t/1000*14+n*20)%90)-30;
+      SPR.forEach((row,y)=>[...row].forEach((ch,x)=>{if(ch===".")return;let c=C[ch];
+        if("DML".includes(ch)&&Math.abs(x+y-band)<2)c=ch==="D"?C.M:C.W;g.fillStyle=c;g.fillRect(x,y+1,1,1)}));
+      requestAnimationFrame(draw)};requestAnimationFrame(draw)})})();
 
 // ---- Daily totals across every game ----
 // Each game records finished scores in localStorage "gauntlet:day:YYYY-MM-DD" as {"game:mode": points}.
