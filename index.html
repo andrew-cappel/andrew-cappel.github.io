@@ -178,7 +178,6 @@ document.querySelectorAll(".thumb").forEach(cv=>{const c=cv.getContext("2d"),w=1
       const b=Math.round(Math.sin(t*2));
       f(30,58+b,100,6,"#5b1f1f");f(34,22+b,46,38,"#f1e3c2");f(80,22+b,46,38,"#f1e3c2");f(78,20+b,4,40,"#9c845a");
       for(let y=28;y<54;y+=5){f(38,y+b,36,1,"#bda983");f(84,y+b,36,1,"#bda983")}
-      const sw=Math.round(Math.sin(t*1.6)*2);for(let y=64;y<74;y++)f(79+Math.round(sw*(y-64)/10),y+b,2,1,"#c0392b");
       for(let i=0;i<4;i++){const p=(t*.35+i/4)%1;c.globalAlpha=1-p;f(48+i*22,Math.round(50-p*40)+b,2,2,"#ffd36b");c.globalAlpha=1}
       c.fillStyle="#2b1a10";c.font="16px VT323";c.fillText("BY THE",40,44+b);c.fillText("BOOK",92,44+b);
     }else{for(let y=0;y<h;y+=3)for(let x=0;x<w;x+=3){const v=Math.random()*40+10|0;f(x,y,3,3,`rgb(${v},${v+8},${v+24})`)}f(60,38,40,14,"#0a1628");c.fillStyle="#86a0bd";c.font="12px VT323";c.fillText("LOCKED",64,49)}

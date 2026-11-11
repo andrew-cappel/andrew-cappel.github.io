@@ -197,9 +197,6 @@ fetch("books.json",{cache:"no-cache"}).then(r=>r.json()).then(books=>{
   const fr=t=>{g.clearRect(0,0,W,H);px(2,40,92,8,"#5b1f1f");px(2,46,92,2,"#3a1212");px(4,40,88,1,"#8a3a2e");   // cover
     page(5,47);page(49,91);px(47,8,2,38,"#9c845a");px(48,6,1,40,"#6e5a3a");                                      // pages + spine
     const tt=t/1000,sw=Math.round(Math.sin(tt*1.6)*2);                                     // ribbon bookmark sways from the spine
-    px(48,6,1,30,"#c0392b");px(47,6,1,30,"#9b2a20");                                          // ribbon runs up the middle of the spine...
-    [[48,4],[49,2],[51,1],[53,2],[54,4]].forEach(([x,y])=>px(x,y,2,2,"#c0392b"));                // ...loops over the top edge...
-    for(let y=5;y<14;y++)px(55+Math.round(sw*(y-5)/9),y,2,1,y===13?"#7a1414":"#c0392b");      // ...and hangs off the top of the page, swaying
     for(let i=0;i<5;i++){const p=(tt*.35+i/5)%1,x=24+i*12+Math.round(Math.sin(tt*2+i)*2),y=Math.round(34-p*32);  // gold sparkles drift up off the pages
       if(p<.92){g.globalAlpha=1-p;px(x,y,1,1,"#ffd36b");if(p<.3){px(x-1,y,1,1,"#ffd36b");px(x+1,y,1,1,"#ffd36b");px(x,y-1,1,1,"#ffd36b");px(x,y+1,1,1,"#ffd36b")}g.globalAlpha=1}}
     requestAnimationFrame(fr)};requestAnimationFrame(fr)})();
