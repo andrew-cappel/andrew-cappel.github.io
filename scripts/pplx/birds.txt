@@ -1,0 +1,26 @@
+A: albatross, auk, avocet, african grey parrot, american robin, anhinga, arctic tern, american kestrel
+B: bald eagle, barn owl, barn swallow, bee-eater, bittern, blackbird, black swan, blue jay, blue tit, bluebird, bobolink, bobwhite, booby, budgerigar, budgie, bufflehead, bulbul, bullfinch, bunting, bustard, buzzard, bowerbird
+C: canary, cardinal, cassowary, catbird, chickadee, chicken, chaffinch, chough, cockatiel, cockatoo, condor, coot, cormorant, corncrake, cowbird, crane, crossbill, crow, cuckoo, curlew
+D: dipper, dodo, dove, dowitcher, drongo, duck, dunlin, dunnock
+E: eagle, eagle-owl, egret, eider, emu, emperor penguin
+F: falcon, finch, firecrest, flamingo, flicker, flycatcher, francolin, frigatebird, fulmar
+G: galah, gannet, goldcrest, golden eagle, goldfinch, goose, goshawk, grackle, grebe, grosbeak, grouse, guillemot, guineafowl, gull, gyrfalcon
+H: harrier, hawk, hen, heron, hoatzin, hobby, honeyeater, hoopoe, hornbill, house sparrow, hummingbird, hyacinth macaw
+I: ibis, indigo bunting, ivory-billed woodpecker
+J: jacana, jackdaw, jay, junco, jabiru, jungle fowl
+K: kakapo, kea, kestrel, killdeer, kingbird, kingfisher, kinglet, kite, kittiwake, kiwi, knot, kookaburra
+L: lapwing, lark, linnet, loon, lorikeet, lovebird, lyrebird
+M: macaw, magpie, mallard, martin, meadowlark, merganser, merlin, mockingbird, moorhen, motmot, mourning dove, myna
+N: nene, nightingale, nighthawk, nightjar, nutcracker, nuthatch
+O: oriole, osprey, ostrich, ovenbird, owl, oystercatcher, oxpecker
+P: parakeet, parrot, partridge, peacock, peafowl, pelican, penguin, peregrine falcon, petrel, pheasant, phoebe, pigeon, pintail, pipit, plover, ptarmigan, puffin
+Q: quail, quetzal, quelea
+R: rail, raven, razorbill, redstart, redwing, rhea, roadrunner, robin, roller, rook, rooster
+S: sandpiper, sapsucker, secretarybird, shearwater, shoebill, shrike, siskin, skua, skylark, snipe, sparrow, spoonbill, starling, stilt, stork, sunbird, swallow, swan, swift
+T: tanager, teal, tern, thrush, tit, titmouse, toucan, towhee, treecreeper, trogon, turaco, turkey, turtle dove
+U: umbrellabird, upland sandpiper
+V: verdin, vireo, vulture, veery
+W: wagtail, warbler, waxwing, weaver, wheatear, whippoorwill, wigeon, woodcock, woodpecker, wren, wryneck
+X: xantus's hummingbird, xantus's murrelet
+Y: yellowhammer, yellowlegs, yellowthroat, yellow warbler
+Z: zebra finch, zebra dove, zenaida dove

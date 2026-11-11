@@ -1,0 +1,26 @@
+A: acai, abiu, acerola, achacha, ackee, african cucumber, african mango, aguaje, akebi, alligator apple, almond, ambarella, amla, apple, apricot, aronia, atemoya, avocado
+B: bacuri, bael, banana, barberry, bilberry, blackberry, blackcurrant, blood orange, blueberry, boysenberry, breadfruit, brush cherry, buddhas hand, burmese grape
+C: cacao, calamansi, camu camu, canistel, cantaloupe, cape gooseberry, carambola, cashew apple, cempedak, cherimoya, cherry, chokeberry, citron, clementine, cloudberry, coconut, cranberry, cupuacu, currant, custard apple
+D: damson, date, date plum, davidsons plum, dewberry, dragon fruit, durian
+E: eggfruit, elderberry, elephant apple, emblic
+F: feijoa, fig, finger lime
+G: gac, galia melon, genip, genipap, gooseberry, goumi, granadilla, grape, grapefruit, greengage, ground cherry, guava, goji berry
+H: hackberry, hardy kiwi, hawthorn berry, hog plum, honeyberry, honeydew, huckleberry
+I: ilama, imbe, indian fig, indian gooseberry, indian jujube
+J: jaboticaba, jackfruit, japanese plum, java apple, java plum, jostaberry, jujube
+K: kaffir lime, kakadu plum, kei apple, kepel, kiwano, kiwi, kiwifruit, kokum, kumquat
+L: langsat, lemon, lime, longan, loquat, lucuma, lychee, lingonberry
+M: mabolo, malay apple, mammee apple, mamey sapote, mandarin, mango, mangosteen, marionberry, medlar, melon, miracle fruit, monk fruit, mulberry, muscadine
+N: nance, naranjilla, nectarine, noni
+O: olive, orange, oro blanco, otaheite apple
+P: papaya, passion fruit, pawpaw, peach, pear, persimmon, physalis, pineapple, pitanga, pitaya, plantain, plum, pluot, pomegranate, pomelo, prickly pear, prune, pulasan
+Q: quandong, quince
+R: rambai, rambutan, raspberry, redcurrant, riberry, rose apple, rowanberry, rose hip
+S: salak, salmonberry, santol, sapodilla, sapote, saskatoon berry, sea buckthorn, serviceberry, soursop, star apple, star fruit, strawberry, sugar apple, surinam cherry, sweet lime, satsuma
+T: tamarillo, tamarind, tangerine, tangelo, tayberry, thimbleberry, tomatillo, tomato
+U: ugli fruit, umbu, ume
+V: velvet apple, velvet tamarind, voavanga
+W: wampee, water apple, watermelon, wax apple, white currant, white sapote, wolfberry, wood apple
+X: xigua, ximenia
+Y: yangmei, yellow mombin, yuzu, youngberry
+Z: ziziphus, zinfandel grape

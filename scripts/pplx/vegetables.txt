@@ -1,0 +1,26 @@
+A: acorn squash, adzuki bean, alfalfa sprouts, amaranth, artichoke, arugula, ash gourd, asparagus, aubergine
+B: bamboo shoots, bean sprouts, beans, beet, beetroot, bell pepper, bitter melon, black bean, bok choy, broccoli, broccoflower, broccolini, brussels sprouts, burdock, butternut squash, butter lettuce
+C: cabbage, cardoon, carrot, cassava, cauliflower, celeriac, celery, chard, chayote, chickpea, chili pepper, chives, collard greens, corn, cress, cucumber
+D: daikon, dandelion greens, delicata squash
+E: eggplant, endive, escarole, edamame
+F: fava bean, fennel, fiddlehead fern
+G: garlic, ginger, gobo, green bean, green onion, green peas, gourd
+H: hearts of palm, horseradish, hubbard squash
+I: iceberg lettuce
+J: jalapeno, jicama, jerusalem artichoke
+K: kale, kidney bean, kohlrabi, komatsuna
+L: leek, lentil, lettuce, lima bean, lotus root
+M: malanga, mache, mushroom, mustard greens
+N: napa cabbage, navy bean, nettle, nopal
+O: okra, onion, opo squash
+P: pak choi, parsnip, pea, peas, pepper, pinto bean, potato, pumpkin
+Q: quinoa greens
+R: radicchio, radish, rapini, red cabbage, rhubarb, romaine lettuce, romanesco, rutabaga
+S: salsify, scallion, sea kale, shallot, snap pea, snow pea, sorrel, soybean, spinach, spaghetti squash, squash, sweet potato, swiss chard, string bean
+T: taro, tatsoi, tomatillo, tomato, turnip, turnip greens
+U: ulluco, upland cress
+V: velvet bean, vidalia onion
+W: water chestnut, watercress, wax bean, wax gourd, winged bean, winter melon
+X: xanthosoma
+Y: yam, yardlong bean, yellow squash, yuca
+Z: zucchini

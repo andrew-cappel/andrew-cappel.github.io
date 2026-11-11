@@ -133,7 +133,7 @@ function makePlan(index){const r=rng("abcs"+TODAY),used=new Set(),fam={};
     c.sort((a,b)=>(fam[a.fam]||0)-(fam[b.fam]||0)||r()-.5);const pick=c[Math.floor(r()*Math.min(3,c.length))]||index[0];
     used.add(pick.key);fam[pick.fam]=(fam[pick.fam]||0)+(pick.fam==="films"?2:1);return{L,key:pick.key,noun:pick.noun}})}
 async function cat(key){if(!CATS[key])CATS[key]=fetch(`cats/${key}.json`).then(r=>r.json()).then(c=>{
-    c.items=c.a.map(s=>{const[names,id]=s.split("#"),ks=names.split("|");return{label:ks[0],id,keys:[...new Set(ks.map(norm))]}});
+    c.items=c.a.map(s=>{const[names,id]=s.split("#"),ks=names.split("|");return{label:ks[0].replace(/^[a-z]/,m=>m.toUpperCase()),id,keys:[...new Set(ks.map(norm))]}});
     const last={};c.items.forEach(it=>{const w=norm(it.label).split(" ");if(w.length>1){const k=w[w.length-1];if(k.length>2)(last[k]=last[k]||[]).push(it)}});   // surnames work if unique
     Object.entries(last).forEach(([k,its])=>{if(its.length===1&&!its[0].keys.includes(k))its[0].keys.push(k)});return c});return CATS[key]}
 function load(){let v=null;try{v=JSON.parse(localStorage.getItem(KEY))}catch(e){}return v||{i:0,res:[],status:"idle"}}
@@ -176,20 +176,10 @@ function find(c,v,L){const n=norm(v);if(!n||n[0]!==L.toLowerCase())return{bad:`�
   let it=c.items.find(x=>x.keys.some(k=>k===n||k+"s"===n||k+"es"===n||k===n.replace(/s$/,"")));
   if(!it&&n.length>=5)it=c.items.find(x=>x.keys.some(k=>k.length>=5&&sig(k)===sig(n)&&lev(n,k)<=(k.length>=10?2:1)));
   return{it}}
-// Not on today's list: look it up on Wikidata and accept it if it really is one (same check as the other games).
-async function verify(v,c,L){const sp=q=>fetch("https://query.wikidata.org/sparql?format=json&query="+encodeURIComponent(q)).then(x=>x.json()).then(j=>j.results.bindings);
-  const s=await fetch("https://www.wikidata.org/w/api.php?"+new URLSearchParams({action:"wbsearchentities",search:v,language:"en",uselang:"en",type:"item",limit:"20",format:"json",origin:"*"})).then(x=>x.json());
-  const found=s.search||[],tc=v.replace(/\b\w/g,x=>x.toUpperCase()),labs=[...new Set([v,v.toLowerCase(),tc])].map(x=>JSON.stringify(x)+"@en").join(" ");
-  const byName=(await sp(`SELECT DISTINCT ?x WHERE { VALUES ?l { ${labs} } { ?x rdfs:label ?l } UNION { ?x skos:altLabel ?l } } LIMIT 60`)).map(b=>b.x.value.split("/").pop());
-  const ids=[...new Set([...found.map(x=>x.id),...byName])];if(!ids.length)return null;
-  const rows=(await sp(`SELECT ?x ?xl WHERE { VALUES ?x { ${ids.map(x=>"wd:"+x).join(" ")} } ${c.body} OPTIONAL { ?x rdfs:label ?xl FILTER(LANG(?xl)="en") } }`)).map(b=>({id:b.x.value.split("/").pop(),label:b.xl?b.xl.value:v}));
-  const hit=found.map(x=>rows.find(y=>y.id===x.id)).find(Boolean)||rows[0];return hit?{label:hit.label.replace(/^[a-z]/,m=>m.toUpperCase()),id:hit.id}:null}
-$("form").onsubmit=async e=>{e.preventDefault();if(!run)return;const r=run,inp=$("ans"),v=inp.value.trim();if(!v)return;
+$("form").onsubmit=e=>{e.preventDefault();if(!run)return;const r=run,inp=$("ans"),v=inp.value.trim();if(!v)return;
   const bad=t=>{SFX.bad();$("msg").textContent=t;$("msg").className="msg bad";inp.classList.remove("bad");void inp.offsetWidth;inp.classList.add("bad");inp.select()};
   const f=find(r.c,v,r.p.L);if(f.bad)return bad(f.bad);if(f.it)return endLetter(f.it);
-  $("msg").textContent=`Checking “${v}”…`;$("msg").className="msg";inp.value="";
-  let hit=null;try{hit=await verify(v,r.c,r.p.L)}catch(e){}
-  if(run!==r)return;if(hit)endLetter(hit);else{inp.value=v;bad(`“${v}” isn't a ${r.p.noun} we know.`)}};
+  bad(`“${v}” isn't on the ${r.p.noun} list.`)};   // answers are checked instantly against the stored word bank
 $("passBtn").onclick=()=>{if(run)endLetter(null)};
 
 function finish(){S.status="done";save();SFX.win();renderTrack();

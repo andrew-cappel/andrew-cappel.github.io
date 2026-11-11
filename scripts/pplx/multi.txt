@@ -1,0 +1,153 @@
+#FISH
+A: albacore, anchovy, angelfish, anglerfish, arapaima, arowana
+B: barracuda, bass, betta, bluefin tuna, bluegill, bowfin, bream, brook trout
+C: carp, catfish, char, chub, cichlid, clownfish, cod, coelacanth, crappie
+D: damselfish, dogfish, dolphinfish, dory, drum
+E: eel, electric eel, electric ray
+F: flounder, flying fish, flathead
+G: gar, goby, goldfish, grayling, grouper, guppy, gudgeon
+H: haddock, hagfish, hake, halibut, hammerhead shark, herring
+I: icefish, ide
+J: jackfish, john dory
+K: killifish, kingfish, koi
+L: lamprey, lingcod, lionfish, ling, loach, lungfish
+M: mackerel, mahi-mahi, marlin, manta ray, minnow, monkfish, moray eel, mullet, muskellunge
+N: needlefish, neon tetra, nurse shark
+O: opah, orange roughy, oscar
+P: paddlefish, parrotfish, perch, pike, piranha, plaice, pollock, pufferfish
+Q: queen angelfish, queen triggerfish
+R: rainbow trout, ray, red snapper, rockfish, rudd
+S: sailfish, salmon, sardine, seahorse, shad, shark, skate, smelt, snapper, sole, stingray, sturgeon, sunfish, swordfish
+T: tarpon, tench, tetra, tiger shark, tilapia, triggerfish, trout, tuna, turbot
+U: unicornfish
+V: viperfish
+W: wahoo, walleye, whale shark, whitefish, whiting, wrasse
+X: x-ray tetra
+Y: yellowtail, yellowfin tuna, yellow perch
+Z: zander, zebrafish, zebra danio
+#DESSERTS
+A: affogato, angel food cake, apple crumble, apple pie, arroz con leche
+B: baklava, banana split, beignet, black forest cake, bread pudding, brownie
+C: cake, cannoli, cheesecake, churros, cobbler, cookie, creme brulee, crepe, cupcake, custard
+D: danish pastry, doughnut, donut, dulce de leche
+E: eclair, egg tart, eton mess
+F: flan, fruitcake, frozen yogurt, fudge
+G: gelato, gingerbread, gulab jamun
+H: halva, hot fudge sundae, honey cake
+I: ice cream, italian ice
+J: jalebi, jello
+K: key lime pie, knafeh, kheer, kulfi
+L: lava cake, lemon meringue pie, linzer torte, loukoumades
+M: macaron, madeleine, mango sticky rice, meringue, mochi, mousse, muffin
+N: napoleon, neapolitan ice cream
+O: opera cake
+P: panna cotta, pavlova, pecan pie, pie, profiteroles, pudding, pumpkin pie
+Q: queen of puddings
+R: red velvet cake, rice pudding, rocky road
+S: shortcake, smores, sorbet, souffle, sponge cake, strudel, sundae
+T: tart, tiramisu, toffee, torte, tres leches cake, trifle, turron
+U: upside-down cake
+V: victoria sponge
+W: waffle, whoopie pie
+Y: yule log
+Z: zabaglione, zeppole
+#SPICES
+A: allspice, anise, annatto, asafoetida
+B: basil, bay leaf, black pepper
+C: caraway, cardamom, cayenne, celery seed, chervil, chili powder, chives, cinnamon, cloves, coriander, cumin, curry powder
+D: dill
+E: epazote
+F: fennel, fenugreek, five spice
+G: galangal, garam masala, garlic, ginger
+H: horseradish
+J: juniper
+K: kaffir lime leaf, kalonji
+L: lavender, lemon balm, lemongrass, licorice, lovage
+M: mace, marjoram, mint, mustard
+N: nigella, nutmeg
+O: oregano
+P: paprika, parsley, pepper, peppercorn, poppy seed
+Q: quatre epices
+R: rosemary
+S: saffron, sage, savory, sesame, sorrel, star anise, sumac
+T: tamarind, tarragon, thyme, turmeric
+U: urfa pepper
+V: vanilla
+W: wasabi, white pepper
+Y: yellow mustard seed
+Z: zaatar
+#GEMSTONES
+A: agate, alexandrite, amber, amethyst, aquamarine
+B: beryl, bloodstone, blue topaz
+C: carnelian, chalcedony, chrysoberyl, chrysocolla, citrine, coral
+D: danburite, diamond
+E: emerald
+F: fluorite
+G: garnet
+H: hematite, howlite
+I: iolite
+J: jade, jasper, jet
+K: kunzite, kyanite
+L: labradorite, lapis lazuli, larimar
+M: malachite, moissanite, moonstone, morganite
+N: nephrite
+O: obsidian, onyx, opal
+P: pearl, peridot
+Q: quartz
+R: rhodochrosite, rhodolite, rose quartz, ruby
+S: sapphire, smoky quartz, spinel, sunstone
+T: tanzanite, tigers eye, topaz, tourmaline, turquoise
+U: uvarovite
+V: variscite
+X: xenotime
+Y: yellow sapphire
+Z: zircon, zoisite
+#DANCES
+A: argentine tango
+B: bachata, ballet, ballroom, belly dance, bhangra, bolero, bossa nova, breakdance
+C: cancan, cha-cha, charleston, clogging, conga, contemporary, cumbia
+D: dancehall, disco
+F: flamenco, foxtrot, freestyle
+G: gavotte, gigue
+H: haka, hip-hop, hula, hustle
+I: irish dance, irish stepdance
+J: jazz dance, jitterbug, jive
+K: kathak, kizomba, krumping
+L: limbo, lindy hop, line dance, locking
+M: macarena, mambo, merengue, minuet, moonwalk
+O: odissi
+P: paso doble, polka, popping
+Q: quadrille, quickstep
+R: reel, rumba
+S: salsa, samba, shuffle, square dance, swing
+T: tango, tap dance, tarantella, twist, two-step
+V: viennese waltz, voguing
+W: waltz
+Y: yosakoi
+Z: zouk, zumba
+#SPORTS
+A: american football, archery, athletics, auto racing
+B: badminton, baseball, basketball, bobsleigh, bowling, boxing
+C: canoeing, cricket, cross country, curling, cycling
+D: darts, diving, dodgeball
+E: equestrian
+F: fencing, field hockey, figure skating, football, frisbee
+G: golf, gymnastics
+H: handball, hockey, horse racing, hurling
+I: ice hockey, ice skating
+J: jai alai, judo, jiu-jitsu
+K: kabaddi, karate, kayaking, kickboxing, korfball
+L: lacrosse, luge
+M: marathon, motocross, motorsport, mountaineering
+N: nascar, netball
+O: orienteering
+P: paddleboarding, pickleball, polo, powerlifting
+Q: quidditch
+R: racquetball, rock climbing, rowing, rugby
+S: sailing, shooting, skateboarding, skiing, snowboarding, soccer, softball, squash, sumo, surfing, swimming
+T: table tennis, taekwondo, tennis, triathlon
+U: ultimate frisbee
+V: volleyball
+W: wakeboarding, water polo, weightlifting, windsurfing, wrestling
+Y: yacht racing
+Z: zorbing

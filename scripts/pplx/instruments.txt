@@ -1,0 +1,26 @@
+A: accordion, acoustic guitar, aeolian harp, agogo, ajaeng, alphorn, alto saxophone, angklung, arghul, atabaque, autoharp
+B: baglama, bagpipes, balafon, balalaika, bandoneon, banjo, baritone horn, baritone saxophone, bass clarinet, bass drum, bass guitar, bassoon, bawu, bayan, bells, berimbau, biwa, bongo, bouzouki, bugle, bullroarer
+C: cabasa, cajon, calliope, carillon, castanets, celesta, cello, chalumeau, chapman stick, charango, chime, clarinet, clavichord, clavinet, conga, cor anglais, cornet, cowbell, crumhorn, cymbal
+D: daf, didgeridoo, dizi, djembe, double bass, drum, drum kit, dulcian, dulcimer, dumbek
+E: ektara, electric bass, electric guitar, electric piano, electric violin, english horn, erhu, euphonium
+F: fiddle, fife, finger cymbals, flexatone, flute, flugelhorn, frame drum, french horn
+G: gaita, gayageum, gemshorn, ghatam, glass harmonica, glockenspiel, gong, guitar, guiro, guzheng
+H: hammered dulcimer, handpan, hang drum, harmonica, harmonium, harp, harpsichord, hichiriki, horn, hurdy-gurdy
+I: igil, irish bouzouki, irish harp
+J: jal tarang, jarana, jaw harp, jews harp, jinghu
+K: kalimba, kanjira, kantele, kanun, kaval, kazoo, kemenche, kendang, keyboard, khene, kora, koto, kulintang
+L: launeddas, lap steel guitar, lira, lithophone, liuqin, lute, lyre
+M: mandocello, mandolin, maracas, marimba, mbira, mellophone, melodica, metallophone, mridangam, musical saw, musette
+N: nadaswaram, nagara, ney, ngoni, nose flute, nyckelharpa
+O: oboe, ocarina, octave mandolin, ophicleide, organ, oud
+P: pakhawaj, pan flute, panpipes, piano, piccolo, pipa, pipe organ, pocket trumpet, psaltery
+Q: qanun, qin, quena, quijada
+R: rainstick, ranat, rebab, recorder, riq, robab, rototom
+S: sanshin, santur, sarangi, saxophone, saz, shakuhachi, shamisen, shawm, shehnai, sheng, shofar, shruti box, sitar, sistrum, snare drum, sousaphone, steelpan, steel drum, surdo, suona, synthesizer
+T: tabla, taiko, tambourine, tambura, tanpura, tar, tarogato, theremin, timpani, timbales, tin whistle, tom-tom, triangle, trombone, trumpet, tuba, tubular bells
+U: udu, ukulele, uilleann pipes
+V: valiha, veena, vibraphone, vielle, viol, viola, viola da gamba, violin, violoncello, vuvuzela
+W: washboard, waterphone, whistle, wind chimes, wood block, wooden fish
+X: xalam, xaphoon, xiao, xun, xylophone
+Y: yangqin, yueqin
+Z: zampogna, zheng, zhongruan, zither, zurna

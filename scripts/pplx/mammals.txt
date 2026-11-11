@@ -1,0 +1,26 @@
+A: aardvark, aardwolf, alpine marmot, alpaca, amazon river dolphin, aye-aye, anteater, antelope, arctic fox, arctic hare, armadillo, asian elephant, ass, australian sea lion
+B: baboon, badger, bandicoot, bat, bear, beaver, beluga whale, binturong, bison, black bear, blue whale, bobcat, bonobo, bottlenose dolphin, brown bear, buffalo, bushbaby
+C: camel, capybara, caracal, caribou, cat, cattle, cheetah, chimpanzee, chinchilla, chipmunk, civet, clouded leopard, coati, colobus monkey, cougar, cow, coyote, cuscus
+D: deer, dhole, dik-dik, dingo, dog, dolphin, donkey, dormouse, dugong
+E: echidna, elephant, elk, emperor tamarin, ermine, european hedgehog
+F: fennec fox, ferret, field mouse, flying fox, flying squirrel, fossa, fox, fur seal
+G: galago, gazelle, gibbon, giraffe, goat, golden lion tamarin, gopher, gorilla, gray wolf, grizzly bear, groundhog, guanaco, guinea pig
+H: hamster, hare, hartebeest, hedgehog, hippopotamus, hog, horse, howler monkey, humpback whale, hyena
+I: ibex, ichneumon, impala, indri, island fox
+J: jackal, jaguar, jaguarundi, japanese macaque, jerboa, jumping mouse
+K: kangaroo, kangaroo rat, kinkajou, koala, kodkod, kudu
+L: langur, lemming, leopard, liger, lion, llama, loris, lynx
+M: macaque, manatee, mandrill, markhor, marmot, marmoset, meerkat, mink, mole, mongoose, monkey, moose, mouse, mountain goat, mountain lion, muntjac, musk ox, muskrat
+N: narwhal, nilgai, numbat, nutria, nyala
+O: ocelot, okapi, opossum, orangutan, orca, otter, owl monkey
+P: panda, pangolin, patas monkey, peccary, pika, platypus, polar bear, porcupine, porpoise, possum, prairie dog, proboscis monkey, pronghorn, puma, pygmy hippopotamus
+Q: quagga, quokka, quoll
+R: rabbit, raccoon, raccoon dog, rat, red deer, red fox, red panda, reindeer, rhinoceros, ring-tailed lemur, river otter, roe deer, roebuck
+S: saiga, saki, seal, sea otter, sheep, shrew, siamang, sika deer, skunk, sloth, snow leopard, squirrel, stoat, striped hyena, sugar glider
+T: tamandua, tamarin, tapir, tarsier, tasmanian devil, tenrec, tiger, titi monkey, tree kangaroo, tree shrew
+U: uakari, unau, urial
+V: vicuna, vervet monkey, vole
+W: walrus, warthog, water buffalo, weasel, whale, wildebeest, wild boar, wolf, wombat, woodchuck
+X: xerus
+Y: yak, yapok, yellow mongoose, yellow-bellied marmot
+Z: zebu, zebra, zorilla
