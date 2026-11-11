@@ -544,11 +544,11 @@
 "Harry Potter and the Philosopher's Stone"
 ],
 "quotes": [
+"Fear of a name increases fear of the thing itself.",
 "It does not do to dwell on dreams and forget to live.",
 "It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.",
 "To the well-organized mind, death is but the next great adventure.",
-"Harry—yer a wizard.",
-"Mr. and Mrs. Dursley, of number four, Privet Drive, were proud to say that they were perfectly normal, thank you very much."
+"Harry — yer a wizard."
 ]
 },
 {
@@ -559,11 +559,11 @@
 "key": "Scout Finch",
 "aliases": [],
 "quotes": [
-"The one thing that doesn't abide by majority rule is a person's conscience.",
 "People generally see what they look for, and hear what they listen for.",
-"You never really understand a person until you consider things from his point of view.",
+"The one that doesn’t abide by majority rule is a person’s conscience.",
 "Atticus, he was real nice.",
-"Shoot all the bluejays you want, if you can hit 'em, but remember it's a sin to kill a mockingbird."
+"You never really understand a person until you consider things from his point of view—until you climb into his skin and walk around in it.",
+"Shoot all the bluejays you want, if you can hit ’em, but remember it’s a sin to kill a mockingbird."
 ]
 },
 {
@@ -576,11 +576,11 @@
 "Nineteen Eighty-Four"
 ],
 "quotes": [
-"Freedom is the freedom to say that two plus two make four.",
-"Who controls the past controls the future: who controls the present controls the past.",
-"War is peace. Freedom is slavery. Ignorance is strength.",
 "He loved Big Brother.",
-"Big Brother is watching you."
+"Big Brother is watching you.",
+"Freedom is the freedom to say that two plus two make four. If that is granted, all else follows.",
+"Who controls the past controls the future: who controls the present controls the past.",
+"War is peace. Freedom is slavery. Ignorance is strength."
 ]
 },
 {
@@ -591,10 +591,10 @@
 "key": "Bilbo Baggins",
 "aliases": [],
 "quotes": [
-"If more of us valued food and cheer and song above hoarded gold, it would be a merrier world.",
+"Never laugh at live dragons, Bilbo you fool!",
 "It does not do to leave a live dragon out of your calculations, if you live near him.",
 "What has it got in its pocketses?",
-"Roads go ever ever on.",
+"If more of us valued food and cheer and song above hoarded gold, it would be a merrier world.",
 "In a hole in the ground there lived a hobbit."
 ]
 },
@@ -609,11 +609,11 @@
 "Lord of the Rings"
 ],
 "quotes": [
-"It's a dangerous business, Frodo, going out of your door.",
+"I am looking for someone to share in an adventure that I am arranging, and it's very difficult to find anyone.",
+"It's a dangerous business, Frodo, going out of your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to.",
 "All we have to decide is what to do with the time that is given us.",
-"Not all those who wander are lost.",
 "You cannot pass!",
-"One Ring to rule them all, One Ring to find them."
+"One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them."
 ]
 },
 {
@@ -624,11 +624,11 @@
 "key": "Holden Caulfield",
 "aliases": [],
 "quotes": [
-"Don't ever tell anybody anything. If you do, you start missing everybody.",
-"People always think something's all true.",
-"I'm the most terrific liar you ever saw in your life.",
+"People always think something’s all true.",
+"I’m the most terrific liar you ever saw in your life.",
 "I was wondering where the ducks went when the lagoon got all icy and frozen over.",
-"If you really want to hear about it, the first thing you'll probably want to know is where I was born."
+"If you really want to hear about it, the first thing you’ll probably want to know is where I was born, and what my lousy childhood was like.",
+"Don’t ever tell anybody anything. If you do, you start missing everybody."
 ]
 },
 {
@@ -639,11 +639,11 @@
 "key": "Katniss Everdeen",
 "aliases": [],
 "quotes": [
+"As long as you can find yourself, you'll never starve.",
 "Destroying things is much easier than making them.",
 "You don't forget the face of the person who was your last hope.",
-"I keep wishing I could think of a way to show the Capitol that they don't own me.",
 "I volunteer! I volunteer as tribute!",
-"Happy Hunger Games! And may the odds be ever in your favor."
+"Happy Hunger Games! And may the odds be ever in your favor!"
 ]
 },
 {
@@ -654,10 +654,10 @@
 "key": "Edward Cullen",
 "aliases": [],
 "quotes": [
-"I'd never given much thought to how I would die.",
-"About three things I was absolutely positive.",
+"I like the night. Without the dark, we'd never see the stars.",
 "You are my life now.",
 "And so the lion fell in love with the lamb.",
+"About three things I was absolutely positive.",
 "What a stupid lamb. What a sick, masochistic lion."
 ]
 },
@@ -672,11 +672,11 @@
 "The Chronicles of Narnia"
 ],
 "quotes": [
-"Wrong will be right, when Aslan comes in sight.",
+"Once there were four children whose names were Peter, Susan, Edmund and Lucy.",
 "Always winter and never Christmas; think of that!",
-"Course he isn't safe. But he's good.",
-"Aslan is on the move.",
-"Once there were four children whose names were Peter, Susan, Edmund and Lucy."
+"Wrong will be right, when Aslan comes in sight.",
+"They say Aslan is on the move—perhaps has already landed.",
+"Safe? Who said anything about safe? ’Course he isn’t safe. But he’s good. He’s the King, I tell you."
 ]
 },
 {
@@ -687,10 +687,10 @@
 "key": "Wilbur",
 "aliases": [],
 "quotes": [
-"After all, what's a life, anyway? We're born, we live a little while, we die.",
-"You have been my friend. That in itself is a tremendous thing.",
-"It is not often that someone comes along who is a true friend and a good writer.",
 "SOME PIG!",
+"You have been my friend. That in itself is a tremendous thing.",
+"After all, what's a life, anyway? We're born, we live a little while, we die.",
+"It is not often that someone comes along who is a true friend and a good writer.",
 "Where's Papa going with that ax?"
 ]
 },
@@ -702,11 +702,11 @@
 "key": "Napoleon",
 "aliases": [],
 "quotes": [
-"Man is the only creature that consumes without producing.",
-"I will work harder.",
-"The creatures outside looked from pig to man, and from man to pig, and from pig to man again.",
+"No animal shall sleep in a bed with sheets.",
+"I will work harder!",
 "Four legs good, two legs bad.",
-"All animals are equal, but some animals are more equal than others."
+"All animals are equal, but some animals are more equal than others.",
+"The creatures outside looked from pig to man, and from man to pig, and from pig to man again; but already it was impossible to say which was which."
 ]
 },
 {
@@ -717,11 +717,11 @@
 "key": "Ralph",
 "aliases": [],
 "quotes": [
-"Maybe there is a beast... maybe it's only us.",
+"What I mean is… maybe it’s only us.",
 "Which is better—to have rules and agree, or to hunt and kill?",
-"Kill the pig! Cut her throat! Spill her blood!",
-"I've got the conch!",
-"Ralph wept for the end of innocence, the darkness of man's heart."
+"Kill the pig. Cut her throat. Spill her blood.",
+"I’ve got the conch!",
+"Ralph wept for the end of innocence, the darkness of man’s heart, and the fall through the air of the true, wise friend called Piggy."
 ]
 },
 {
@@ -735,7 +735,7 @@
 "Guys like us, that work on ranches, are the loneliest guys in the world.",
 "A guy needs somebody—to be near him.",
 "I got you to look after me, and you got me to look after you.",
-"An' live off the fatta the lan'.",
+"An’ live on the fatta the lan’.",
 "Tell me about the rabbits, George."
 ]
 },
@@ -747,11 +747,11 @@
 "key": "Guy Montag",
 "aliases": [],
 "quotes": [
-"We need not to be let alone. We need to be really bothered once in a while.",
 "Stuff your eyes with wonder.",
-"There must be something in books, things we can't imagine, to make a woman stay in a burning house.",
+"We need not to be let alone.",
+"There must be something in books, things we can't imagine, to make a woman stay in a burning house; there must be something there.",
 "It was a pleasure to burn.",
-"the temperature at which book-paper catches fire, and burns"
+"If you hide your ignorance, no one will hit you and you'll never learn."
 ]
 },
 {
@@ -762,11 +762,11 @@
 "key": "Bernard Marx",
 "aliases": [],
 "quotes": [
-"Words can be like X-rays if you use them properly—they'll go through anything.",
-"But I don't want comfort. I want God, I want poetry, I want real danger, I want freedom.",
+"A gramme in time saves nine.",
 "Everyone belongs to everyone else.",
-"A gramme is better than a damn.",
-"Community, Identity, Stability."
+"Community, Identity, Stability.",
+"Words can be like X-rays if you use them properly—they’ll go through anything. You read and you’re pierced.",
+"But I don’t want comfort. I want God, I want poetry, I want real danger, I want freedom, I want goodness. I want sin."
 ]
 },
 {
@@ -777,11 +777,11 @@
 "key": "Jonas",
 "aliases": [],
 "quotes": [
-"The worst part of holding the memories is not the pain. It's the loneliness of it.",
-"If everything's the same, then there aren't any choices!",
+"It's the choosing that's important, isn't it?",
 "We gained control of many things. But we had to let go of others.",
-"It was almost December, and Jonas was beginning to be frightened.",
-"You will be the Receiver of Memory."
+"If everything's the same, then there aren't any choices! I want to wake up in the morning and decide things!",
+"The worst part of holding the memories is not the pain. It's the loneliness of it. Memories need to be shared.",
+"It was almost December, and Jonas was beginning to be frightened."
 ]
 },
 {
@@ -793,10 +793,10 @@
 "aliases": [],
 "quotes": [
 "Things are rough all over.",
+"When I stepped out into the bright sunlight from the darkness of the movie house, I had only two things on my mind: Paul Newman and a ride home.",
 "Nothing gold can stay.",
-"Let's do it for Johnny, man.",
-"Stay gold, Ponyboy. Stay gold.",
-"I had only two things on my mind: Paul Newman and a ride home."
+"Stay gold, Ponyboy. Stay gold . . .",
+"Stay gold, Ponyboy."
 ]
 },
 {
@@ -807,11 +807,11 @@
 "key": "Scarlett O'Hara",
 "aliases": [],
 "quotes": [
-"Land is the only thing in the world that amounts to anything.",
-"I'll think of it all tomorrow, at Tara.",
+"Scarlett O'Hara was not beautiful, but men seldom realized it when caught by her charm.",
+"Land is the only thing in the world that amounts to anything, for 'tis the only thing in the world that lasts.",
 "My dear, I don't give a damn.",
-"After all, tomorrow is another day.",
-"Scarlett O'Hara was not beautiful, but men seldom realized it when caught by her charm."
+"I'll think of it all tomorrow, at Tara.",
+"After all, tomorrow is another day."
 ]
 },
 {
@@ -822,11 +822,11 @@
 "key": "Santiago",
 "aliases": [],
 "quotes": [
-"It's the possibility of having a dream come true that makes life interesting.",
-"Remember that wherever your heart is, there you will find your treasure.",
 "Maktub.",
+"It's the possibility of having a dream come true that makes life interesting.",
 "The secret of life, though, is to fall seven times and to get up eight times.",
-"When you want something, all the universe conspires in helping you to achieve it."
+"Remember that wherever your heart is, there you will find your treasure.",
+"And, when you want something, all the universe conspires in helping you to achieve it."
 ]
 },
 {
@@ -837,11 +837,11 @@
 "key": "Amir",
 "aliases": [],
 "quotes": [
-"There is only one sin, only one. And that is theft.",
 "It may be unfair, but what happens in a few days, sometimes even a single day, can change the course of a whole lifetime.",
 "There is a way to be good again.",
+"There is only one sin. And that is theft.",
 "I became what I am today at the age of twelve, on a frigid overcast day in the winter of 1975.",
-"For you, a thousand times over."
+"For you a thousand times over!"
 ]
 },
 {
@@ -852,11 +852,11 @@
 "key": "Liesel Meminger",
 "aliases": [],
 "quotes": [
-"I am haunted by humans.",
-"Even death has a heart.",
-"The only thing worse than a boy who hates you: a boy that loves you.",
-"Here is a small fact: You are going to die.",
-"I have hated the words and I have loved them, and I hope I have made them right."
+"The only truth I truly know is that I am haunted by humans.",
+"A human doesn't have a heart like mine.",
+"The first time I saw her, I was afraid of her.",
+"First the colors. Then the humans. That's usually how I see things.",
+"I have hated words and I have loved them, and I hope I have made them right."
 ]
 },
 {
@@ -867,11 +867,11 @@
 "key": "Hazel Grace Lancaster",
 "aliases": [],
 "quotes": [
-"That's the thing about pain. It demands to be felt.",
+"Maybe 'okay' will be our 'always.'",
 "Some infinities are bigger than other infinities.",
-"I fell in love the way you fall asleep: slowly, and then all at once.",
-"Maybe okay will be our always.",
-"Okay? Okay."
+"As he read, I fell in love the way you fall asleep: slowly, and then all at once.",
+"The pain was always there, pulling me inside of myself, demanding to be felt.",
+"Okay?"
 ]
 },
 {
@@ -883,10 +883,10 @@
 "aliases": [],
 "quotes": [
 "Augustus Gloop! Augustus Gloop! The great big greedy nincompoop!",
+"Mr Willy Wonka can make marshmallows that taste of violets.",
 "Everlasting Gobstoppers",
 "the Oompa-Loompas",
-"the fifth Golden Ticket",
-"Mr Willy Wonka can make marshmallows that taste of violets."
+"The most amazing, the most fantastic, the most extraordinary chocolate maker the world has ever seen!"
 ]
 },
 {
@@ -897,11 +897,11 @@
 "key": "Miss Honey",
 "aliases": [],
 "quotes": [
-"Never do anything by halves if you want to get away with it.",
-"It's a funny thing about mothers and fathers. Even when their own child is the most disgusting little blister you could ever imagine, they still think that he or she is wonderful.",
 "the Chokey",
 "Miss Trunchbull",
-"she had read every book in the children's section of the library"
+"When she had read every single children’s book in the place, she started wandering round in search of something else.",
+"Never do anything by halves if you want to get away with it.",
+"It's a funny thing about mothers and fathers. Even when their own child is the most disgusting little blister you could ever imagine, they still think that he or she is wonderful."
 ]
 },
 {
@@ -913,7 +913,7 @@
 "aliases": [],
 "quotes": [
 "This inhuman place makes human monsters.",
-"Monsters are real, and ghosts are real too. They live inside us, and sometimes, they win.",
+"Monsters are real. Ghosts are too. They live inside of us, and sometimes, they win.",
 "the Overlook Hotel",
 "Room 217",
 "REDRUM"
@@ -927,11 +927,11 @@
 "key": "Alan Grant",
 "aliases": [],
 "quotes": [
-"God creates dinosaurs. God destroys dinosaurs. God creates man. Man destroys God. Man creates dinosaurs.",
+"The planet has survived everything, in its time. It will certainly survive us.",
+"There is a problem with that island. It is an accident waiting to happen.",
 "Dinosaurs eat man. Woman inherits the earth.",
-"Scientists are actually preoccupied with accomplishment. So they are focused on whether they can do something.",
-"Life will find a way.",
-"the island of Isla Nublar"
+"God creates dinosaurs, God destroys dinosaurs. God creates man, man destroys God. Man creates dinosaurs.",
+"Because the history of evolution is that life escapes all barriers. Life breaks free. Life expands to new territories. Painfully, perhaps even dangerously. But life finds a way."
 ]
 },
 {
@@ -944,11 +944,11 @@
 "Hitchhiker's Guide"
 ],
 "quotes": [
-"Time is an illusion. Lunchtime doubly so.",
+"Time is an illusion. Lunchtime, doubly so.",
 "The ships hung in the sky in much the same way that bricks don't.",
-"So long, and thanks for all the fish.",
+"The last ever dolphin message was misinterpreted as a surprisingly sophisticated attempt to do a double-backwards somersault through a hoop while whistling the Star-Spangled Banner, but in fact the message was this: So long, and thanks for all the fish.",
 "DON'T PANIC",
-"The Answer to the Great Question... Of Life, the Universe and Everything... Is... Forty-two."
+"The Answer to the Great Question… Of Life, the Universe and Everything… Is… Forty-two."
 ]
 },
 {
@@ -960,10 +960,10 @@
 "aliases": [],
 "quotes": [
 "The mystery of life isn't a problem to solve, but a reality to experience.",
-"Without change something sleeps inside us, and seldom awakens. The sleeper must awaken.",
-"the spice melange",
+"Fear is the little-death that brings total obliteration.",
+"A process cannot be understood by stopping it.",
 "Fear is the mind-killer.",
-"Arrakis, the desert planet"
+"I must not fear."
 ]
 },
 {
@@ -974,11 +974,11 @@
 "key": "Colonel Graff",
 "aliases": [],
 "quotes": [
-"In the moment when I truly understand my enemy, understand him well enough to defeat him, then in that very moment I also love him.",
+"Knocking him down won the first fight.",
 "Perhaps it's impossible to wear an identity without becoming what you pretend to be.",
-"the Battle School",
-"The enemy's gate is down.",
-"the buggers"
+"Remember, the enemy's gate is down.",
+"In the moment when I truly understand my enemy, understand him well enough to defeat him, then in that very moment I also love him.",
+"There is no teacher but the enemy."
 ]
 },
 {
@@ -989,11 +989,11 @@
 "key": "Offred",
 "aliases": [],
 "quotes": [
-"Better never means better for everyone. It always means worse, for some.",
-"Ignoring isn't the same as ignorance, you have to work at it.",
-"Nolite te bastardes carborundorum.",
 "Under His Eye.",
-"Blessed be the fruit."
+"Blessed be the fruit.",
+"Nolite te bastardes carborundorum.",
+"Ignoring isn’t the same as ignorance, you have to work at it.",
+"Better never means better for everyone. It always means worse, for some."
 ]
 },
 {
@@ -1004,11 +1004,11 @@
 "key": "Nick Dunne",
 "aliases": [],
 "quotes": [
-"I'm so tired of being someone I'm not.",
-"We're so cute I want to punch us in the face.",
 "Cool Girl.",
-"Amazing Amy",
-"When I think of my wife, I always think of her head."
+"Amazing Amy.",
+"When I think of my wife, I always think of her head.",
+"We're so cute. I wanna punch us in the face.",
+"I’m so much happier now that I’m dead."
 ]
 },
 {
@@ -1019,11 +1019,11 @@
 "key": "Mikael Blomkvist",
 "aliases": [],
 "quotes": [
-"Everyone has secrets. It's just a matter of finding out what they are.",
+"She became known as “the girl with two brain cells”—one for breathing and one for standing up.",
 "Millennium magazine",
 "Harriet Vanger",
 "the Vanger family of Hedestad",
-"Lisbeth Salander"
+"Everyone has secrets. It’s just a matter of finding out what they are."
 ]
 },
 {
@@ -1038,11 +1038,11 @@
 "Percy Jackson and the Olympians"
 ],
 "quotes": [
+"You drool in your sleep.",
 "Look, I didn't want to be a half-blood.",
-"Being a hero doesn't mean you're invulnerable. It just means that you're brave enough to stand up and do what's needed.",
-"Camp Half-Blood",
-"Riptide",
-"I was the son of Poseidon."
+"You shall go west, and face the god who has turned.",
+"Poseidon. Earthshaker. Stormbringer. Father of horses.",
+"All hail Percy Jackson, Son of Poseidon!"
 ]
 },
 {
@@ -1053,11 +1053,11 @@
 "key": "Rowley Jefferson",
 "aliases": [],
 "quotes": [
+"Greg Heffley",
+"Rodrick",
 "the Cheese Touch",
 "Zoo-Wee Mama!",
-"Rodrick",
-"This is NOT a diary.",
-"Greg Heffley"
+"First of all, let me get something straight: This is a JOURNAL, not a diary."
 ]
 },
 {
@@ -1069,10 +1069,10 @@
 "aliases": [],
 "quotes": [
 "Your deeds are your monuments.",
-"Everyone in the world should get a standing ovation at least once in their life.",
-"I know I'm not an ordinary ten-year-old kid.",
-"When given the choice between being right or being kind, choose kind.",
-"My name is August, by the way. I won't describe what I look like."
+"I know I’m not an ordinary ten-year-old kid.",
+"My name is August, by the way. I won’t describe what I look like.",
+"I think there should be a rule that everyone in the world should get a standing ovation at least once in their lives.",
+"When given the choice between being right or being kind, choose kind."
 ]
 },
 {
@@ -1083,11 +1083,11 @@
 "key": "Tris Prior",
 "aliases": [],
 "quotes": [
-"I have a theory that selflessness and bravery aren't all that different.",
+"Four",
+"Faction before blood",
 "Fear doesn't shut you down; it wakes you up.",
-"Faction before blood.",
-"Abnegation, Amity, Candor, Dauntless, Erudite",
-"Four"
+"I have a theory that selflessness and bravery aren't all that different.",
+"We believe in ordinary acts of bravery, in the courage that drives one person to stand up for another."
 ]
 },
 {
@@ -1098,11 +1098,11 @@
 "key": "Mark Watney",
 "aliases": [],
 "quotes": [
-"I'm the first person to be alone on an entire planet.",
-"Mars will come to fear my botany powers.",
-"I'm a space pirate!",
-"the Ares 3 mission",
-"I'm stranded on Mars."
+"Six days into what should be the greatest two months of my life, and it's turned into a nightmare.",
+"They say once you grow crops somewhere, you have officially ‘colonised’ it. So technically, I colonised Mars.",
+"I’m the first person to be alone on an entire planet.",
+"A space pirate!",
+"Hell yeah I’m a botanist! Fear my botany powers!"
 ]
 },
 {
@@ -1113,11 +1113,11 @@
 "key": "Richard Parker",
 "aliases": [],
 "quotes": [
-"The world isn't just the way it is. It is how we understand it.",
-"I must say a word about fear. It is life's only true opponent.",
-"a Bengal tiger in a lifeboat",
-"the Pacific Ocean, 227 days",
-"I have a story that will make you believe in God."
+"I survived 227 days.",
+"How I had failed to notice for two and a half days a 450-pound Bengal tiger in a lifeboat twenty-six feet long was a conundrum I would have to try to crack later, when I had more energy.",
+"I must say a word about fear. It is life’s only true opponent.",
+"I have a story that will make you believe in God.",
+"The world isn’t just the way it is. It is how we understand it."
 ]
 },
 {
@@ -1128,9 +1128,9 @@
 "key": "Yossarian",
 "aliases": [],
 "quotes": [
-"Just because you're paranoid doesn't mean they aren't after you.",
-"He had decided to live forever or die in the attempt.",
 "Insanity is contagious.",
+"He had decided to live forever or die in the attempt.",
+"There was only one catch and that was Catch-22, which specified that a concern for one's own safety in the face of dangers that were real and immediate was the process of a rational mind.",
 "Major Major Major Major",
 "There was only one catch and that was Catch-22."
 ]
@@ -1143,11 +1143,11 @@
 "key": "Billy Pilgrim",
 "aliases": [],
 "quotes": [
-"All this happened, more or less.",
-"Poo-tee-weet?",
 "Tralfamadore",
-"Billy Pilgrim has come unstuck in time.",
-"So it goes."
+"So it goes.",
+"Poo-tee-weet?",
+"All this happened, more or less.",
+"Listen: Billy Pilgrim has come unstuck in time."
 ]
 },
 {
@@ -1158,11 +1158,11 @@
 "key": "Stanley Yelnats",
 "aliases": [],
 "quotes": [
+"The Warden owns the shade.",
 "There is no lake at Camp Green Lake.",
-"If only, if only.",
-"Kissin' Kate Barlow",
-"his no-good-dirty-rotten-pig-stealing-great-great-grandfather",
-"Camp Green Lake"
+"When you spend your whole life living in a hole, the only way you can go is up.",
+"If only, if only, the woodpecker sighs.",
+"It was all because of his no-good-dirty-rotten-pig-stealing great-great-grandfather!"
 ]
 },
 {
@@ -1173,11 +1173,11 @@
 "key": "Meg Murry",
 "aliases": [],
 "quotes": [
-"Like and equal are not the same thing at all.",
-"Maybe I don't like being different, but I don't want to be like everybody else, either.",
 "a tesseract",
-"Mrs Whatsit, Mrs Who and Mrs Which",
-"It was a dark and stormy night."
+"Mrs. Whatsit, Mrs. Who, and Mrs. Which",
+"It was a dark and stormy night.",
+"Maybe I don't like being different, but I don't want to be like everybody else, either.",
+"Like and equal are not the same thing at all!"
 ]
 },
 {
@@ -1188,8 +1188,8 @@
 "key": "Westley",
 "aliases": [],
 "quotes": [
-"Life isn't fair, it's just fairer than death, that's all.",
-"Rodents of Unusual Size",
+"I don't think it means what you think it does.",
+"Life isn't fair. It's just fairer than death, that's all.",
 "Inconceivable!",
 "As you wish.",
 "Hello. My name is Inigo Montoya. You killed my father. Prepare to die."
@@ -1204,9 +1204,9 @@
 "aliases": [],
 "quotes": [
 "Everyone loves a conspiracy.",
-"the Priory of Sion",
-"Sophie Neveu",
-"the Holy Grail",
+"I must pass on the secret.",
+"The blind see what they want to see.",
+"Men go to far greater lengths to avoid what they fear than to obtain what they desire.",
 "Renowned curator Jacques Saunière staggered through the vaulted archway of the museum's Grand Gallery."
 ]
 },
@@ -1218,10 +1218,10 @@
 "key": "Maxim de Winter",
 "aliases": [],
 "quotes": [
-"I am glad it cannot happen twice, the fever of first love.",
-"Mrs Danvers",
-"the second Mrs de Winter",
 "Manderley",
+"Mrs. Danvers",
+"the second Mrs. de Winter",
+"I am glad it cannot happen twice, the fever of first love.",
 "Last night I dreamt I went to Manderley again."
 ]
 },
@@ -1233,11 +1233,11 @@
 "key": "Tom Joad",
 "aliases": [],
 "quotes": [
-"Maybe all men got one big soul ever'body's a part of.",
-"I'll be ever'where—wherever you look.",
+"A fella ain't no good alone.",
 "Okies",
-"the Joads",
-"Ma Joad"
+"We're the people that live.",
+"I'll be ever'where—wherever you look.",
+"Maybe all men got one big soul ever'body's a part of."
 ]
 },
 {
@@ -1248,11 +1248,11 @@
 "key": "Kya Clark",
 "aliases": [],
 "quotes": [
-"Marsh is not swamp. Marsh is a space of light.",
-"I wasn't aware that words could hold so much.",
-"the Marsh Girl",
-"Chase Andrews",
-"Kya"
+"Evil was not in play, just life pulsing on.",
+"Marsh is not swamp. Marsh is a space of light, where grass grows in water, and water flows into the sky.",
+"I wasn't aware that words could hold so much. I didn't know a sentence could be so full.",
+"Go as far as you can—way out yonder where the crawdads sing.",
+"The marsh became her mother."
 ]
 }
 ]
