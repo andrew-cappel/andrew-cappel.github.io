@@ -20,15 +20,16 @@ header{text-align:center;margin-bottom:34px;position:relative}
 /* the gauntlets hold the title up: fingers over the bottom of the letters, title + hands bob together */
 .lift{display:inline-block;position:relative;animation:lift 2.6s steps(6) infinite}
 @keyframes lift{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-.gaunt{position:absolute;z-index:1;width:calc(var(--gw) * 2.4);bottom:calc(var(--gw) * -.08);image-rendering:pixelated;filter:drop-shadow(3px 4px 0 rgba(5,11,22,.75))}
+.gaunt{position:absolute;z-index:1;width:calc(var(--gw) * 2.4);bottom:calc(var(--gw) * -.2);image-rendering:pixelated;filter:drop-shadow(3px 4px 0 rgba(5,11,22,.75))}
 .lift{--gw:clamp(34px,6.2vw,62px)}
 /* side view, palm up: cuffs trail outward, fingers reach in under the bottom corners */
 .gaunt.gl{left:calc(var(--gw) * -1.25);animation:strain 1.3s steps(2) infinite}
 .gaunt.gr{right:calc(var(--gw) * -1.25);transform:scaleX(-1);animation:strain 1.3s steps(2) infinite -.65s}
-/* dithered contact shadow where the title rests on each palm */
-.lift::before,.lift::after{content:"";position:absolute;z-index:2;bottom:calc(var(--gw) * .42);width:calc(var(--gw) * 1.05);height:calc(var(--gw) * .1);min-height:4px;
-  background:repeating-conic-gradient(rgba(5,11,22,.7) 0 25%,transparent 0 50%) 0 0/4px 4px;pointer-events:none}
-.lift::before{left:calc(var(--gw) * -.1)}.lift::after{right:calc(var(--gw) * -.1)}
+/* shadow the gauntlets throw up onto the bottom corners of the title (dithered, fades upward) */
+.lift::before,.lift::after{content:"";position:absolute;z-index:2;bottom:calc(var(--gw) * .3);width:calc(var(--gw) * 1.25);height:calc(var(--gw) * .45);
+  background:repeating-conic-gradient(rgba(5,11,22,.85) 0 25%,transparent 0 50%) 0 0/4px 4px;mix-blend-mode:multiply;pointer-events:none;
+  -webkit-mask:linear-gradient(to top,#000 0 30%,rgba(0,0,0,.5) 60%,transparent);mask:linear-gradient(to top,#000 0 30%,rgba(0,0,0,.5) 60%,transparent)}
+.lift::before{left:calc(var(--gw) * -.15)}.lift::after{right:calc(var(--gw) * -.15)}
 @keyframes strain{50%{translate:0 -2px}}
 .tag{margin-top:calc(var(--gw,96px) * .95)!important}
 .logo{font:400 clamp(72px,17vw,148px)/.78 var(--pixel);letter-spacing:.04em;color:#fff;text-shadow:4px 0 var(--pink),-4px 0 var(--line);animation:glitch 6s steps(1) infinite}
