@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Best Shot · daily games</title>
-<meta name="description" content="Best Shot: a collection of quick daily games. One shot a day.">
+<title>TheGauntlet · daily games</title>
+<meta name="description" content="TheGauntlet: a run of quick daily games. One attempt a day.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -18,6 +18,7 @@ html,body{background:var(--abyss);color:var(--ink);font:14px/1.5 var(--mono);-we
 main{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:56px 16px 64px}
 header{text-align:center;margin-bottom:34px}
 .logo{font:400 clamp(72px,17vw,148px)/.78 var(--pixel);letter-spacing:.04em;color:#fff;text-shadow:4px 0 var(--pink),-4px 0 var(--line);animation:glitch 6s steps(1) infinite}
+.logo .the{display:block;font-size:.38em;letter-spacing:.5em;color:var(--gold);text-shadow:3px 0 var(--red),-3px 0 var(--line);margin-bottom:.12em;animation:aim 2.4s steps(4) infinite}
 .logo .x{display:inline-block;position:relative;color:var(--gold);text-shadow:4px 0 var(--red),-4px 0 var(--line);animation:aim 2.4s steps(4) infinite}
 .logo .x::after{content:"+";position:absolute;left:0;right:0;top:.06em;text-align:center;font-size:.5em;line-height:1.6;color:var(--red);text-shadow:none}
 @keyframes aim{50%{transform:translateY(-4px)}}
@@ -54,8 +55,8 @@ footer{text-align:center;margin-top:34px;font-size:10px;letter-spacing:.28em;tex
 <div class="scan"></div>
 <main>
   <header>
-    <h1 class="logo">BEST SH<span class="x">O</span>T</h1>
-    <p class="tag">daily games · one shot a day<i>_</i></p>
+    <h1 class="logo"><span class="the">THE</span>GAUNTLET</h1>
+    <p class="tag">daily games · run the gauntlet<i>_</i></p>
   </header>
   <nav class="tabs" role="tablist">
     <button class="tab" role="tab" aria-selected="true">PLAY!</button>
@@ -74,7 +75,7 @@ footer{text-align:center;margin-top:34px;font-size:10px;letter-spacing:.28em;tex
     <div class="card lock" aria-label="Coming soon"><canvas class="thumb" data-game="static" width="160" height="90"></canvas><div class="body"><h3>???</h3><p>Next game in the works.</p><div class="meta"><span class="chip">Coming soon</span></div></div></div>
     <div class="card lock" aria-label="Coming soon"><canvas class="thumb" data-game="static" width="160" height="90"></canvas><div class="body"><h3>???</h3><p>Next game in the works.</p><div class="meta"><span class="chip">Coming soon</span></div></div></div>
   </section>
-  <footer>Best Shot · new games added over time</footer>
+  <footer>TheGauntlet · new games added over time</footer>
 </main>
 <script>
 // ---- Background: low-res dusk with parallax pixel hills, drifting clouds and twinkling stars ----
