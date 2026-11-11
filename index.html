@@ -176,7 +176,8 @@ const SEL=(()=>{let c,mg;const on=()=>{try{return localStorage.getItem("titanic:
   return{on,fadeOut,ui(){tone(1100,.04,0,"square",.03);tone(1480,.05,.035,"square",.025)},titanic(){[523,784,1047].forEach((f,i)=>tone(f,.14,i*.07));clip("/titanic/gulls.wav",.4);breeze()},
     book(){[659,880,1175].forEach((f,i)=>tone(f,.14,i*.07,"triangle",.07));clip("/bythebook/page-turn.wav",.7)},locked(){tone(140,.18,0,"sawtooth",.04)}}})();
 // Games open inside this page (full screen, same address) so the click that picked a game also lets its ambience start immediately.
-function openGame(href){if(document.querySelector(".gameframe"))return;const f=document.createElement("iframe");f.src=href;f.allow="autoplay; clipboard-write";f.className="gameframe";f.title="Game";
+function openGame(href){if(document.querySelector(".gameframe"))return;const f=document.createElement("iframe");f.src=href+(href.includes("?")?"&":"?")+"v="+Date.now();   // always the latest version, never a stale cached copy
+  f.allow="autoplay; clipboard-write";f.className="gameframe";f.title="Game";
   document.body.appendChild(f);document.body.classList.add("ingame");history.pushState({game:href},"",href);f.addEventListener("load",()=>{try{document.title=f.contentDocument.title}catch(e){}f.focus()})}
 function closeGame(){const f=document.querySelector(".gameframe");if(f)f.remove();document.body.classList.remove("ingame");document.title="TheGauntlet · daily games";updateTotals()}
 addEventListener("popstate",()=>{if(!(history.state&&history.state.game))closeGame()});
