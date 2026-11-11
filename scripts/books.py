@@ -109,6 +109,8 @@ def main():
         good = fillers(text, 5 - len(good), title) + good   # top up at the hard end with real sentences
         out.append({"title": title, "author": author, "year": year, "pages": pages, "key": key, "quotes": good[:5]})
         time.sleep(1)
+    from popular import P   # popular modern books (quotes from memory, added with the owner's OK)
+    for t, a, y, p, k, al, q in P: out.append({"title": t, "author": a, "year": y, "pages": p, "key": k, "aliases": al, "quotes": q})
     OUT.parent.mkdir(exist_ok=True); OUT.write_text(json.dumps(out, ensure_ascii=False, indent=0))
     print("wrote", len(out), "books")
 

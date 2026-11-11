@@ -114,7 +114,8 @@ const lev=(a,b)=>{let p=[...Array(b.length+1).keys()];for(let i=1;i<=a.length;i+
 const STOP=new Set(["the","a","an","of","and","in","mr","dr","adventures","adventure","strange","case","s","book"]),NICK={huck:"huckleberry",jekyll:"jekyll",oz:"oz"};
 const sig=s=>norm(s).split(" ").filter(w=>w.length>1&&!STOP.has(w)).map(w=>NICK[w]||w);
 // Right if the whole title matches (allowing small typos) or every meaningful word you typed is in the title and covers at least half of it.
-function isRight(g,title){const a=norm(g).replace(/^(the|a|an) /,""),b=norm(title).replace(/^(the|a|an) /,"");if(!a)return false;
+function isRight(g,book){return [book.title,...(book.aliases||[])].some(t=>isRight1(g,t))}
+function isRight1(g,title){const a=norm(g).replace(/^(the|a|an) /,""),b=norm(title).replace(/^(the|a|an) /,"");if(!a)return false;
   if(a===b||lev(a,b)<=Math.max(1,Math.floor(b.length/8)))return true;
   const gw=sig(g),tw=sig(title);if(!gw.length)return false;
   const hit=gw.filter(w=>tw.some(x=>x===w||(x.length>4&&lev(x,w)<=1)||(x.length>5&&x.startsWith(w)&&w.length>=4)));
@@ -124,7 +125,11 @@ function isRight(g,title){const a=norm(g).replace(/^(the|a|an) /,""),b=norm(titl
 const SFX=(()=>{let ctx,on=true;try{on=localStorage.getItem("titanic:sound")!=="off"}catch(e){}
   const ac=()=>ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();
   const tone=(f,d,type="square",v=.07,slide=0,delay=0)=>{if(!on)return;const c=ac(),t=c.currentTime+delay,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f+slide),t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d+.02)};
-  const page=()=>{if(!on)return;const c=ac(),b=c.createBuffer(1,c.sampleRate*.18,c.sampleRate),x=b.getChannelData(0);for(let i=0;i<x.length;i++)x[i]=(Math.random()*2-1)*Math.sin(Math.PI*i/x.length)*.6;const n=c.createBufferSource(),f=c.createBiquadFilter();f.type="bandpass";f.frequency.value=2400;n.buffer=b;n.connect(f).connect(c.destination);n.start()};
+  // soft paper page-turn: a quick rising swish, then a gentle settle (filtered noise, no harsh tones)
+  const page=()=>{if(!on)return;const c=ac(),now=c.currentTime,len=.42,b=c.createBuffer(1,c.sampleRate*len,c.sampleRate),x=b.getChannelData(0);
+    for(let i=0;i<x.length;i++){const t=i/c.sampleRate,e=t<.16?Math.sin(Math.PI*t/.16):t>.2&&t<.4?Math.sin(Math.PI*(t-.2)/.2)*.35:0;x[i]=(Math.random()*2-1)*e*(.6+.4*Math.random())}
+    const n=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();f.type="bandpass";f.Q.value=.7;f.frequency.setValueAtTime(900,now);f.frequency.exponentialRampToValueAtTime(3200,now+.12);f.frequency.exponentialRampToValueAtTime(1200,now+len);
+    g.gain.value=.22;n.buffer=b;n.connect(f).connect(g).connect(c.destination);n.start()};
   const seq=(ns,type="square",len=.14,gap=.09)=>ns.forEach((f,i)=>tone(f,len,type,.07,0,i*gap));
   return{get on(){return on},toggle(){on=!on;try{localStorage.setItem("titanic:sound",on?"on":"off")}catch(e){}if(on)tone(880,.08);return on},
     page,bad:()=>tone(170,.22,"sawtooth",.05,-70),click:()=>tone(1900,.012,"square",.012),
@@ -138,7 +143,7 @@ const KEY="btb:"+TODAY,save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))
 function load(){let v=null;try{v=JSON.parse(localStorage.getItem(KEY))}catch(e){}return v||{hint:1,guesses:[],status:"playing"}}
 const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"})[c]);
 // blank out title words always, and the key character until hint 5 reveals it
-function redact(q,hint){const words=[...sig(BOOK.title),...(hint<5?norm(BOOK.key).split(" ").filter(w=>w.length>2&&!STOP.has(w)):[])].filter(w=>w.length>2);
+function redact(q,hint){const words=[...[BOOK.title,...(BOOK.aliases||[])].flatMap(sig),...(hint<5?norm(BOOK.key).split(" ").filter(w=>w.length>2&&!STOP.has(w)):[])].filter(w=>w.length>2);
   let h=esc(q);words.forEach(w=>{h=h.replace(new RegExp(`\\b${w}[a-z']*\\b`,"gi"),m=>`<span class="rx" aria-label="hidden word">${"█".repeat(m.length)}</span>`)});return h}
 function clueVal(i){const k=CLUES[i][1];return k==="pages"?`about ${BOOK.pages}`:BOOK[k]}
 function render(fresh){
@@ -160,7 +165,7 @@ function finish(won){S.status=won?"won":"lost";save();(won?SFX.win:SFX.lose)();r
 // add today's points to TheGauntlet's daily totals
 function record(p){const k="gauntlet:day:"+TODAY;try{const o=JSON.parse(localStorage.getItem(k))||{};o.bythebook=p;localStorage.setItem(k,JSON.stringify(o))}catch(e){}}
 $("form").onsubmit=e=>{e.preventDefault();if(S.status!=="playing")return;const inp=$("guess"),v=inp.value.trim();if(!v)return;
-  if(isRight(v,BOOK.title)){inp.value="";finish(true);return}
+  if(isRight(v,BOOK)){inp.value="";finish(true);return}
   S.guesses.push(v);inp.value="";SFX.bad();inp.classList.remove("bad");void inp.offsetWidth;inp.classList.add("bad");
   $("msg").textContent=`Not “${v}”.`;$("msg").className="msg bad";save();setTimeout(advance,350)};
 $("nextBtn").onclick=()=>{if(S.status==="playing"){$("msg").textContent="";advance()}};
@@ -192,7 +197,9 @@ fetch("books.json",{cache:"no-cache"}).then(r=>r.json()).then(books=>{
   const fr=t=>{g.clearRect(0,0,W,H);px(2,40,92,8,"#5b1f1f");px(2,46,92,2,"#3a1212");px(4,40,88,1,"#8a3a2e");   // cover
     page(5,47);page(49,91);px(47,8,2,38,"#9c845a");px(48,6,1,40,"#6e5a3a");                                      // pages + spine
     const tt=t/1000,sw=Math.round(Math.sin(tt*1.6)*2);                                     // ribbon bookmark sways from the spine
-    for(let y=44;y<51;y++)px(48+Math.round(sw*(y-44)/7),y,2,1,y===50?"#7a1414":"#c0392b");
+    px(48,6,1,30,"#c0392b");px(47,6,1,30,"#9b2a20");                                          // ribbon runs up the middle of the spine...
+    [[48,4],[49,2],[51,1],[53,2],[54,4]].forEach(([x,y])=>px(x,y,2,2,"#c0392b"));                // ...loops over the top edge...
+    for(let y=5;y<14;y++)px(55+Math.round(sw*(y-5)/9),y,2,1,y===13?"#7a1414":"#c0392b");      // ...and hangs off the top of the page, swaying
     for(let i=0;i<5;i++){const p=(tt*.35+i/5)%1,x=24+i*12+Math.round(Math.sin(tt*2+i)*2),y=Math.round(34-p*32);  // gold sparkles drift up off the pages
       if(p<.92){g.globalAlpha=1-p;px(x,y,1,1,"#ffd36b");if(p<.3){px(x-1,y,1,1,"#ffd36b");px(x+1,y,1,1,"#ffd36b");px(x,y-1,1,1,"#ffd36b");px(x,y+1,1,1,"#ffd36b")}g.globalAlpha=1}}
     requestAnimationFrame(fr)};requestAnimationFrame(fr)})();
