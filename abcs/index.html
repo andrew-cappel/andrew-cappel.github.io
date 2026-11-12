@@ -118,8 +118,19 @@ const SFX=(()=>{let ctx,on=true;try{on=localStorage.getItem("titanic:sound")!=="
     ok:()=>{tone(660,.07);tone(990,.12,"square",.06,0,.06)},bad:()=>tone(170,.2,"sawtooth",.045,-70),tick:()=>tone(1250,.03,"square",.03),click:()=>tone(1900,.012,"square",.012),
     next:()=>tone(330,.18,"triangle",.07,500),miss:()=>seq([392,330],"triangle",.16,.12),start:()=>seq([523,659,784]),
     win:()=>seq([523,659,784,1047,784,1047,1319],"square",.18,.12)}})();
-const AMB={fade(){}};
-const sndLabel=()=>{$("snd").textContent=SFX.on?"♪ On":"♪ Off"};sndLabel();$("snd").onclick=()=>{SFX.toggle();sndLabel()};
+// ---- Ambience: faint school chatter, with a distant school bell now and then (follows ♪ On/Off) ----
+// "High school cafeteria" by aradlaw and "Old school bell 1" by ezwa, both public domain, via Wikimedia Commons.
+const AMB=(()=>{let c,master,started=false,bell=null,bt;
+  const load=u=>fetch(u).then(r=>r.arrayBuffer()).then(b=>c.decodeAudioData(b));
+  function ring(){if(bell&&SFX.on&&!document.hidden){const s=c.createBufferSource(),g=c.createGain(),t=c.currentTime;s.buffer=bell;g.gain.setValueAtTime(.05,t);g.gain.setValueAtTime(.05,t+3);g.gain.linearRampToValueAtTime(0,t+5);s.connect(g).connect(master);s.start(t,0,5.2)}
+    bt=setTimeout(ring,(90+Math.random()*90)*1000)}
+  function start(){if(started||!SFX.on)return;started=true;c=SFX.ctx();master=c.createGain();master.gain.value=0;master.connect(c.destination);if(c.state==="running")fade(1,2.5);c.addEventListener("statechange",()=>{if(c.state==="running"&&!document.hidden)fade(1,2.5)});c.resume().catch(()=>{});
+    load("chatter.m4a").then(b=>{const s=c.createBufferSource(),g=c.createGain(),lp=c.createBiquadFilter();lp.type="lowpass";lp.frequency.value=2500;
+      s.buffer=b;s.loop=true;g.gain.value=.09;s.connect(lp).connect(g).connect(master);s.start()}).catch(()=>{});
+    load("bell.m4a").then(b=>{bell=b;bt=setTimeout(ring,4000)}).catch(()=>{})}
+  function fade(v,d){if(!master)return;const t=c.currentTime;master.gain.cancelScheduledValues(t);master.gain.setValueAtTime(master.gain.value,t);master.gain.linearRampToValueAtTime(SFX.on?v:0,t+d)}
+  return{start,fade,sync(){if(!master){if(SFX.on)start();return}fade(SFX.on?1:0,1.2)}}})();
+const sndLabel=()=>{$("snd").textContent=SFX.on?"♪ On":"♪ Off"};sndLabel();$("snd").onclick=()=>{SFX.toggle();sndLabel();AMB.sync()};
 $("ans").addEventListener("keydown",e=>{if(e.key.length===1)SFX.click()});
 document.addEventListener("click",e=>{const el=e.target.closest("button,a");if(!el||el.id==="snd"||(el.form&&el.type==="submit")||el.disabled)return;SFX.ui();
   if(el.tagName==="A"&&el.href&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey&&new URL(el.href).origin===location.origin){e.preventDefault();
@@ -206,6 +217,8 @@ fetch("index.json",{cache:"no-cache"}).then(r=>r.json()).then(index=>{PLAN=makeP
       px(b.x,b.y,s,s,b.c);px(b.x,b.y,s,1,"rgba(255,255,255,.4)");px(b.x+s-1,b.y,1,s,"rgba(0,0,0,.3)");px(b.x,b.y+s-1,s,1,"rgba(0,0,0,.3)");
       const p=font[b.l],o=(s-3)/2|0,oy=(s-5)/2|0;for(let i=0;i<15;i++)if(p[i]==="1")px(b.x+o+i%3,b.y+oy+(i/3|0),1,1,"#0b0a1f");g.globalAlpha=1});
     requestAnimationFrame(fr)};requestAnimationFrame(fr)})();
+AMB.start();["pointerdown","keydown","touchstart"].forEach(e=>addEventListener(e,()=>{const x=SFX.ctx();if(x.state!=="running")x.resume()},{passive:true}));
+document.addEventListener("visibilitychange",()=>{if(!SFX.on)return;const x=SFX.ctx();if(document.hidden){AMB.fade(0,.6);setTimeout(()=>{if(document.hidden)x.suspend()},700)}else{x.resume();AMB.fade(1,1.5)}});
 </script>
 </body>
 </html>
