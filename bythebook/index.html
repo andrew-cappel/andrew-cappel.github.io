@@ -89,7 +89,7 @@ dialog .row{display:grid;gap:8px;margin-top:16px}
   <div class="logo"><canvas id="logo" width="96" height="52" aria-hidden="true"></canvas><h1><span>BY THE</span><span>BOOK</span></h1></div>
   <p class="sub">one classic a day · five quotes · five tries</p>
   <section class="panel">
-    <div class="track"><div><div class="label" id="hintLbl">Hint 1 of 5</div><div class="pips" id="pips"></div></div><div class="pts"><div class="label">Worth</div><b id="worth">2500</b></div></div>
+    <div class="track"><div><div class="label" id="hintLbl">Hint 1 of 5</div><div class="pips" id="pips"></div></div><div class="pts"><div class="label">Worth</div><b id="worth">2100</b></div></div>
     <div class="quote"><p id="quote">Opening the book…</p></div>
     <div class="which" id="which"></div>
     <div class="clues" id="clues"></div>
@@ -103,7 +103,7 @@ dialog .row{display:grid;gap:8px;margin-top:16px}
 <dialog id="modal"><div id="modalBody"></div></dialog>
 <script>
 const $=id=>document.getElementById(id);
-const PTS=[2500,2000,1500,1000,500],CLUES=[null,["Pages","pages"],["Published","year"],["Author","author"],["Key character","key"]];
+const PTS=[2100,1700,1300,900,500],CLUES=[null,["Pages","pages"],["Published","year"],["Author","author"],["Key character","key"]];
 const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`;
 const REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-13";   // days change at 2 am, like the other games
 const qd=new URLSearchParams(location.search).get("day"),TODAY=qd&&/^\d{4}-\d\d-\d\d$/.test(qd)&&qd<REAL&&qd>=LAUNCH?qd:REAL;
