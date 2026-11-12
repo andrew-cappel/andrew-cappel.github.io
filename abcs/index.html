@@ -140,7 +140,7 @@ document.addEventListener("click",e=>{const el=e.target.closest("button,a");if(!
 let PLAN=[],CATS={},S,run=null;
 const KEY="abcs:"+TODAY,save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 function makePlan(index){const r=rng("abcs"+TODAY),used=new Set(),fam={};
-  return LETTERS.map(L=>{const need=/[QXZY]/.test(L)?1:3;let c=index.filter(x=>(x.n[L]||0)>=need&&!used.has(x.key));if(!c.length)c=index.filter(x=>(x.n[L]||0)>=1);
+  return LETTERS.map(L=>{const need=/[QXZY]/.test(L)?5:8;   // only categories with plenty of real answers for that letterlet c=index.filter(x=>(x.n[L]||0)>=need&&!used.has(x.key));if(!c.length)c=index.filter(x=>(x.n[L]||0)>=1);
     c.sort((a,b)=>(fam[a.fam]||0)-(fam[b.fam]||0)||r()-.5);const pick=c[Math.floor(r()*Math.min(3,c.length))]||index[0];
     used.add(pick.key);fam[pick.fam]=(fam[pick.fam]||0)+(pick.fam==="films"?2:1);return{L,key:pick.key,noun:pick.noun}})}
 async function cat(key){if(!CATS[key])CATS[key]=fetch(`cats/${key}.json`).then(r=>r.json()).then(c=>{
@@ -185,7 +185,9 @@ function endLetter(item){const r=run;if(!r)return;cancelAnimationFrame(r.raf);ru
 
 function find(c,v,L){const n=norm(v);if(!n||n[0]!==L.toLowerCase())return{bad:`“${v}” doesn't start with ${L}.`};
   let it=c.items.find(x=>x.keys.some(k=>k===n||k+"s"===n||k+"es"===n||k===n.replace(/s$/,"")));
-  if(!it&&n.length>=5)it=c.items.find(x=>x.keys.some(k=>k.length>=5&&sig(k)===sig(n)&&lev(n,k)<=(k.length>=10?2:1)));
+  if(!it&&n.length>=5)it=c.items.find(x=>x.keys.some(k=>k.length>=5&&k[0]===n[0]&&sig(k)===sig(n)&&lev(n,k)<=(k.length>=10?2:1)));
+  if(!it&&n.length>=4){const m=c.items.filter(x=>x.keys.some(k=>k.startsWith(n+" ")&&/[:\-–]/.test(x.label.slice(n.length,n.length+3))));if(m.length===1)it=m[0]}   // "X-Men" for "X-Men: The New Mutants", only if it's the one match
+  if(it&&norm(it.label)[0]!==n[0]&&!it.keys.some(k=>k[0]===n[0]))it=null;   // never let a typo change the letter
   return{it}}
 $("form").onsubmit=e=>{e.preventDefault();if(!run)return;const r=run,inp=$("ans"),v=inp.value.trim();if(!v)return;
   const bad=t=>{SFX.bad();$("msg").textContent=t;$("msg").className="msg bad";inp.classList.remove("bad");void inp.offsetWidth;inp.classList.add("bad");inp.select()};
