@@ -140,7 +140,7 @@ document.addEventListener("click",e=>{const el=e.target.closest("button,a");if(!
 let PLAN=[],CATS={},S,run=null;
 const KEY="abcs:"+TODAY,save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 function makePlan(index){const r=rng("abcs"+TODAY),used=new Set(),fam={};
-  return LETTERS.map(L=>{const need=/[QXZY]/.test(L)?5:8;   // only categories with plenty of real answers for that letterlet c=index.filter(x=>(x.n[L]||0)>=need&&!used.has(x.key));if(!c.length)c=index.filter(x=>(x.n[L]||0)>=1);
+  return LETTERS.map(L=>{const need=/[QXZY]/.test(L)?5:8;let c=index.filter(x=>(x.n[L]||0)>=need&&!used.has(x.key));if(!c.length)c=index.filter(x=>(x.n[L]||0)>=1);
     c.sort((a,b)=>(fam[a.fam]||0)-(fam[b.fam]||0)||r()-.5);const pick=c[Math.floor(r()*Math.min(3,c.length))]||index[0];
     used.add(pick.key);fam[pick.fam]=(fam[pick.fam]||0)+(pick.fam==="films"?2:1);return{L,key:pick.key,noun:pick.noun}})}
 async function cat(key){if(!CATS[key])CATS[key]=fetch(`cats/${key}.json`).then(r=>r.json()).then(c=>{
