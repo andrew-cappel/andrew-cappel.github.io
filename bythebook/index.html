@@ -89,7 +89,7 @@ dialog .row{display:grid;gap:8px;margin-top:16px}
   <div class="logo"><canvas id="logo" width="96" height="52" aria-hidden="true"></canvas><h1><span>BY THE</span><span>BOOK</span></h1></div>
   <p class="sub">one classic a day · five quotes · five tries</p>
   <section class="panel">
-    <div class="track"><div><div class="label" id="hintLbl">Hint 1 of 5</div><div class="pips" id="pips"></div></div><div class="pts"><div class="label">Worth</div><b id="worth">500</b></div></div>
+    <div class="track"><div><div class="label" id="hintLbl">Hint 1 of 5</div><div class="pips" id="pips"></div></div><div class="pts"><div class="label">Worth</div><b id="worth">2500</b></div></div>
     <div class="quote"><p id="quote">Opening the book…</p></div>
     <div class="which" id="which"></div>
     <div class="clues" id="clues"></div>
@@ -103,7 +103,7 @@ dialog .row{display:grid;gap:8px;margin-top:16px}
 <dialog id="modal"><div id="modalBody"></div></dialog>
 <script>
 const $=id=>document.getElementById(id);
-const PTS=[500,400,300,200,100],CLUES=[null,["Pages","pages"],["Published","year"],["Author","author"],["Key character","key"]];
+const PTS=[2500,2000,1500,1000,500],CLUES=[null,["Pages","pages"],["Published","year"],["Author","author"],["Key character","key"]];
 const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`;
 const REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-13";   // days change at 2 am, like the other games
 const qd=new URLSearchParams(location.search).get("day"),TODAY=qd&&/^\d{4}-\d\d-\d\d$/.test(qd)&&qd<REAL&&qd>=LAUNCH?qd:REAL;
@@ -112,15 +112,15 @@ const DAYN=Math.round((new Date(TODAY+"T12:00")-new Date(LAUNCH+"T12:00"))/864e5
 $("bookNo").textContent="#"+(DAYN+1);
 function rng(str){let h=1779033703^str.length;for(const c of str){h=Math.imul(h^c.charCodeAt(0),3432918353);h=h<<13|h>>>19}return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return((h^=h>>>16)>>>0)/4294967296}}
 const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/&/g," and ").replace(/['’.]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
-const lev=(a,b)=>{let p=[...Array(b.length+1).keys()];for(let i=1;i<=a.length;i++){const c=[i];for(let j=1;j<=b.length;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[b.length]};
+const lev=(a,b)=>{const d=[];for(let i=0;i<=a.length;i++){d[i]=[i];for(let j=1;j<=b.length;j++)d[i][j]=i?Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1),i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1]?d[i-2][j-2]+1:9):j}return d[a.length][b.length]};   // typos, incl. swapped letters
 const STOP=new Set(["the","a","an","of","and","in","mr","dr","adventures","adventure","strange","case","s","book"]),NICK={huck:"huckleberry",jekyll:"jekyll",oz:"oz"};
 const sig=s=>norm(s).split(" ").filter(w=>w.length>1&&!STOP.has(w)).map(w=>NICK[w]||w);
 // Right if the whole title matches (allowing small typos) or every meaningful word you typed is in the title and covers at least half of it.
 function isRight(g,book){return [book.title,...(book.aliases||[])].some(t=>isRight1(g,t))}
 function isRight1(g,title){const a=norm(g).replace(/^(the|a|an) /,""),b=norm(title).replace(/^(the|a|an) /,"");if(!a)return false;
-  if(a===b||lev(a,b)<=Math.max(1,Math.floor(b.length/8)))return true;
+  if(a===b||Math.min(lev(a,b),lev(a.replace(/ /g,""),b.replace(/ /g,"")))<=Math.max(1,Math.floor(b.length/6)))return true;
   const gw=sig(g),tw=sig(title);if(!gw.length)return false;
-  const hit=gw.filter(w=>tw.some(x=>x===w||(x.length>4&&lev(x,w)<=1)||(x.length>5&&x.startsWith(w)&&w.length>=4)));
+  const hit=gw.filter(w=>tw.some(x=>x===w||(x.length>4&&lev(x,w)<=(x.length>8?2:1))||(x.length>5&&x.startsWith(w)&&w.length>=4)));
   return hit.length===gw.length&&hit.length>=Math.ceil(tw.length/2)}
 
 // ---- sounds (same chiptune kit as Titanic) ----
