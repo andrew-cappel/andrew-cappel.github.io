@@ -105,7 +105,7 @@ dialog .row{display:grid;gap:8px;margin-top:16px}
 const $=id=>document.getElementById(id);
 const PTS=[500,400,300,200,100],CLUES=[null,["Pages","pages"],["Published","year"],["Author","author"],["Key character","key"]];
 const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`;
-const REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-11";   // days change at 2 am, like the other games
+const REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-13";   // days change at 2 am, like the other games
 const qd=new URLSearchParams(location.search).get("day"),TODAY=qd&&/^\d{4}-\d\d-\d\d$/.test(qd)&&qd<REAL&&qd>=LAUNCH?qd:REAL;
 if(/[?&]reset/.test(location.search)){try{Object.keys(localStorage).filter(k=>k.startsWith("btb:")).forEach(k=>localStorage.removeItem(k))}catch(e){}history.replaceState(null,"",location.pathname)}
 const DAYN=Math.round((new Date(TODAY+"T12:00")-new Date(LAUNCH+"T12:00"))/864e5);
@@ -195,7 +195,7 @@ function share(){const row=[1,2,3,4,5].map(i=>S.status==="won"&&i===S.hint?"🟩
 
 fetch("books.json",{cache:"no-cache"}).then(r=>r.json()).then(books=>{
   const r=rng("bythebook"),order=books.map((_,i)=>i);for(let i=order.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[order[i],order[j]]=[order[j],order[i]]}
-  BOOK=books[order[((DAYN%books.length)+books.length)%books.length]];S=load();render(true);
+  BOOK=books[order[(((DAYN+2)%books.length)+books.length)%books.length]];S=load();render(true);
   if(S.status!=="playing")$("msg").textContent=S.status==="won"?`Solved: ${BOOK.title}. New book tomorrow.`:`It was ${BOOK.title}. New book tomorrow.`;
 }).catch(()=>{$("quote").textContent="Couldn't open today's book. Check your connection and refresh."});
 

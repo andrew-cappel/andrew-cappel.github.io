@@ -100,7 +100,7 @@ dialog .row{display:grid;gap:8px;margin-top:16px}
 const $=id=>document.getElementById(id);
 const LETTERS="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),SECS=30,BASE=50;
 const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`;
-const REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-11";   // days change at 2 am, like the other games
+const REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-13";   // days change at 2 am, like the other games
 const qd=new URLSearchParams(location.search).get("day"),TODAY=qd&&/^\d{4}-\d\d-\d\d$/.test(qd)&&qd<REAL&&qd>=LAUNCH?qd:REAL;
 if(/[?&]reset/.test(location.search)){try{Object.keys(localStorage).filter(k=>k.startsWith("abcs:")).forEach(k=>localStorage.removeItem(k))}catch(e){}history.replaceState(null,"",location.pathname)}
 const DAYN=Math.round((new Date(TODAY+"T12:00")-new Date(LAUNCH+"T12:00"))/864e5);

@@ -220,14 +220,14 @@ MUSIC.start();   // browsers usually wait for your first click or key before all
 document.addEventListener("visibilitychange",()=>document.hidden?MUSIC.stop(400):MUSIC.start());
 
 // ---- Archive: replay any past day of any game ----
-function openArchive(){const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`,REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-10";
+function openArchive(){const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`,REAL=iso(new Date(Date.now()-2*36e5)),LAUNCH="2026-11-13";
   const get=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},rows=[];
   for(let x=new Date(REAL+"T12:00");iso(x)>=LAUNCH;x.setDate(x.getDate()-1)){const d=iso(x),n=Math.round((x-new Date("2026-01-01T12:00"))/864e5)+1,q=d===REAL?"":"?day="+d;
     const tt=["easy","medium","hard","impossible"].map(m=>{const v=get(`titanic2:${d}:${m}`);return m[0].toUpperCase()+(v&&v.status==="won"?"✓":v&&v.status==="lost"?"✕":"·")}).join(" ");
     const bk=get("btb:"+d),bt=bk&&bk.status==="won"?"✓ hint "+bk.hint:bk&&bk.status==="lost"?"✕":"·";
     const ab=get("abcs:"+d),at=ab&&ab.status==="done"?(ab.res||[]).reduce((a,r)=>a+(r.pts||0),0)+" pts":"·";
     rows.push(`<li><div class="d"><b>#${n}</b>${x.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}${d===REAL?" · today":""}</div><div class="g">
-      ${d>="2026-11-10"?`<button data-go="/titanic/${q}">Titanic<span>${tt}</span></button>`:""}${d>="2026-11-11"?`<button data-go="/bythebook/${q}">By The Book<span>${bt}</span></button><button data-go="/abcs/${q}">ABCs<span>${at}</span></button>`:""}</div></li>`)}
+      ${d>=LAUNCH?`<button data-go="/titanic/${q}">Titanic<span>${tt}</span></button>`:""}${d>=LAUNCH?`<button data-go="/bythebook/${q}">By The Book<span>${bt}</span></button><button data-go="/abcs/${q}">ABCs<span>${at}</span></button>`:""}</div></li>`)}
   const dl=document.getElementById("arch");document.getElementById("archBody").innerHTML=`<h2>Archive</h2><ul class="days">${rows.join("")}</ul><button class="close-arch" data-close>Close</button>`;
   dl.onclick=e=>{const b=e.target.closest("[data-go],[data-close]");if(!b)return;dl.close();if(b.dataset.go)openGame(b.dataset.go)};dl.showModal()}
 document.getElementById("archBtn").onclick=openArchive;
