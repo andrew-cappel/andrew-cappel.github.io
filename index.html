@@ -210,9 +210,14 @@ document.addEventListener("click",e=>{if(e.target.closest("button")&&SEL.on())SE
 document.querySelectorAll(".card.lock").forEach(c=>c.addEventListener("click",()=>{if(SEL.on())SEL.locked()}));
 
 // ---- Theme music: "gauntlet theme" (the site owner's own track), looping quietly on the home page ----
-const MUSIC=(()=>{const a=new Audio("theme.m4a");a.loop=true;a.preload="auto";a.volume=0;let raf=0;
-  const ramp=(to,ms)=>{cancelAnimationFrame(raf);const from=a.volume,t0=performance.now(),st=t=>{const k=Math.min(1,(t-t0)/ms);a.volume=from+(to-from)*k;if(k<1)raf=requestAnimationFrame(st);else if(to===0)a.pause()};raf=requestAnimationFrame(st)};
-  return{start(){if(!SEL.on()||document.querySelector(".gameframe")||document.hidden)return;a.play().then(()=>ramp(.45,2000)).catch(()=>{})},stop(ms=700){ramp(0,ms)}}})();
+// Web Audio loop: sample-accurate and gapless (a plain <audio loop> pauses briefly at the seam); silent edges are trimmed off
+const MUSIC=(()=>{let c,g,src,buf,want=false;
+  const ctx=()=>{if(!c){c=new(window.AudioContext||window.webkitAudioContext)();g=c.createGain();g.gain.value=0;g.connect(c.destination)}return c};
+  const load=()=>buf||(buf=fetch("theme.m4a").then(r=>r.arrayBuffer()).then(b=>ctx().decodeAudioData(b)).then(b=>{const d=b.getChannelData(0);let s=0,e=d.length-1;while(s<e&&Math.abs(d[s])<.002)s++;while(e>s&&Math.abs(d[e])<.002)e--;b.ls=s/b.sampleRate;b.le=(e+1)/b.sampleRate;return b}));
+  const ramp=(v,ms)=>{const t=c.currentTime;g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(g.gain.value,t);g.gain.linearRampToValueAtTime(v,t+ms/1000)};
+  return{start(){if(!SEL.on()||document.querySelector(".gameframe")||document.hidden)return;want=true;const x=ctx();
+      x.resume().then(load).then(b=>{if(!want)return;if(!src){src=x.createBufferSource();src.buffer=b;src.loop=true;src.loopStart=b.ls;src.loopEnd=b.le;src.connect(g);src.start(0,b.ls)}ramp(.45,2000)}).catch(()=>{})},
+    stop(ms=700){want=false;if(!c)return;ramp(0,ms);setTimeout(()=>{if(!want&&c.state==="running")c.suspend()},ms+60)}}})();
 const musicLabel=()=>{document.getElementById("musicBtn").textContent=SEL.on()?"♪ On":"♪ Off"};musicLabel();
 document.getElementById("musicBtn").onclick=()=>{const on=!SEL.on();try{localStorage.setItem("titanic:sound",on?"on":"off")}catch(e){}musicLabel();on?MUSIC.start():MUSIC.stop(500)};
 MUSIC.start();   // browsers usually wait for your first click or key before allowing sound
