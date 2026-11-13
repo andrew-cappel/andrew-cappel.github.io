@@ -74,6 +74,9 @@ dialog .row{display:grid;gap:8px;margin-top:16px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 @media (max-width:520px){.big{width:72px;height:72px;font-size:64px}.track{grid-template-columns:repeat(9,1fr)}}
+.track i.rv{cursor:pointer}.track i.sel{outline:2px solid var(--gold)}
+#review{margin:10px auto 16px;max-width:560px;padding:12px 14px;background:rgba(11,10,31,.85);border:1.5px solid var(--line);border-radius:3px;text-align:left}
+#review .you{margin:6px 0 10px}#review .all{margin:6px 0 0;font-size:13px;line-height:1.6;color:var(--muted);max-height:180px;overflow:auto}
 </style>
 </head>
 <body>
@@ -105,10 +108,12 @@ const qd=new URLSearchParams(location.search).get("day"),TODAY=qd&&/^\d{4}-\d\d-
 if(/[?&]reset/.test(location.search)){try{Object.keys(localStorage).filter(k=>k.startsWith("abcs:")).forEach(k=>localStorage.removeItem(k))}catch(e){}history.replaceState(null,"",location.pathname)}
 const DAYN=Math.round((new Date(TODAY+"T12:00")-new Date(LAUNCH+"T12:00"))/864e5);
 function rng(str){let h=1779033703^str.length;for(const c of str){h=Math.imul(h^c.charCodeAt(0),3432918353);h=h<<13|h>>>19}return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return((h^=h>>>16)>>>0)/4294967296}}
-const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/&/g," and ").replace(/['’.]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim().replace(/^(the|a|an) /,"");
+const NUMW={zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19,twenty:20};
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/&/g," and ").replace(/['’.]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim().replace(/^(the|a|an) /,"").replace(/\b[a-z]+\b/g,w=>w in NUMW?String(NUMW[w]):w);
 const lev=(a,b)=>{if(Math.abs(a.length-b.length)>3)return 9;const d=[];for(let i=0;i<=a.length;i++){d[i]=[i];for(let j=1;j<=b.length;j++)d[i][j]=i?Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1),i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1]?d[i-2][j-2]+1:9):j}return d[a.length][b.length]};   // typos, incl. swapped letters
 const TOL=(a,b)=>{const m=Math.min(a.length,b.length);return m<4?0:m<9?1:m<13?2:3};
-const near=(n,k)=>n[0]===k[0]&&Math.min(lev(n,k),lev(n.replace(/ /g,""),k.replace(/ /g,"")))<=TOL(n,k);
+const skel=t=>t.replace(/ /g,"").replace(/(.)\1+/g,"$1").replace(/[aeiouy]/g,"");   // consonant outline: "chihauha" ~ "chihuahua"
+const near=(n,k)=>n[0]===k[0]&&(Math.min(lev(n,k),lev(n.replace(/ /g,""),k.replace(/ /g,"")))<=TOL(n,k)||(Math.min(n.length,k.length)>=5&&Math.abs(n.length-k.length)<=1&&skel(n).length>=3&&skel(n)===skel(k)));
 const sig=t=>(t.match(/\d+/g)||[]).join(",");
 
 // ---- sounds (same chiptune kit as the other games) ----
@@ -152,10 +157,11 @@ async function cat(key){if(!CATS[key])CATS[key]=fetch(`cats/${key}.json`).then(r
 function load(){let v=null;try{v=JSON.parse(localStorage.getItem(KEY))}catch(e){}return v||{i:0,res:[],status:"idle"}}
 const total=()=>S.res.reduce((a,r)=>a+(r.pts||0),0);
 
-function renderTrack(){$("track").innerHTML=LETTERS.map((L,i)=>`<i class="${i<S.res.length?(S.res[i].pts?"ok":"miss"):i===S.i&&S.status==="playing"?"cur":""}" title="${PLAN[i]?PLAN[i].noun:""}">${L}</i>`).join("");$("score").textContent=total()}
+function renderTrack(){$("track").innerHTML=LETTERS.map((L,i)=>`<i data-i="${i}" class="${S.status==="done"?"rv ":""}${i<S.res.length?(S.res[i].pts?"ok":"miss"):i===S.i&&S.status==="playing"?"cur":""}" title="${PLAN[i]?PLAN[i].noun:""}">${L}</i>`).join("");
+  $("track").onclick=e=>{const t=e.target.closest("i[data-i]");if(t&&S.status==="done")review(+t.dataset.i)};$("score").textContent=total()}
 function render(){renderTrack();
   if(S.status==="done"){$("game").hidden=true;$("intro").hidden=false;const ok=S.res.filter(r=>r.pts).length;
-    $("intro").innerHTML=`<p class="label">Today's run</p><div class="rules"><div><b>${total()}</b><span class="label">points</span></div><div><b>${ok}/26</b><span class="label">letters</span></div><div><b>#${DAYN+1}</b><span class="label">day</span></div></div><p>New letters and categories tomorrow.</p><button class="btn big2" id="shareBtn">Share result</button>`;$("shareBtn").onclick=share;return}
+    $("intro").innerHTML=`<p class="label">Today's run</p><div class="rules"><div><b>${total()}</b><span class="label">points</span></div><div><b>${ok}/26</b><span class="label">letters</span></div><div><b>#${DAYN+1}</b><span class="label">day</span></div></div><p>Tap any letter above to see its answers. New letters and categories tomorrow.</p><button class="btn big2" id="shareBtn">Share result</button>`;$("shareBtn").onclick=share;return}
   $("game").hidden=true;$("intro").hidden=false;
   $("intro").innerHTML=S.i?`<p>Picking up at <b>${LETTERS[S.i]}</b>. ${total()} points so far.</p><button class="btn big2" id="go">▶ Continue at ${LETTERS[S.i]}</button>`:
     `<div class="rules"><div><b>26</b><span class="label">letters</span></div><div><b>0:30</b><span class="label">each</span></div><div><b>×2</b><span class="label">speed bonus</span></div></div><p>Each letter has its own category. Answer fast: ${BASE} points per letter, up to double for speed.</p><button class="btn big2" id="go">▶ Start at A</button>`;
@@ -185,11 +191,16 @@ function endLetter(item){const r=run;if(!r)return;cancelAnimationFrame(r.raf);ru
   else{SFX.miss();const ex=r.c.items.filter(it=>norm(it.label)[0]===r.p.L.toLowerCase()).slice(0,3).map(it=>it.label).join(", ");$("msg").textContent=ex?`Time! Could have said: ${ex}`:"Time!";$("msg").className="msg bad"}
   setTimeout(()=>{if(S.i>=26)finish();else{SFX.next();startLetter()}},item?900:2200)}
 
-function find(c,v,L){const n=norm(v);if(!n||n[0]!==L.toLowerCase())return{bad:`“${v}” doesn't start with ${L}.`};
+const GENERIC=new Set("district city town island islands isle river lake mount mountain saint state republic county province region sea ocean bay port fort north south east west great little upper lower national park the and of".split(" "));
+function find(c,v,L){const n=norm(v),l=L.toLowerCase();if(!n)return{};
+  const lw=n.split(" ").filter((w,k)=>w[0]===l&&w.length>2&&(k===0||!GENERIC.has(w)));   // "New Delhi" counts for D: the main word starts with the letter
+  if(n[0]!==l&&!lw.length)return{bad:`“${v}” doesn't start with ${L}.`};
   let it=c.items.find(x=>x.keys.some(k=>k===n||k+"s"===n||k+"es"===n||k===n.replace(/s$/,"")));
-  if(!it){let bd=9;for(const x of c.items)for(const k of x.keys){if(sig(k)!==sig(n)||!near(n,k))continue;const dd=lev(n,k);if(dd<bd){bd=dd;it=x}}}
-  if(!it&&n.length>=4){const m=c.items.filter(x=>x.keys.some(k=>k.startsWith(n+" ")&&/[:\-–]/.test(x.label.slice(n.length,n.length+3))));if(m.length===1)it=m[0]}   // "X-Men" for "X-Men: The New Mutants", only if it's the one match
-  if(it&&norm(it.label)[0]!==n[0]&&!it.keys.some(k=>k[0]===n[0]))it=null;   // never let a typo change the letter
+  if(!it){let bd=9,tie=false,bk="";for(const x of c.items){let d=9,kk="";for(const k of x.keys)if(sig(k)===sig(n)&&near(n,k)){const y=lev(n,k);if(y<d){d=y;kk=k}}
+      if(d<bd){bd=d;it=x;bk=kk;tie=false}else if(d===bd&&d<9&&x!==it){if(kk!==bk&&lev(kk,bk)>TOL(kk,bk))tie=true;else if(norm(x.label)===kk)it=x}}
+    if(tie)return{bad:`“${v}” is too close to more than one answer. Be more specific.`}}   // like Krillion: never guess between two answers
+  if(!it&&n.length>=4){const m=c.items.filter(x=>x.keys.some(k=>k.startsWith(n+" ")&&/[:\-–]/.test(x.label.slice(n.length,n.length+3))));if(m.length===1)it=m[0]}   // "X-Men" for "X-Men: The New Mutants"
+  if(it&&n[0]!==l){const ws=it.keys.flatMap(k=>k.split(" "));if(!lw.some(w=>ws.some(x=>x===w||near(w,x))))it=null}
   return{it}}
 $("form").onsubmit=e=>{e.preventDefault();if(!run)return;const r=run,inp=$("ans"),v=inp.value.trim();if(!v)return;
   const bad=t=>{SFX.bad();$("msg").textContent=t;$("msg").className="msg bad";inp.classList.remove("bad");void inp.offsetWidth;inp.classList.add("bad");inp.select()};
@@ -197,6 +208,13 @@ $("form").onsubmit=e=>{e.preventDefault();if(!run)return;const r=run,inp=$("ans"
   bad(`“${v}” isn't on the ${r.p.noun} list.`)};   // answers are checked instantly against the stored word bank
 $("passBtn").onclick=()=>{if(run)endLetter(null)};
 
+// after the round: tap a letter to see its category, your answer and what else would have counted
+async function review(i){const p=PLAN[i],r=S.res[i]||{},c=await cat(p.key),l=p.L.toLowerCase();
+  const all=c.items.filter(it=>norm(it.label).split(" ").some((w,k)=>w[0]===l&&(k===0||w.length>2&&!GENERIC.has(w)))).map(it=>it.label),esc=t=>t.replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"})[m]);
+  let box=$("review");if(!box){box=document.createElement("div");box.id="review";$("track").after(box)}
+  [...$("track").children].forEach((x,k)=>x.classList.toggle("sel",k===i));
+  box.innerHTML=`<p class="label">${p.L} · ${esc(p.noun)}</p><p class="you">${r.ans?`You: <b>${esc(r.ans)}</b> · +${r.pts}`:"You: <b>no answer</b>"}</p>
+    <p class="label">${all.length} possible answer${all.length===1?"":"s"}</p><p class="all">${all.slice(0,120).map(esc).join(" · ")}${all.length>120?" …":""}</p>`}
 function finish(){S.status="done";save();SFX.win();renderTrack();
   try{const k="gauntlet:day:"+TODAY,o=JSON.parse(localStorage.getItem(k))||{};o.abcs=total();localStorage.setItem(k,JSON.stringify(o))}catch(e){}   // feeds TheGauntlet's daily totals
   render();const ok=S.res.filter(r=>r.pts).length;
